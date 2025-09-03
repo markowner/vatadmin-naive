@@ -1,0 +1,390 @@
+{
+    "api_list": {
+        "list": {
+            "url": "/app/vatadmin/basic/Crontab/list",
+            "method": "get"
+        },
+        "edit": {
+            "url": "/app/vatadmin/basic/Crontab/edit",
+            "method": "post"
+        },
+        "lock": {
+            "url": "/app/vatadmin/basic/Crontab/lock",
+            "method": "post"
+        },
+        "delete": {
+            "url": "/app/vatadmin/basic/Crontab/delete",
+            "method": "post"
+        },
+        "import": {
+            "url": "/app/vatadmin/basic/Crontab/import",
+            "method": "post"
+        },
+        "download": {
+            "url": "/app/vatadmin/basic/Crontab/download",
+            "method": "get"
+        },
+        "reload": {
+            "url": "/app/vatadmin/basic/Crontab/reload",
+            "method": "get"
+        }
+    },
+    "joins": [],
+    "select_fields": "*",
+    "fields": [
+        {
+            "field": "id",
+            "table_alias": "",
+            "alias": "",
+            "comment": "ID",
+            "type": "int unsigned",
+            "search": false,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 0,
+            "form": false,
+            "form_required": false,
+            "form_order": 0,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input_number",
+            "width": 60,
+            "default": null,
+            "config": {}
+        },
+        {
+            "field": "title",
+            "table_alias": "",
+            "alias": "",
+            "comment": "标题",
+            "type": "varchar(100)",
+            "search": true,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 10,
+            "form": true,
+            "form_required": true,
+            "form_order": 10,
+            "sorter": false,
+            "condition": "like",
+            "search_view": "input",
+            "form_view": "input",
+            "width": 100,
+            "default": null,
+            "config": {}
+        },
+        {
+            "field": "type",
+            "table_alias": "",
+            "alias": "",
+            "comment": "类型",
+            "type": "tinyint(1)",
+            "search": true,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 20,
+            "form": true,
+            "form_required": true,
+            "form_order": 20,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "select",
+            "form_view": "select",
+            "width": 100,
+            "default": null,
+            "config": {
+                "dict": "crontab_type"
+            }
+        },
+        {
+            "field": "rule",
+            "table_alias": "",
+            "alias": "",
+            "comment": "表达式",
+            "type": "varchar(100)",
+            "search": false,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 30,
+            "form": true,
+            "form_required": true,
+            "form_order": 30,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "textarea",
+            "placeholder": "0  1  2  3  4  5\n|   |   |   |   |   |\n|   |   |   |   |   +------ day of week (0 - 6)\n|   |   |   |   +------ month (1 - 12)\n|   |   |   +-------- day of month (1 - 31)\n|   |   +---------- hour (0 - 23)\n|   +------------ min (0 - 59)\n+-------------- sec (0-59)[可省略，如果没有0位,则最小时间粒度是分钟]",
+            "width": 100,
+            "default": null,
+            "config": {}
+        },
+        {
+            "field": "target",
+            "table_alias": "",
+            "alias": "",
+            "comment": "目标",
+            "type": "varchar(150)",
+            "search": false,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 40,
+            "form": true,
+            "form_required": true,
+            "form_order": 40,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "textarea",
+            "width": 100,
+            "default": null,
+            "config": {}
+        },
+        {
+            "field": "parameter",
+            "table_alias": "",
+            "alias": "",
+            "comment": "调用参数",
+            "type": "varchar(500)",
+            "search": false,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 50,
+            "form": true,
+            "form_required": false,
+            "form_order": 50,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "textarea",
+            "width": 100,
+            "default": null,
+            "config": {}
+        },
+        {
+            "field": "running_times",
+            "table_alias": "",
+            "alias": "",
+            "comment": "运行次数",
+            "type": "int",
+            "search": false,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 60,
+            "form": false,
+            "form_required": false,
+            "form_order": 60,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input_number",
+            "width": 100,
+            "default": null,
+            "config": {}
+        },
+        {
+            "field": "last_running_time",
+            "table_alias": "",
+            "alias": "",
+            "comment": "上次运行时间",
+            "type": "int",
+            "search": false,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 70,
+            "form": false,
+            "form_required": false,
+            "form_order": 70,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input_number",
+            "width": 100,
+            "default": null,
+            "config": {}
+        },
+        {
+            "field": "remark",
+            "table_alias": "",
+            "alias": "",
+            "comment": "备注",
+            "type": "varchar(255)",
+            "search": false,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 80,
+            "form": true,
+            "form_required": false,
+            "form_order": 80,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "textarea",
+            "width": 100,
+            "default": null,
+            "config": {}
+        },
+        {
+            "field": "sort",
+            "table_alias": "",
+            "alias": "",
+            "comment": "排序",
+            "type": "int",
+            "search": false,
+            "table_display": "",
+            "table_column": false,
+            "table_order": 90,
+            "form": true,
+            "form_required": false,
+            "form_order": 90,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input_number",
+            "width": 100,
+            "default": null,
+            "config": {}
+        },
+        {
+            "field": "status",
+            "table_alias": "",
+            "alias": "",
+            "comment": "状态",
+            "type": "tinyint",
+            "search": true,
+            "table_display": "switch",
+            "table_column": true,
+            "table_order": 100,
+            "form": false,
+            "form_required": false,
+            "form_order": 100,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "select",
+            "form_view": "select",
+            "width": 100,
+            "default": null,
+            "config": {
+                "dict": "status_desc1",
+                "switchValue": {
+                    "checked": 1,
+                    "unchecked": 0
+                }
+            }
+        },
+        {
+            "field": "create_time",
+            "table_alias": "",
+            "alias": "",
+            "comment": "创建时间",
+            "type": "int",
+            "search": false,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 110,
+            "form": false,
+            "form_required": false,
+            "form_order": 110,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input_number",
+            "width": 100,
+            "default": null,
+            "config": {}
+        },
+        {
+            "field": "update_time",
+            "table_alias": "",
+            "alias": "",
+            "comment": "更新时间",
+            "type": "int",
+            "search": false,
+            "table_display": "",
+            "table_column": false,
+            "table_order": 120,
+            "form": false,
+            "form_required": false,
+            "form_order": 120,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "",
+            "form_view": "input_number",
+            "width": 100,
+            "default": null,
+            "config": {}
+        },
+        {
+            "field": "singleton",
+            "table_alias": "",
+            "alias": "",
+            "comment": "单次执行",
+            "type": "tinyint(1)",
+            "search": true,
+            "table_display": "",
+            "table_column": true,
+            "table_order": "105",
+            "form": true,
+            "form_required": true,
+            "form_order": 130,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "select",
+            "form_view": "select",
+            "width": 100,
+            "default": null,
+            "config": {
+                "dict": "whether1"
+            }
+        }
+    ],
+    "tools": {
+        "add": {
+            "show": true,
+            "permission_key": "vat_admin_crontab_add"
+        },
+        "edit": {
+            "show": true,
+            "permission_key": "vat_admin_crontab_edit"
+        },
+        "lock": {
+            "show": false,
+            "permission_key": "vat_admin_crontab_lock"
+        },
+        "unlock": {
+            "show": false,
+            "permission_key": "vat_admin_crontab_unlock"
+        },
+        "delete": {
+            "show": true,
+            "permission_key": "vat_admin_crontab_delete"
+        },
+        "import": {
+            "show": false,
+            "permission_key": "vat_admin_crontab_import"
+        },
+        "batch": {
+            "show": false,
+            "permission_key": "vat_admin_crontab_batch"
+        },
+        "refresh": {
+            "show": true,
+            "permission_key": "vat_admin_crontab_refresh"
+        },
+        "download": {
+            "show": false,
+            "permission_key": "vat_admin_crontab_download",
+            "options": [
+                {
+                    "label": "导出",
+                    "key": ""
+                }
+            ]
+        },
+        "search": {
+            "show": true,
+            "permission_key": "vat_admin_crontab_search"
+        }
+    },
+    "setting": {}
+}

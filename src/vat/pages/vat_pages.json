@@ -1,0 +1,403 @@
+{
+  "api_list": {
+    "list": {
+      "url": "/app/vatadmin/basic/Pages/list",
+      "method": "get"
+    },
+    "edit": {
+      "url": "/app/vatadmin/basic/Pages/edit",
+      "method": "post"
+    },
+    "lock": {
+      "url": "/app/vatadmin/basic/Pages/lock",
+      "method": "post"
+    },
+    "delete": {
+      "url": "/app/vatadmin/basic/Pages/delete",
+      "method": "post"
+    },
+    "import": {
+      "url": "/app/vatadmin/basic/Pages/import",
+      "method": "post"
+    },
+    "download": {
+      "url": "/app/vatadmin/basic/Pages/download",
+      "method": "post"
+    },
+    "menus": {
+      "url": "/app/vatadmin/basic/pages/menus",
+      "method": "get"
+    },
+    "dict": {
+      "url": "/app/vatadmin/basic/pages/dict",
+      "method": "get"
+    },
+    "fields": {
+      "url": "/app/vatadmin/basic/table/fields",
+      "method": "get"
+    },
+    "build": {
+      "url": "/app/vatadmin/basic/pages/build",
+      "method": "post"
+    }
+  },
+  "joins": [],
+  "select_fields": "*",
+  "fields": [
+    {
+      "field": "id",
+      "table_alias": "",
+      "alias": "",
+      "comment": "ID",
+      "type": "int",
+      "search": true,
+      "table_display": "",
+      "table_column": true,
+      "table_order": 0,
+      "form": false,
+      "form_required": false,
+      "form_order": 0,
+      "sorter": true,
+      "condition": "=",
+      "search_view": "input",
+      "form_view": "input",
+      "width": 60,
+      "default": null,
+      "config": []
+    },
+    {
+      "field": "table",
+      "table_alias": "",
+      "alias": "",
+      "comment": "表名",
+      "type": "varchar(64)",
+      "search": true,
+      "table_display": "",
+      "table_column": true,
+      "table_order": 10,
+      "form": true,
+      "form_required": true,
+      "form_order": 10,
+      "sorter": false,
+      "condition": "=",
+      "search_view": "input",
+      "form_view": "input",
+      "width": 100,
+      "default": null,
+      "config": []
+    },
+    {
+      "field": "name",
+      "table_alias": "",
+      "alias": "",
+      "comment": "名称",
+      "type": "varchar(64)",
+      "search": true,
+      "table_display": "",
+      "table_column": true,
+      "table_order": 20,
+      "form": true,
+      "form_required": true,
+      "form_order": 20,
+      "sorter": false,
+      "condition": "like",
+      "search_view": "input",
+      "form_view": "input",
+      "width": 100,
+      "default": null,
+      "config": []
+    },
+    {
+      "field": "build_project",
+      "table_alias": "",
+      "alias": "",
+      "comment": "项目",
+      "type": "varchar(64)",
+      "search": true,
+      "table_display": "",
+      "table_column": true,
+      "table_order": 30,
+      "form": true,
+      "form_required": true,
+      "form_order": 30,
+      "sorter": false,
+      "condition": "=",
+      "search_view": "input",
+      "form_view": "input",
+      "width": 100,
+      "default": null,
+      "config": {}
+    },
+    {
+      "field": "build_app_name",
+      "table_alias": "",
+      "alias": "",
+      "comment": "应用名称",
+      "type": "varchar(32)",
+      "search": true,
+      "table_display": "",
+      "table_column": true,
+      "table_order": 30,
+      "form": true,
+      "form_required": true,
+      "form_order": 30,
+      "sorter": false,
+      "condition": "=",
+      "search_view": "input",
+      "form_view": "input",
+      "width": 100,
+      "default": null,
+      "config": []
+    },
+    {
+      "field": "build_controller",
+      "table_alias": "",
+      "alias": "",
+      "comment": "控制器",
+      "type": "varchar(64)",
+      "search": true,
+      "table_display": "",
+      "table_column": true,
+      "table_order": 40,
+      "form": true,
+      "form_required": true,
+      "form_order": 40,
+      "sorter": false,
+      "condition": "=",
+      "search_view": "input",
+      "form_view": "input",
+      "width": 100,
+      "default": null,
+      "config": []
+    },
+    {
+      "field": "build_model",
+      "table_alias": "",
+      "alias": "",
+      "comment": "模型",
+      "type": "varchar(64)",
+      "search": true,
+      "table_display": "",
+      "table_column": true,
+      "table_order": 50,
+      "form": true,
+      "form_required": true,
+      "form_order": 50,
+      "sorter": false,
+      "condition": "=",
+      "search_view": "input",
+      "form_view": "input",
+      "width": 100,
+      "default": null,
+      "config": []
+    },
+    {
+      "field": "build_menu",
+      "table_alias": "",
+      "alias": "",
+      "comment": "菜单",
+      "type": "varchar(64)",
+      "search": false,
+      "table_display": "",
+      "table_column": false,
+      "table_order": 60,
+      "form": true,
+      "form_required": true,
+      "form_order": 60,
+      "sorter": false,
+      "condition": "=",
+      "search_view": "input",
+      "form_view": "input",
+      "width": 100,
+      "default": null,
+      "config": []
+    },
+    {
+      "field": "build_menu_name",
+      "table_alias": "",
+      "alias": "",
+      "comment": "菜单名称",
+      "type": "varchar(64)",
+      "search": false,
+      "table_display": "",
+      "table_column": false,
+      "table_order": 70,
+      "form": true,
+      "form_required": true,
+      "form_order": 70,
+      "sorter": false,
+      "condition": "=",
+      "search_view": "input",
+      "form_view": "input",
+      "width": 100,
+      "default": null,
+      "config": []
+    },
+    {
+      "field": "build_view",
+      "table_alias": "",
+      "alias": "",
+      "comment": "视图",
+      "type": "varchar(128)",
+      "search": true,
+      "table_display": "",
+      "table_column": true,
+      "table_order": 80,
+      "form": true,
+      "form_required": true,
+      "form_order": 80,
+      "sorter": false,
+      "condition": "=",
+      "search_view": "input",
+      "form_view": "input",
+      "width": 100,
+      "default": null,
+      "config": []
+    },
+    {
+      "field": "tpl_json",
+      "table_alias": "",
+      "alias": "",
+      "comment": "模版数据",
+      "type": "text",
+      "search": false,
+      "table_display": "",
+      "table_column": false,
+      "table_order": 90,
+      "form": true,
+      "form_required": true,
+      "form_order": 90,
+      "sorter": false,
+      "condition": "=",
+      "search_view": "",
+      "form_view": "json_editor",
+      "width": 100,
+      "default": null,
+      "config": []
+    },
+    {
+      "field": "tpl_system_json",
+      "table_alias": "",
+      "alias": "",
+      "comment": "系统模版数据",
+      "type": "text",
+      "search": false,
+      "table_display": "",
+      "table_column": false,
+      "table_order": 100,
+      "form": true,
+      "form_required": true,
+      "form_order": 100,
+      "sorter": false,
+      "condition": "=",
+      "search_view": "",
+      "form_view": "json_editor",
+      "width": 100,
+      "default": null,
+      "config": []
+    },
+    {
+      "field": "status",
+      "table_alias": "",
+      "alias": "",
+      "comment": "状态",
+      "type": "int",
+      "search": true,
+      "table_display": "switch",
+      "table_column": true,
+      "table_order": 100,
+      "form": true,
+      "form_required": true,
+      "form_order": 100,
+      "sorter": false,
+      "condition": "=",
+      "search_view": "select",
+      "form_view": "select",
+      "width": 100,
+      "default": null,
+      "config": {
+        "dict": "status_desc"
+      }
+    },
+    {
+      "field": "createtime",
+      "table_alias": "",
+      "alias": "",
+      "comment": "创建时间",
+      "type": "timestamp",
+      "search": true,
+      "table_display": "",
+      "table_column": true,
+      "table_order": 110,
+      "form": false,
+      "form_required": true,
+      "form_order": 110,
+      "sorter": false,
+      "condition": "between",
+      "search_view": "datepicker",
+      "form_view": "datepicker",
+      "width": 100,
+      "default": null,
+      "config": {
+        "type": "datetimerange",
+        "form_type": "datetime"
+      }
+    },
+    {
+      "field": "updatetime",
+      "table_alias": "",
+      "alias": "",
+      "comment": "更新时间",
+      "type": "timestamp",
+      "search": false,
+      "table_display": "",
+      "table_column": true,
+      "table_order": 120,
+      "form": false,
+      "form_required": true,
+      "form_order": 120,
+      "sorter": false,
+      "condition": "=",
+      "search_view": "input",
+      "form_view": "input",
+      "width": 100,
+      "default": null,
+      "config": []
+    }
+  ],
+  "tools": {
+    "add": {
+      "show": false,
+      "permission_key": "vat_pages_add"
+    },
+    "edit": {
+      "show": true,
+      "permission_key": "vat_pages_edit",
+      "edit": true
+    },
+    "delete": {
+      "show": false,
+      "permission_key": "vat_pages_delete"
+    },
+    "import": {
+      "show": false,
+      "permission_key": "vat_pages_import"
+    },
+    "batch": {
+      "show": false,
+      "permission_key": "vat_pages_batch"
+    },
+    "refresh": {
+      "show": true,
+      "permission_key": "vat_pages_refresh"
+    },
+    "download": {
+      "show": false,
+      "permission_key": "vat_pages_download"
+    },
+    "search": {
+      "show": true,
+      "permission_key": "vat_pages_search"
+    }
+  }
+}

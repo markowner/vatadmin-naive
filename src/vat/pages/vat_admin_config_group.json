@@ -1,0 +1,203 @@
+{
+    "api_list": {
+        "list": {
+            "url": "/app/vatadmin/system/ConfigGroup/list",
+            "method": "get"
+        },
+        "edit": {
+            "url": "/app/vatadmin/system/ConfigGroup/edit",
+            "method": "post"
+        },
+        "lock": {
+            "url": "/app/vatadmin/system/ConfigGroup/lock",
+            "method": "post"
+        },
+        "delete": {
+            "url": "/app/vatadmin/system/ConfigGroup/delete",
+            "method": "post"
+        },
+        "import": {
+            "url": "/app/vatadmin/system/ConfigGroup/import",
+            "method": "post"
+        },
+        "download": {
+            "url": "/app/vatadmin/system/ConfigGroup/download",
+            "method": "post"
+        }
+    },
+    "joins": [],
+    "select_fields": "*",
+    "fields": [
+        {
+            "field": "id",
+            "table_alias": "",
+            "alias": "",
+            "comment": "ID",
+            "type": "int",
+            "search": false,
+            "table_display": "",
+            "table_column": false,
+            "table_order": 0,
+            "form": false,
+            "form_required": false,
+            "form_order": 0,
+            "sorter": true,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input",
+            "width": 60,
+            "default": null,
+            "config": {}
+        },
+        {
+            "field": "name",
+            "table_alias": "",
+            "alias": "",
+            "comment": "名称",
+            "type": "varchar(64)",
+            "search": true,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 10,
+            "form": true,
+            "form_required": true,
+            "form_order": 10,
+            "sorter": false,
+            "condition": "like",
+            "search_view": "input",
+            "form_view": "input",
+            "width": 100,
+            "default": null,
+            "config": {}
+        },
+        {
+            "field": "code",
+            "table_alias": "",
+            "alias": "",
+            "comment": "标识",
+            "type": "varchar(64)",
+            "search": true,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 20,
+            "form": true,
+            "form_required": true,
+            "form_order": 20,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input",
+            "width": 100,
+            "default": null,
+            "config": {}
+        },
+        {
+            "field": "status",
+            "table_alias": "",
+            "alias": "",
+            "comment": "状态",
+            "type": "int",
+            "search": false,
+            "table_display": "switch",
+            "table_column": true,
+            "table_order": 30,
+            "form": false,
+            "form_required": false,
+            "form_order": 30,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "select",
+            "form_view": "select",
+            "width": 100,
+            "default": null,
+            "config": {
+                "dict": "status_desc"
+            }
+        },
+        {
+            "field": "createtime",
+            "table_alias": "",
+            "alias": "",
+            "comment": "创建时间",
+            "type": "timestamp",
+            "search": false,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 40,
+            "form": false,
+            "form_required": false,
+            "form_order": 40,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input",
+            "width": 100,
+            "default": null,
+            "config": {}
+        },
+        {
+            "field": "updatetime",
+            "table_alias": "",
+            "alias": "",
+            "comment": "更新时间",
+            "type": "timestamp",
+            "search": false,
+            "table_display": "",
+            "table_column": false,
+            "table_order": 50,
+            "form": false,
+            "form_required": false,
+            "form_order": 50,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "",
+            "form_view": "input",
+            "width": 100,
+            "default": null,
+            "config": {}
+        }
+    ],
+    "tools": {
+        "add": {
+            "show": true,
+            "permission_key": "vat_admin_config_group_add"
+        },
+        "edit": {
+            "show": true,
+            "permission_key": "vat_admin_config_group_edit"
+        },
+        "lock": {
+            "show": false,
+            "permission_key": "vat_admin_config_group_lock"
+        },
+        "unlock": {
+            "show": false,
+            "permission_key": "vat_admin_config_group_unlock"
+        },
+        "delete": {
+            "show": false,
+            "permission_key": "vat_admin_config_group_delete"
+        },
+        "import": {
+            "show": false,
+            "permission_key": "vat_admin_config_group_import"
+        },
+        "batch": {
+            "show": false,
+            "permission_key": "vat_admin_config_group_batch"
+        },
+        "refresh": {
+            "show": true,
+            "permission_key": "vat_admin_config_group_refresh"
+        },
+        "download": {
+            "show": true,
+            "permission_key": "vat_admin_config_group_download"
+        },
+        "search": {
+            "show": true,
+            "permission_key": "vat_admin_config_group_search"
+        }
+    },
+    "setting": {}
+}

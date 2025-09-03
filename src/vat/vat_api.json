@@ -1,0 +1,17 @@
+{
+  "api_list": {
+    "installCheck": {"url": "/app/vatadmin/basic/install/check", "method": "post"},
+    "installSubmit": {"url": "/app/vatadmin/basic/install/install", "method": "post"},
+    "login": {"url": "/app/vatadmin/basic/user/login", "method": "post"},
+    "logout": {"url": "/app/vatadmin/basic/user/logout", "method": "post"},
+    "userInfo": {"url": "/app/vatadmin/basic/user/info", "method": "post"},
+    "userEdit": {"url": "/app/vatadmin/basic/user/editInfo", "method": "post"},
+    "userEditPassword": {"url": "/app/vatadmin/basic/user/passwordChange", "method": "post"},
+    "captcha": {"url": "/app/vatadmin/basic/user/captcha", "method": "post"},
+    "loginMobile": {"url": "/app/vatadmin/basic/user/loginMobile", "method": "post"},
+    "tables": {
+      "list": {"url": "/app/vatadmin/basic/table/list", "method": "get"},
+      "createPage": {"url": "/app/vatadmin/basic/table/createPage", "method": "post"}
+    }
+  }
+}

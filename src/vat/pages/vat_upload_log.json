@@ -1,0 +1,257 @@
+{
+    "api_list": {
+        "list": {
+            "url": "/app/vatadmin/basic/UploadLog/list",
+            "method": "get"
+        },
+        "edit": {
+            "url": "/app/vatadmin/basic/UploadLog/edit",
+            "method": "post"
+        },
+        "lock": {
+            "url": "/app/vatadmin/basic/UploadLog/lock",
+            "method": "post"
+        },
+        "delete": {
+            "url": "/app/vatadmin/basic/UploadLog/delete",
+            "method": "post"
+        },
+        "import": {
+            "url": "/app/vatadmin/basic/UploadLog/import",
+            "method": "post"
+        },
+        "download": {
+            "url": "/app/vatadmin/basic/UploadLog/download",
+            "method": "get"
+        }
+    },
+    "joins": [],
+    "select_fields": "*",
+    "fields": [
+        {
+            "field": "id",
+            "table_alias": "",
+            "alias": "",
+            "comment": "ID",
+            "type": "int",
+            "search": true,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 0,
+            "form": false,
+            "form_required": false,
+            "form_order": 0,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input_number",
+            "width": 60,
+            "default": null,
+            "config": {}
+        },
+        {
+            "field": "admin_id",
+            "table_alias": "",
+            "alias": "",
+            "comment": "用户",
+            "type": "int",
+            "search": false,
+            "table_display": "",
+            "table_column": false,
+            "table_order": 10,
+            "form": false,
+            "form_required": false,
+            "form_order": 10,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input_number",
+            "width": 100,
+            "default": null,
+            "config": {}
+        },
+        {
+            "field": "params",
+            "table_alias": "",
+            "alias": "",
+            "comment": "参数",
+            "type": "varchar(200)",
+            "search": false,
+            "table_display": "",
+            "table_column": true,
+            "table_order": "30",
+            "form": false,
+            "form_required": false,
+            "form_order": 20,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input",
+            "width": 100,
+            "default": null,
+            "config": {}
+        },
+        {
+            "field": "event_key",
+            "table_alias": "",
+            "alias": "",
+            "comment": "事件",
+            "type": "varchar(200)",
+            "search": true,
+            "table_display": "",
+            "table_column": true,
+            "table_order": "20",
+            "form": false,
+            "form_required": false,
+            "form_order": 30,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input",
+            "width": 100,
+            "default": null,
+            "config": {}
+        },
+        {
+            "field": "content",
+            "table_alias": "",
+            "alias": "",
+            "comment": "内容",
+            "type": "varchar(1280)",
+            "search": false,
+            "table_display": "",
+            "table_column": true,
+            "table_order": "10",
+            "form": false,
+            "form_required": false,
+            "form_order": 40,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input",
+            "width": 100,
+            "default": null,
+            "config": {}
+        },
+        {
+            "field": "event_result",
+            "table_alias": "",
+            "alias": "",
+            "comment": "执行结果",
+            "type": "varchar(320)",
+            "search": false,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 50,
+            "form": false,
+            "form_required": false,
+            "form_order": 50,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input",
+            "width": 100,
+            "default": null,
+            "config": {}
+        },
+        {
+            "field": "createime",
+            "table_alias": "",
+            "alias": "",
+            "comment": "创建时间",
+            "type": "timestamp",
+            "search": true,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 60,
+            "form": false,
+            "form_required": false,
+            "form_order": 60,
+            "sorter": false,
+            "condition": "between",
+            "search_view": "datepicker",
+            "form_view": "datepicker",
+            "width": 100,
+            "default": null,
+            "config": {
+                "type": "datetimerange",
+                "form_type": "datetime"
+            }
+        },
+        {
+            "field": "updatetime",
+            "table_alias": "",
+            "alias": "",
+            "comment": "更新时间",
+            "type": "timestamp",
+            "search": false,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 70,
+            "form": false,
+            "form_required": false,
+            "form_order": 70,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "",
+            "form_view": "input",
+            "width": 100,
+            "default": null,
+            "config": {}
+        }
+    ],
+    "tools": {
+        "add": {
+            "show": false,
+            "permission_key": "vat_upload_log_add"
+        },
+        "edit": {
+            "show": false,
+            "permission_key": "vat_upload_log_edit"
+        },
+        "lock": {
+            "show": false,
+            "permission_key": "vat_upload_log_lock"
+        },
+        "unlock": {
+            "show": false,
+            "permission_key": "vat_upload_log_unlock"
+        },
+        "delete": {
+            "show": false,
+            "permission_key": "vat_upload_log_delete"
+        },
+        "import": {
+            "show": true,
+            "permission_key": "vat_upload_log_import",
+            "params": {
+                "event": "pages",
+                "table": "vat_upload_log",
+                "title": "资源管理"
+            }
+        },
+        "batch": {
+            "show": false,
+            "permission_key": "vat_upload_log_batch"
+        },
+        "refresh": {
+            "show": true,
+            "permission_key": "vat_upload_log_refresh"
+        },
+        "download": {
+            "show": true,
+            "permission_key": "vat_upload_log_download",
+            "options": [
+                {
+                    "label": "导出",
+                    "key": ""
+                }
+            ]
+        },
+        "search": {
+            "show": true,
+            "permission_key": "vat_upload_log_search"
+        }
+    },
+    "setting": {}
+}

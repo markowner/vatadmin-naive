@@ -1,0 +1,164 @@
+<template>
+  <n-modal v-model:show="state.editDialogVisible" :on-after-leave="hide">
+    <n-card :title="state.type === 'add' ? '添加' : '编辑'" :style="{width: props.width}">
+      <template #header-extra>
+        <i class="ifont i-close-circle modal-card-close" @click="hide()"></i>
+      </template>
+      <VatForm ref="vatForm" :list="state.formList" :rules="state.rules" v-model="state.data"></VatForm>
+      <template #action>
+        <n-flex justify="end">
+          <n-space>
+            <n-button type="tertiary" @click="reset()">重置</n-button>
+            <n-button type="tertiary" @click="hide()">取消</n-button>
+            <n-button type="primary" @click="toSubmit">提交</n-button>
+          </n-space>
+        </n-flex>
+      </template>
+    </n-card>
+  </n-modal>
+</template>
+
+<script setup>
+import {inject} from "vue"
+import Request from '@/utils/axios'
+import VatForm from "@/components/VatForm.vue"
+import pageJsonData from "@/vat/pages/vat_admin_user.json"
+
+const tools = inject('tools')
+const props = defineProps({
+  width:{
+    type: String,
+    default: '50%',
+  },
+  modelValue: {
+    type: Boolean,
+    default: false
+  }
+})
+const vatForm = ref(null)
+let formJson = tools.pages.buildForm(pageJsonData.fields)
+let formRules = tools.pages.buildRule(pageJsonData.fields)
+
+const state = reactive({
+  //类型 add | edit
+  type: 'add',
+  //加载
+  loading: false,
+  //表单绑定值
+  data: {},
+  //表单构建JSON
+  formList: formJson,
+  //验证规则
+  rules: JSON.parse(JSON.stringify(formRules)),
+  //弹框显示
+  editDialogVisible: props.modelValue,
+  //原始数据，用于重置
+  cloneSource: {}
+})
+
+function initData(){
+  let data = {id: 0}
+  formJson.forEach((v) => {
+    data[v.field] = v.value
+  })
+  state.data = data
+}
+initData()
+
+/**
+ * 过滤密码字段
+ */
+function filterField(){
+  if(state.type === 'edit'){
+    state.rules.password = {}
+    // state.formList = formJson.filter((v) => {return v.field !== 'password'})
+  }else{
+    state.rules = formRules
+  }
+}
+
+const emits = defineEmits(['update:modelValue', 'change', 'submit'])
+
+function type(type){
+  state.type = type
+  return this
+}
+/**
+ * 展示
+ */
+function show(){
+  state.editDialogVisible = true
+  emits('update:modelValue', true)
+  emits('change', true)
+}
+
+/**
+ * 隐藏
+ */
+function hide(){
+  state.editDialogVisible = false
+  emits('update:modelValue', false)
+  emits('change', false)
+}
+
+/**
+ * 重置
+ */
+function reset(){
+  if(state.data.id){
+    state.data = JSON.parse(JSON.stringify(state.cloneSource))
+  }else{
+    initData()
+  }
+}
+
+
+/**
+ * 注入数据
+ * @param row
+ */
+function injectData(row){
+  state.data = tools.pages.mergeObjects(state.data, row)
+  state.cloneSource = JSON.parse(JSON.stringify(state.data))
+  return this
+}
+
+/**
+ * 提交
+ */
+function toSubmit(e){
+  e.preventDefault()
+  vatForm.value.validate((errors) => {
+    if (!errors) {
+      Request.request(pageJsonData.api_list.edit, state.data).then(res => {
+        tools.notice.message.success(res.msg)
+        hide()
+        emits('submit')
+      }).catch(err => {
+        console.log(err)
+      })
+    }
+  })
+}
+
+watch(() => props.modelValue, (val) => {
+  state.editDialogVisible = val
+})
+
+watch(() => state.editDialogVisible, (val) => {
+  if(val){
+    filterField()
+  }else{
+    initData()
+  }
+})
+
+
+defineExpose({
+  injectData,
+  type,
+  show,
+  hide,
+  state
+})
+</script>
