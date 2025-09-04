@@ -44,6 +44,9 @@
              <n-form-item-gi :span="12" label="数据库排序规则">
               <n-input v-model:value="dbConfig.collation" placeholder="数据库排序规则"/>
             </n-form-item-gi>
+             <n-form-item-gi :span="12" label="数据库表前缀">
+              <n-input v-model:value="dbConfig.prefix" placeholder="数据库表前缀"/>
+            </n-form-item-gi>
           </n-grid>
         </n-form>
         <n-button @click="doInstall">下一步</n-button>
@@ -77,7 +80,7 @@
     user: 'root',
     password: '123456',
     charset: 'utf8mb4',
-    collation: 'utf8mb4_unicode_ci',
+    collation: 'utf8mb4_general_ci',
     prefix: '',
   })
 
