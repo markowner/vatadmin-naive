@@ -99,7 +99,6 @@ function handleColumn(row, index) {
               positiveText: '确定',
               negativeText: '取消',
               onPositiveClick: () => {
-                tools.notice.message.success('我要删除')
                 Request.request(pageJsonData.api_list.delete, {id: row.id}).then(res => {
                   tools.notice.message.success(res.msg)
                 }).catch(err => {
@@ -139,6 +138,32 @@ column.handle = {
               }
             },
             {default: () => '编辑'}
+          ),
+          h(NButton,
+              {
+                size: 'tiny',
+                type: 'primary',
+                secondary: true,
+                onClick: () => {
+                  tools.notice.dialog.warning({
+                    title: '警告',
+                    content: '你确定要同步字段吗？',
+                    positiveText: '确定',
+                    negativeText: '取消',
+                    onPositiveClick: () => {
+                      Request.request(pageJsonData.api_list.syncField, {id: row.id}).then(res => {
+                        tools.notice.message.success(res.msg)
+                      }).catch(err => {
+                        console.log(err)
+                      })
+                    },
+                    onNegativeClick: () => {
+
+                    }
+                  })
+                }
+              },
+              {default: () => '同步字段'}
           ),
           h(NButton,
               {

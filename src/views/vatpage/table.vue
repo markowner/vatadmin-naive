@@ -43,13 +43,13 @@
             type: 'info'
           }
           if(row.is_page === 1){
-            info.label = '重新生成'
+            info.label = '生成+1'
             info.type = 'success'
           }
           return tools.pages.renderButton(info.label,{ type: info.type, secondary: true,}, () => {
             tools.notice.dialog.warning({
               title: '警告',
-              content: '你确定要重新生成吗？',
+              content: '您确定要再生成一个页面吗？',
               positiveText: '确定',
               negativeText: '取消',
               onPositiveClick: () => {

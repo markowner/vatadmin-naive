@@ -11,7 +11,7 @@
     "loginMobile": {"url": "/app/vatadmin/basic/user/loginMobile", "method": "post"},
     "tables": {
       "list": {"url": "/app/vatadmin/basic/table/list", "method": "get"},
-      "createPage": {"url": "/app/vatadmin/basic/table/createPage", "method": "post"}
+      "createPage": {"url": "/app/vatadmin/basic/pages/add", "method": "post"}
     }
   }
 }

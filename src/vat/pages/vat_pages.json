@@ -4,6 +4,10 @@
       "url": "/app/vatadmin/basic/Pages/list",
       "method": "get"
     },
+    "add": {
+      "url": "/app/vatadmin/basic/pages/add",
+      "method": "post"
+    },
     "edit": {
       "url": "/app/vatadmin/basic/Pages/edit",
       "method": "post"
@@ -31,6 +35,10 @@
     "dict": {
       "url": "/app/vatadmin/basic/pages/dict",
       "method": "get"
+    },
+    "syncField": {
+      "url": "/app/vatadmin/basic/pages/syncField",
+      "method": "post"
     },
     "fields": {
       "url": "/app/vatadmin/basic/table/fields",
