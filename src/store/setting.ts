@@ -7,7 +7,8 @@ export const useSettingStore = defineStore("setting", {
                 layout: 'common', // common column header
                 mode: false,      // 色调  false：浅色  true：深色
                 theme: 0,         // 主题 0：默认， 1：浅蓝
-                lang: 'zh'        // 语言 zh en
+                lang: 'zh',       // 语言 zh en
+                watermark: 1      // 水印 0：关闭，1：开启
             }, tools.data.get('Vat-Setting') ? tools.data.get('Vat-Setting') : {})
         }
     ),

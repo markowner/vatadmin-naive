@@ -178,6 +178,14 @@
                 </n-space>
               </n-radio-group>
             </n-form-item>
+            <n-form-item label="水印" path="watermark">
+              <n-radio-group v-model:value="state.config.watermark" name="watermark">
+                <n-space>
+                  <n-radio :value="1">开启</n-radio>
+                  <n-radio :value="0">关闭</n-radio>
+                </n-space>
+              </n-radio-group>
+            </n-form-item>
           </n-form>
           <n-button type="primary" block secondary strong @click="toSaveSetting">
             保存
@@ -190,6 +198,14 @@
           <Notice></Notice>
         </n-drawer-content>
       </n-drawer>
+      <!--- 水印 --->
+      <n-watermark v-show="state.config.watermark" :content="state.userInfo.name" cross fullscreen :font-size="16" :line-height="16" 
+        :width="384"
+        :height="384"
+        :x-offset="12"
+        :y-offset="60"
+        :rotate="-15"
+      />
     </n-layout>
 </template>
 
