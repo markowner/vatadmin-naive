@@ -8,40 +8,34 @@ export const useUserStore = defineStore("user", {
     state: () => (
         {
             user: {
-                id:'',
-                name: '',
-                roles: [],
-                platforms: [],
+                id: tools.cookie.get('Vat-Uid') || '',
                 token: getToken() || '',
-                avatar: '',
-                noread: 0,
-                config: {},
-                dict: {}
+                userInfo: tools.data.get('Vat-User') || {noread: 0}
             }
         }
     ),
     actions: {
         //设置用户信息
-        login(user: Object) {
+        login(user: any) {
             this.user.token = user.access_token
             this.user.id = user.userInfo.id
             this.user.name = user.userInfo.name
-            this.user.config = user.userInfo.config
-            this.user.dict = user.userInfo.dict
             this.user.noread = user.userInfo.noread
+            this.user.userInfo = user.userInfo
             setToken(user.access_token)
+            console.log(user.userInfo)
             tools.data.set('Vat-User', user.userInfo)
             tools.cookie.set('Vat-Uid', user.userInfo.id)
         },
         //设置消息数量
         setNoticeCount(count: any, type:string = '+') {
             if (count !== '') {
-                this.user.noread = count
+                this.user.userInfo.noread = count
             } else {
                 if(type == '+'){
-                    this.user.noread = this.user.noread + 1
+                    this.user.userInfo.noread = this.user.userInfo.noread + 1
                 }else{
-                    this.user.noread = this.user.noread >= 1 ? this.user.noread - 1 : 0
+                    this.user.userInfo.noread = this.user.userInfo.noread >= 1 ? this.user.userInfo.noread - 1 : 0
                 }
             }
         },
@@ -49,9 +43,9 @@ export const useUserStore = defineStore("user", {
         userInfo(){
             return new Promise((resolve, reject) => {
                 Request.request(VatApi.api_list.userInfo).then((res: {}) => {
-                    this.user.dict = res.data.dict
-                    this.user.config = res.data.config
-                    this.user.noread = res.data.userInfo.noread
+                    this.user.userInfo.dict = res.data.dict
+                    this.user.userInfo.config = res.data.config
+                    this.user.userInfo.noread = res.data.userInfo.noread
                     tools.data.set('Vat-Menu', res.data.menus)
                     tools.data.set('Vat-Views', res.data.views)
                     resolve(res.data)

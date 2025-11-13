@@ -444,7 +444,7 @@ tools.pages = {
         fields.forEach((v: {}) => {
             if(v.form && !filter_fields.includes(v.field)){
                 if(v.config.dict){
-                    v.config.options = useUserStore().user.dict[v.config.dict].options
+                    v.config.options = useUserStore().user.userInfo.dict[v.config.dict].options
                 }
 
                 formList.push({
@@ -508,7 +508,7 @@ tools.pages = {
         fields.forEach((v: {}) => {
             if(v.search){
                 if(v.config.dict){
-                    v.config.options = useUserStore().user.dict[v.config.dict].options
+                    v.config.options = useUserStore().user.userInfo.dict[v.config.dict].options
                 }
                 let placeholderText: any = ''
                 if('input' == v.search_view){
@@ -671,10 +671,10 @@ tools.pages = {
             const userStore = useUserStore()
             if (/^\//.test(url)) {
 
-                return userStore.user.config.cdn_url + url;
+                return userStore.user.userInfo.config.cdn_url + url;
             } else {
                 // 否则，添加"/"来确保路径正确
-                return userStore.user.config.cdn_url + '/' + url;
+                return userStore.user.userInfo.config.cdn_url + '/' + url;
             }
         }
     },

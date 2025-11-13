@@ -51,7 +51,7 @@
                   <!-- 全屏 -->
                   <div class="vat-tools-line-box" :class="[state.config.mode ? 'dark' : 'light']"><i class="ifont i-full-screen pointer" @click="fullScreen"></i></div>
                   <!-- 消息通知 -->
-                  <n-badge :value="userStore.user.noread" :max="99" :offset="[-4,0]"><div class="vat-tools-line-box" :class="[state.config.mode ? 'dark' : 'light']"><i class="ifont i-notice pointer" @click="toNotice"></i></div></n-badge>
+                  <n-badge :value="userStore.user.userInfo.noread" :max="99" :offset="[-4,0]"><div class="vat-tools-line-box" :class="[state.config.mode ? 'dark' : 'light']"><i class="ifont i-notice pointer" @click="toNotice"></i></div></n-badge>
                   <!-- 设置 -->
                   <div class="vat-tools-line-box" :class="[state.config.mode ? 'dark' : 'light']"><i class="ifont i-setting pointer" @click="toSetting"></i></div>
                 </template>
@@ -230,7 +230,7 @@ const store = useStore()
 const userStore = useUserStore()
 
 const state = reactive({
-    userInfo: tools.data.get('Vat-User'),
+    userInfo: userStore.user.userInfo,
     inverted: false,
     collapsed: false,
     isRouterAlive:true,
@@ -247,8 +247,6 @@ const state = reactive({
     },
     config: useSettingStore().getConfig
 })
-console.log('state.config', state.config)
-
 
 //定义个人信息下拉菜单展示
 const options = [

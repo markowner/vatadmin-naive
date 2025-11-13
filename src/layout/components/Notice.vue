@@ -34,7 +34,7 @@
     <div v-html="state.curNotice.content"></div>
   </VatModal>
 </template>
-<script lang="ts" setup>
+<script setup>
 import {inject, reactive} from "vue";
 import Request from '@/utils/axios'
 import VatModal from "@/components/VatModal.vue";
@@ -61,7 +61,7 @@ function listGet(){
   Request.request(VatApi.api_list.listOwner, state.query).then(res => {
     state.total = res.data.total
     state.list = res.data.list
-  }).catch((err: any) => {
+  }).catch((err) => {
     console.log(err)
   })
 }
@@ -86,7 +86,7 @@ function toDetail(item, index){
       state.list[index].is_read_desc = '已读'
       state.list[index].is_read = 1
       useUserStore().setNoticeCount('', '-');
-    }).catch((err: any) => {
+    }).catch((err) => {
       console.log(err)
     })
   }
@@ -98,7 +98,7 @@ function toDetail(item, index){
   color: #879090;
   opacity: 0.7;
 }
-::v-deep .vat-notice{
+:deep(.vat-notice){
   position: relative;
   & .vat-notice-item{
     padding: 10px;
