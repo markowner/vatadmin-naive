@@ -121,11 +121,11 @@ function handleColumn(row, index) {
 column.handle = {
   title: '操作',
   key: 'handle',
-  width: 100,
+  width: 120,
   fixed: 'right',
   render: (row, index) => {
     const defaultColumn = handleColumn(row, index)
-    return h('div', {class: 'flex gap'}, {
+    return h('div', {class: 'flex flex-wrap gap'}, {
       default: () => {
         return [...defaultColumn, h(NButton,
             {

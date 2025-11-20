@@ -22,6 +22,8 @@ export const useUserStore = defineStore("user", {
             this.user.name = user.userInfo.name
             this.user.noread = user.userInfo.noread
             this.user.userInfo = user.userInfo
+            this.user.userInfo.dict = user.dict
+            this.user.userInfo.config = user.config
             setToken(user.access_token)
             console.log(user.userInfo)
             tools.data.set('Vat-User', user.userInfo)

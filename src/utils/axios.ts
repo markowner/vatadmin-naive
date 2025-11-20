@@ -191,7 +191,7 @@ class Request {
      * 上传图片
      */
     uploadAction() {
-        return import.meta.env.VITE_APP_PROXY_PREFIX + '/common/tools/upload'
+        return import.meta.env.VITE_APP_PROXY_PREFIX + '/app/vatadmin/basic/tools/upload'
     }
 
     downloadFile(response) {
