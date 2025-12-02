@@ -9,6 +9,7 @@
     "userEditPassword": {"url": "/app/vatadmin/basic/user/passwordChange", "method": "post"},
     "captcha": {"url": "/app/vatadmin/basic/user/captcha", "method": "post"},
     "loginMobile": {"url": "/app/vatadmin/basic/user/loginMobile", "method": "post"},
+    "configs": {"url": "/app/vatadmin/basic/common/configs", "method": "get"},
     "tables": {
       "list": {"url": "/app/vatadmin/basic/table/list", "method": "get"},
       "createPage": {"url": "/app/vatadmin/basic/pages/add", "method": "post"}

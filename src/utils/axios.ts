@@ -20,6 +20,7 @@ enum RequestEnums {
     TIMEOUT           = 10000,
     TOKEN_FAILURE     = 401, // 登录失效
     INSTALL_NO        = 402, // 系统未安装
+    FORBIDDEN         = 403, // 没有权限
     SUCCESS           = 200, // 请求成功
 }
 const config = {
@@ -93,6 +94,11 @@ class Request {
                         message.error(data.msg);
                         return Promise.reject(data);
                     }
+                    if (data.code === RequestEnums.FORBIDDEN) {
+                        // 没有权限，应跳转到403页面
+                        message.error(data.msg);
+                        return Promise.reject(data);
+                    }
                     // 全局错误信息拦截（防止下载文件得时候返回数据流，没有code，直接报错）
                     if (data.code !== RequestEnums.SUCCESS) {
                         message.error(data.msg); // 此处也可以使用组件提示报错信息
@@ -116,6 +122,7 @@ class Request {
     handleCode(response):void {
         switch (response.status) {
             case 400:
+            case 403:    
                 message.error(response.data.msg);
                 break;
             case 401:

@@ -1,8 +1,17 @@
 <template>
   <div class="login_bg">
+       <!-- 背景装饰 -->
+    <div class="background-decoration">
+      <div class="bg-shape bg-shape-1"></div>
+      <div class="bg-shape bg-shape-2"></div>
+      <div class="bg-shape bg-shape-3"></div>
+      <div class="bg-shape bg-shape-4"></div>
+    </div>
     <div class="login_adv">
       <div class="login_adv__title">
-        <p></p>
+        <h2>{{ $t('app_name') }}</h2>
+        <h3>{{ $t('app_intro') }}</h3>
+        <pre style="font-size: 14px;line-height: 2;">{{ $t('app_intro_detail') }}</pre>
       </div>
       <div class="login_adv__mask"></div>
       <div class="login_adv__bottom">
@@ -12,7 +21,7 @@
     <div class="login-form">
       <div class="login-header">
         <div class="logo">
-          <img :alt="$t('app_name')" src="@/assets/images/logo.jpeg">
+          <img :alt="$t('app_name')" :src="state.configs?.logo || '/images/logo.jpeg'">
           <label>{{ $t('app_name') }}</label>
         </div>
       </div>
@@ -93,7 +102,8 @@ const state = reactive({
       message: '请先安全验证'
     }
   },
-  loading: false
+  loading: false,
+  configs: {}
 })
 
 const loginForm = ref(null)
@@ -164,18 +174,31 @@ function check(sliderKey, sliderX, done, error)
 function close() {
 
 }
+
+/**
+ * 账号密码登录
+ */
+function configsGet(){
+  Request.request(api.api_list.configs, {}).then(res => {
+    state.configs = res.data
+  }).catch(err => {
+    console.log(err)
+  })
+}
+configsGet()
 </script>
 
 <style scoped>
 .login_bg {width: 100%;height: 100vh;background: #fff;display: flex;}
 .login_adv {
   width: 40%;
-  background-color: #555;
+  /* background-color: #555; */
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
   position: relative;
-  background-image: url('/src/assets/images/logo.jpeg');
+  /* background-image: url('/src/assets/images/logo.jpeg'); */
+  background:  linear-gradient(135deg, #667eea 0%, #764ba2 100%);;
 }
 .login_adv__title {color: #fff;padding: 40px;position: absolute;top:0px;left:0px;right: 0px;z-index: 2;}
 .login_adv__title h2 {font-size: 40px;}
@@ -197,7 +220,10 @@ function close() {
 .login-oauth {display: flex;justify-content:space-around;}
 .login-form .el-divider {margin-top:40px;}
 
-.login-form {}
+.login-form {
+  position: relative;
+  z-index: 20;
+}
 .login-form:deep(.el-tabs) .el-tabs__header {margin-bottom: 25px;}
 .login-form:deep(.el-tabs) .el-tabs__header .el-tabs__item {font-size: 14px;}
 
@@ -226,5 +252,68 @@ function close() {
   .login_main .login_config {position: static;padding:20px 20px 0 20px;text-align: right;}
   .login-form {width:100%;padding:20px 40px;}
   .login_adv {display: none;}
+}
+/* 背景装饰 */
+.background-decoration {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.bg-shape {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  animation: float 20s infinite ease-in-out;
+}
+
+.bg-shape-1 {
+  width: 300px;
+  height: 300px;
+  top: -100px;
+  left: -100px;
+  animation-delay: 0s;
+}
+
+.bg-shape-2 {
+  width: 200px;
+  height: 200px;
+  top: 50%;
+  right: -50px;
+  animation-delay: 5s;
+}
+
+.bg-shape-3 {
+  width: 150px;
+  height: 150px;
+  bottom: -50px;
+  left: 20%;
+  animation-delay: 10s;
+}
+
+.bg-shape-4 {
+  width: 250px;
+  height: 250px;
+  bottom: 10%;
+  right: 20%;
+  animation-delay: 15s;
+}
+
+/* 浮动动画 */
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(50px, -50px) rotate(90deg);
+  }
+  50% {
+    transform: translate(100px, 0) rotate(180deg);
+  }
+  75% {
+    transform: translate(50px, 50px) rotate(270deg);
+  }
 }
 </style>

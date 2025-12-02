@@ -5,7 +5,7 @@
           <!-- 网站标题及Logo -->
           <div :style="{width: state.siderWidth}" class="flex-shrink">
             <n-flex align="center" style="height: 60px;margin-right: 20px;gap: unset;">
-              <div class="flex flex-center" style="width: 80px;text-align: center;height: 100%;"> <img src="@/assets/images/logo.jpeg" style="width: 40px; height: 40px;"></div>
+              <div class="flex flex-center" style="width: 80px;text-align: center;height: 100%;"> <img :src="state.userInfo?.config?.logo || '/images/logo.jpeg'" style="width: 40px; height: 40px;"></div>
               <n-ellipsis :tooltip="false" style="font-size: 16px;font-weight: bold;" :style="{maxWidth: store.device === 'pc' ? state.config.layout === 'column' ? '240px' : '156px' : '156px'}">
                 {{ $t('app_name') }}
               </n-ellipsis>
