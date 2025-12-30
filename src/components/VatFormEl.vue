@@ -29,7 +29,7 @@
   <template v-else-if="state.config.type == 'switch'">
     <n-switch v-model:value="state.value" :checked-value="state.config.config.map.checked" :unchecked-value="state.config.config.map.unchecked" />
   </template>
-  <template v-else-if="state.config.type == 'select'">
+  <template v-else-if="state.config.type == 'select' || state.config.type == 'dict'">
     <n-select
         v-model:value="state.value"
         :placeholder="state.config.placeholder"
