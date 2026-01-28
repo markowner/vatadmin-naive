@@ -61,7 +61,7 @@ const props = defineProps({
 const state = reactive({
   fields: props.fields,
   params: {},
-  searchShow: true,
+  searchShow: false,
   selection: !!(props.tools.delete.show || props.tools.batch.show),
   columns: props.columns,
 })

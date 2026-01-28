@@ -11,40 +11,34 @@
               </n-ellipsis>
             </n-flex>
           </div>
-          <!-- header布局开始 -->
-          <div class="header-nav" style="position: relative" v-if="state.config.layout == 'header' && store.device === 'pc'">
-            <n-layout-sider
-                bordered
-                :collapsed-width="state.siderCollapsedWidth"
-                mode="horizontal"
-                style="width: 100%"
-                :inverted="state.inverted"
-                :collapsed="false"
-                @collapse="state.collapsed = true"
-                @expand="state.collapsed = false"
-            >
-              <n-menu
-                  :inverted="state.inverted"
-                  :collapsed-width="state.siderCollapsedWidth"
-                  :collapsed-icon-size="22"
-                  mode="horizontal"
-                  :options="state.parentMenus"
-                  :value="state.topPath"
-                  @update:value="handleUpdateValue"
-              />
-            </n-layout-sider>
+          
+          <div>
+            <!-- header布局开始 -->
+            <div class="header-nav" style="position: relative;" v-if="state.config.layout == 'header' && store.device === 'pc'">
+              <n-layout-sider style="width: 100%;max-width: 60vw;">
+                <n-menu
+                    :inverted="state.inverted"
+                    :collapsed-width="state.siderCollapsedWidth"
+                    :collapsed-icon-size="22"
+                    mode="horizontal"
+                    responsive
+                    :options="[...state.parentMenus]"
+                    :value="state.topPath"
+                    @update:value="handleUpdateValue"
+                />
+              </n-layout-sider>
+            </div>
+            <!-- header布局结束 -->
+            <!-- 路由面包屑 header布局不展示 -->
+            <n-breadcrumb v-if="state.config.layout !== 'header' && store.device === 'pc'">
+              <n-breadcrumb-item v-for="item in state.breadcrumb" :key="item.path" style="font-size: 14px">
+                <i style="font-size: 14px" class="ifont" :class="['i-'+item.meta.icon]"></i> <span>{{ item.meta.title }}</span>
+              </n-breadcrumb-item>
+            </n-breadcrumb>
           </div>
-          <!-- header布局结束 -->
-          <div class="w100" style="padding-right: 10px;">
+
+          <div class="flex-shrink" style="padding-right: 10px;margin-left: auto;">
             <div class="flex flex-jc-sb flex-ai-c">
-              <!-- 路由面包屑 header布局不展示 -->
-              <div>
-                <n-breadcrumb v-if="state.config.layout !== 'header' && store.device === 'pc'">
-                  <n-breadcrumb-item v-for="item in state.breadcrumb" :key="item.path" style="font-size: 14px">
-                    <i style="font-size: 14px" class="ifont" :class="['i-'+item.meta.icon]"></i> <span>{{ item.meta.title }}</span>
-                  </n-breadcrumb-item>
-                </n-breadcrumb>
-              </div>
               <!-- 工具栏 -->
               <n-flex align="center">
                 <template v-if="store.device === 'pc'">
@@ -77,8 +71,8 @@
             bordered
             collapse-mode="width"
             :collapsed-width="state.siderColumnCollapsedWidth"
-            style="height:calc(100vh - 60px);margin-top: 60px;"
             :collapsed="true"
+            style="height:calc(100vh - 60px);margin-top: 60px;"
         >
           <n-menu
               :inverted="state.inverted"

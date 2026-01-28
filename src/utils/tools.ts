@@ -18,7 +18,8 @@ import Request from '@/utils/axios'
 const tools = {}
 import { useUserStore } from '@/store/user'
 import i18n from "@/language";
-
+import VatLink from '@/components/VatLink.vue'
+import VatJson from '@/components/VatJson.vue'
 const { message, notification, dialog, loadingBar, modal } = createDiscreteApi(
     ['message', 'dialog', 'notification', 'loadingBar', 'modal']
 )
@@ -446,7 +447,7 @@ tools.pages = {
                 if(v.config.dict){
                     v.config.options = useUserStore().user.userInfo.dict[v.config.dict].options
                 }
-
+                
                 formList.push({
                     label: v.comment,
                     field: v.field,
@@ -612,6 +613,13 @@ tools.pages = {
             ]
         }})
     },
+    renderLink(link: string, fieldConfig: any){
+        console.log(fieldConfig)
+         return h(VatLink, {href: link, ...fieldConfig.config.props})
+    },
+    renderJson(json: string, fieldConfig: any){
+        return json ? h(VatJson, {data: typeof json === 'string' && json ? JSON.parse(json) : json, ...fieldConfig.config.props}) : ''
+    },
     renderAvatar(avatar: string){
         return avatar ? h(NAvatar, {size: 'small', src: this.cdnUrl(avatar)}) : ''
     },
@@ -704,6 +712,10 @@ tools.pages = {
                 return this.renderImages(row[res.field])
             case 'carousel':
                 return this.renderCarousel(row[res.field])
+            case 'link':
+                return row[res.field] ? this.renderLink(row[res.field], res) : ''
+            case 'json':
+                return row[res.field] ? this.renderJson(row[res.field],res) : ''
         }
     }
 }

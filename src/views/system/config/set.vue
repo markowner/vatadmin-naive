@@ -269,5 +269,5 @@
 
   watch(() => state.groupCur, (newVal) => {
     getConfig()
-  }, {deep:true, immediate: true})
+  }, {deep:true})
 </script>

@@ -407,5 +407,8 @@
       "show": true,
       "permission_key": "vat_pages_search"
     }
+  },
+  "setting": {
+    "edit_validate": false
   }
 }
