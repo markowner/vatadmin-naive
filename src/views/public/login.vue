@@ -215,7 +215,7 @@ configsGet()
 .login-form {width: 400px;margin: auto;padding:20px 0;}
 .login-header {margin-bottom: 40px;}
 .login-header .logo {display: flex;align-items: center;}
-.login-header .logo img {width: 40px;height: 40px;vertical-align: bottom;margin-right: 10px;}
+.login-header .logo img {width: 40px;height: 40px;vertical-align: bottom;margin-right: 10px;border-radius: 10px;}
 .login-header .logo label {font-size: 26px;font-weight: bold;}
 .login-oauth {display: flex;justify-content:space-around;}
 .login-form .el-divider {margin-top:40px;}

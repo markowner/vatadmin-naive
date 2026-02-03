@@ -1,11 +1,12 @@
 <template>
+    <template v-if="!hideLayout">
     <n-layout has-sider class="w100" :class="store.device">
       <n-layout-header style="" :style="{borderBottom: !state.config.mode ? '1px solid #efeff5' : ''}">
         <div class="flex flex-ai-c">
           <!-- 网站标题及Logo -->
           <div :style="{width: state.siderWidth}" class="flex-shrink">
             <n-flex align="center" style="height: 60px;margin-right: 20px;gap: unset;">
-              <div class="flex flex-center" style="width: 80px;text-align: center;height: 100%;"> <img :src="state.userInfo?.config?.logo || '/images/logo.jpeg'" style="width: 40px; height: 40px;"></div>
+              <div class="flex flex-center" style="width: 80px;text-align: center;height: 100%;"> <img :src="state.userInfo?.config?.logo || '/images/logo.jpeg'" style="width: 40px; height: 40px;border-radius: 10px;"></div>
               <n-ellipsis :tooltip="false" style="font-size: 16px;font-weight: bold;" :style="{maxWidth: store.device === 'pc' ? state.config.layout === 'column' ? '240px' : '156px' : '156px'}">
                 {{ $t('app_name') }}
               </n-ellipsis>
@@ -122,7 +123,7 @@
       </n-layout-content>
 
       <!-- 移动端菜单 -->
-      <SideBar v-if="store.device === 'mobile'"></SideBar>
+      <SideBar v-if="store.device === 'mobile' || store.device === 'ipad'"></SideBar>
 
       <!-- 设置抽屉弹框 -->
       <n-drawer v-model:show="state.visible.setting" :width="300" placement="right">
@@ -201,10 +202,21 @@
         :rotate="-15"
       />
     </n-layout>
+    </template>
+    <template v-else>
+      <div style="height: 100vh; width: 100%; overflow: auto; padding: 15px; box-sizing: border-box;">
+        <router-view v-slot="{ Component }" v-if="state.isRouterAlive">
+          <keep-alive>
+            <component :is="Component" :key="router.currentRoute.value.fullPath" v-if="router.currentRoute.value.meta.cached"/>
+          </keep-alive>
+          <component :is="Component" :key="router.currentRoute.value.fullPath" v-if="!router.currentRoute.value.meta.cached"/>
+        </router-view>
+      </div>
+    </template>
 </template>
 
 <script setup>
-import { inject, reactive, watch} from 'vue'
+import { inject, reactive, watch, computed} from 'vue'
 import router from '@/router'
 import { useRoute } from 'vue-router'
 const tools = inject('tools')
@@ -222,6 +234,12 @@ const { locale } = useI18n();
 const route = useRoute()
 const store = useStore()
 const userStore = useUserStore()
+
+// 计算是否需要隐藏layout
+const hideLayout = computed(() => {
+  // 检查路由参数中是否有layout=0
+  return route.query.layout === '0'
+})
 
 const state = reactive({
     userInfo: userStore.user.userInfo,
@@ -265,7 +283,15 @@ const options = [
 window.addEventListener('resize', onLayoutResize);
 
 function onLayoutResize(){
-  store.setData('device', document.body.clientWidth < 992 ? "mobile" : 'pc')
+  let device = 'pc'
+
+  if(document.body.clientWidth < 992){
+    device = 'ipad'
+  }
+  if(document.body.clientWidth < 500){
+    device = 'mobile'
+  }
+  store.setData('device', device)
 }
 onLayoutResize()
 //获取菜单

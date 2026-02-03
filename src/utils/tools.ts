@@ -15,14 +15,16 @@ import {
 import {RouterLink} from "vue-router";
 import path from 'path-browserify'
 import Request from '@/utils/axios'
-const tools = {}
+import router from '@/router'
 import { useUserStore } from '@/store/user'
 import i18n from "@/language";
 import VatLink from '@/components/VatLink.vue'
 import VatJson from '@/components/VatJson.vue'
+
 const { message, notification, dialog, loadingBar, modal } = createDiscreteApi(
     ['message', 'dialog', 'notification', 'loadingBar', 'modal']
 )
+const tools = {}
 
 tools.notice = {
     message: message,
@@ -504,7 +506,11 @@ tools.pages = {
         return fields
     },
     //构建搜索
-    buildSearch(fields: []){
+    buildSearch(fields: [], filter_fields = {}){
+        let query = router.currentRoute.value.query
+        if(query.filter){
+            filter_fields = JSON.parse(query.filter)
+        }
         let search: [] = []
         fields.forEach((v: {}) => {
             if(v.search){
@@ -519,12 +525,13 @@ tools.pages = {
                 }else{
                     placeholderText = '请选择' + v.comment
                 }
+    
                 search.push({
                     label: v.comment,
                     field: v.table_alias ?  v.table_alias +'.'+ v.field : v.field,
                     type: v.search_view,
                     placeholder: placeholderText,
-                    default: null,
+                    default: filter_fields?.[v.field] || null,
                     config: v.config
                 })
             }

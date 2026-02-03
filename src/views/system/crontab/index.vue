@@ -20,7 +20,7 @@
   import Request from '@/utils/axios'
   import VatPage from "@/components/VatPage.vue"
   import Edit from "./edit.vue"
-  import pageJsonData from '@/vat/pages/vat_admin_crontab.json'
+  import pageJsonData from '@/vat/pages/vat_crontab.json'
   import crontabLog from "../crontabLog/index.vue";
   import VatModal from "@/components/VatModal.vue"
 
@@ -31,7 +31,6 @@
   const crontabLogRef = ref(null)
   //构建数据列
   let column = tools.pages.buildColumns(pageJsonData)
-
   /**
    * 操作列
    * @param row
@@ -130,8 +129,7 @@
                 onClick: () => {
                   listForm.value.show()
                   nextTick(() => {
-                    console.log('crontabLogRef', crontabLogRef.value)
-                    crontabLogRef.value.setParams({crontab_id: row.id})
+                    crontabLogRef.value.setParams({cron_id: row.id})
                   })
 
                 }

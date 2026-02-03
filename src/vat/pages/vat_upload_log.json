@@ -223,12 +223,7 @@
         },
         "import": {
             "show": true,
-            "permission_key": "vat_upload_log_import",
-            "params": {
-                "event": "pages",
-                "table": "vat_upload_log",
-                "title": "资源管理"
-            }
+            "permission_key": "vat_upload_log_import"
         },
         "batch": {
             "show": false,

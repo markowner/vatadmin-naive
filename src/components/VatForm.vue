@@ -1,7 +1,7 @@
 <template>
   <div>
     <n-form ref="formRef" :label-placement="props.labelPlacement" label-width="auto" :model="state.data" :rules="props.rules" v-bind="props.bindProps">
-      <n-grid :cols="props.colsValue" :x-gap="24"  v-if="props.formGrid">
+      <n-grid :cols="props.colsValue" :x-gap="24"  v-if="state.layout === 'grid'">
         <template v-for="(item, index) in state.list" :key="index">
           <n-form-item-gi :span="['json_editor','editor','form_table','markdown'].includes(item.type) ? 24 : (props.gridValue || (item.config?.width ? 24 : 12) || 12)" :label="item.label" :path="item.field">
             <VatFormEl :config="item" v-model="state.data[item.field]"></VatFormEl>
@@ -10,7 +10,7 @@
       </n-grid>
       <n-flex v-else>
         <template v-for="(item, index) in state.list" :key="index">
-          <n-form-item :label="item.label" :path="item.field" class="vat-form-item" :style="{width: ['json_editor','editor','form_table','markdown'].includes(item.type) ? '100%':  item.config?.width ? item.config?.width : ''}">
+          <n-form-item :label="item.label" :path="item.field" :class="['vat-form-item', props.type]" :style="{width: ['json_editor','editor','form_table','markdown'].includes(item.type) ? '100%':  item.config?.width ? item.config?.width : ''}">
             <VatFormEl :config="item" v-model="state.data[item.field]"></VatFormEl>
           </n-form-item>
         </template>
@@ -69,6 +69,15 @@ const props = defineProps({
     default: 12
   },
   /**
+   * layout布局模式
+   * auto 自动模式, row 强制行模式
+   * 自动模式下, 当元素类型为 json_editor, editor, form_table, markdown 时, 强制行模式
+   */
+  layout: {
+    type: String,
+    default: 'auto' 
+  },
+  /**
    * 绑定值
    */
   modelValue: {
@@ -84,11 +93,16 @@ const props = defineProps({
     }
   }
 })
-
+let _layout = props.layout
+if(props.formGrid){
+  _layout = 'grid'
+}
 const state = reactive({
+  layout: _layout,
   list: props.list,
   data: props.modelValue
 })
+
 
 const formRef = ref(null)
 
@@ -123,15 +137,20 @@ defineExpose({
 })
 
 </script>
-<style scoped>
+<style scoped lang="scss">
 .vat-form-item{
   width: 100%;
-  display: unset;
+  &.auto{
+    display: unset !important;
+  }
+  &.row{
+    width: 100%;
+  }
 }
 @media (min-width: 1000px){
-  .vat-form-item {width: calc((100% - 12px) / 2);}
+  .vat-form-item.auto {width: calc((100% - 12px) / 2);}
 }
 @media (max-width: 600px){
-  .vat-form-item {width: 100%;}
+  .vat-form-item.auto {width: 100%;}
 }
 </style>

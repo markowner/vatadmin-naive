@@ -1,6 +1,6 @@
 <template>
-  <div class="flex gap">
-    <n-card title="配置组" size="small" style="width: 30%;" class="flex-shrink" :segmented="{content: true}" :content-style="{padding:0}">
+  <div class="flex gap config-set">
+    <n-card title="配置组" size="small" class="flex-shrink group" :segmented="{content: true}" :content-style="{padding:0}">
       <template #header-extra>
         <i class="ifont i-add-circle-fill text-blue text-xl pointer" @click="toGroupAdd(0, {})"></i>
       </template>
@@ -19,11 +19,11 @@
         </div>
       </div>
     </n-card>
-    <n-card :title="state.groupCur?.name ?? '配置项'" size="small" :segmented="{content: true}">
+    <n-card :title="state.groupCur?.name ?? '配置项'" size="small" class="config-item" :segmented="{content: true}">
       <template #header-extra>
         <i class="ifont i-setting text-blue text-xl pointer" @click="toList"></i>
       </template>
-      <VatForm ref="vatForm" :formGrid="true" labelPlacement="left" :gridValue="24" :bindProps="{'label-width':'86px', 'label-align':'right'}" :list="state.config.formList" v-model="state.config.formData"></VatForm>
+      <VatForm ref="vatForm" type="row" labelPlacement="left" :bindProps="{'label-width':'86px', 'label-align':'left'}" :list="state.config.formList" v-model="state.config.formData"></VatForm>
       <template #action>
         <n-button type="primary" size="small" @click="toSubmit">保存设置</n-button>
       </template>
@@ -39,6 +39,7 @@
   import {inject} from "vue"
   import { NButton } from 'naive-ui'
   import Request from '@/utils/axios'
+  import { useStore } from '@/store'
   // import VatPage from "@/components/VatPage.vue"
   import VatModal from "@/components/VatModal.vue"
   import VatForm from "@/components/VatForm.vue"
@@ -46,6 +47,7 @@
   import ConfigList from "./index.vue"
   import pageJsonData from '@/vat/pages/vat_admin_config.json'
 
+  const store = useStore()
   const tools = inject('tools')
   const vPage = ref(null)
   const editForm = ref(null)
@@ -271,3 +273,19 @@
     getConfig()
   }, {deep:true})
 </script>
+
+<style scoped lang="scss">
+.config-set{
+  .group{
+    width: 30%;
+  }
+}
+@media screen and (max-width: 768px) {
+  .config-set{
+    flex-direction: column;
+    .group{
+      width: 100%;
+    }
+  }
+}
+</style>

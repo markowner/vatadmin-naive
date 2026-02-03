@@ -18,7 +18,7 @@ import {inject} from "vue"
 import Request from '@/utils/axios'
 import VatForm from "@/components/VatForm.vue"
 import VatModal from "@/components/VatModal.vue"
-import pageJsonData from "@/vat/pages/vat_admin_crontab_log.json"
+import pageJsonData from "@/vat/pages/vat_crontab_log.json"
 
 const tools = inject('tools')
 const props = defineProps({

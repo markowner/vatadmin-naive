@@ -1,6 +1,7 @@
 <template>
   <!-- 列表 -->
   <VatPage
+      v-if="state.load"
       ref="vPage"
       :fields="state.pageJson.fields"
       :api-list="state.pageJson.api"
@@ -17,7 +18,7 @@
   import Request from '@/utils/axios'
   import VatPage from "@/components/VatPage.vue"
   import Edit from "./edit.vue"
-  import pageJsonData from '@/vat/pages/vat_admin_crontab_log.json'
+  import pageJsonData from '@/vat/pages/vat_crontab_log.json'
 
   const tools = inject('tools')
   const vPage = ref(null)
@@ -98,14 +99,15 @@
   // }
 
   let fields =  tools.pages.buildSearch(pageJsonData.fields)
-
+  
   const state = reactive({
     pageJson: {
       api: pageJsonData.api_list,
       columns: tools.pages.sortColumns(Object.values(column)),
       fields: fields,
       tools: pageJsonData.tools
-    }
+    },
+    load: false
   })
 
   /**
@@ -150,6 +152,7 @@
    */
   function setParams(data){
     state.pageJson.fields = tools.pages.searchFieldDefault(fields, data)
+    state.load = true
   }
 
 
