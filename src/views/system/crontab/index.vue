@@ -86,7 +86,7 @@
     }
     return columns
   }
-
+  column.status.fixed = 'right'
   column.handle = {
     title: '操作',
     key: 'handle',
@@ -110,6 +110,7 @@
                     onPositiveClick: () => {
                       Request.request(pageJsonData.api_list.reload, {ids: row.id}).then(res => {
                         tools.notice.message.success(res.msg)
+                        vPage.value.refresh()
                       }).catch(err => {
                         console.log(err)
                       })
@@ -129,7 +130,7 @@
                 onClick: () => {
                   listForm.value.show()
                   nextTick(() => {
-                    crontabLogRef.value.setParams({cron_id: row.id})
+                    crontabLogRef.value.setParams({crontab_id: row.id + ''})
                   })
 
                 }

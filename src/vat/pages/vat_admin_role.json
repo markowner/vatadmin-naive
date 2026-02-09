@@ -256,7 +256,7 @@
             "permission_key": "vat_admin_role_unlock"
         },
         "delete": {
-            "show": false,
+            "show": true,
             "permission_key": "vat_admin_role_delete"
         },
         "import": {

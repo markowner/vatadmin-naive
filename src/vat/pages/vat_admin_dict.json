@@ -200,7 +200,7 @@
             "permission_key": "vat_admin_dict_unlock"
         },
         "delete": {
-            "show": false,
+            "show": true,
             "permission_key": "vat_admin_dict_delete"
         },
         "import": {

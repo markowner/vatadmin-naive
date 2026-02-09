@@ -122,7 +122,8 @@ class Request {
     handleCode(response):void {
         switch (response.status) {
             case 400:
-            case 403:    
+            case 403:  
+            case 500:  
                 message.error(response.data.msg);
                 break;
             case 401:

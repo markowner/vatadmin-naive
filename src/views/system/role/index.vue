@@ -68,6 +68,7 @@
                     onPositiveClick: () => {
                       Request.request(pageJsonData.api_list.delete, {ids: row.id}).then(res => {
                         tools.notice.message.success(res.msg)
+                        vPage.value.refresh()
                       }).catch(err => {
                         console.log(err)
                       })
@@ -88,7 +89,7 @@
   column.handle = {
     title: '操作',
     key: 'handle',
-    width: 100,
+    width: 160,
     fixed: 'right',
     render: (row, index) => {
       const defaultColumn = handleColumn(row, index)

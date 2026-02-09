@@ -1,5 +1,5 @@
 import CryptoJS from 'crypto-js'
-import {h, inject} from "vue";
+import {h, inject, render} from "vue";
 import {
     createDiscreteApi,
     NIcon,
@@ -10,7 +10,7 @@ import {
     NImage,
     NCarousel,
     NImageGroup,
-    NPopover, NTooltip
+    NPopover, NTooltip, NGradientText
 } from "naive-ui";
 import {RouterLink} from "vue-router";
 import path from 'path-browserify'
@@ -437,6 +437,9 @@ tools.pages = {
                         return this.tableColumnDisplay(row, index, res, pageJson)
                     }
                 }
+                if(v?.fixed){
+                    res.fixed = v.fixed
+                }
                 columns[ckey] = res
             }
         })
@@ -569,6 +572,68 @@ tools.pages = {
         }
         return h('span', {style: 'color:' + color + ';font-weight: bold'}, {default:() => label})
     },
+    renderTextCustom(value: any, field: {}){
+        let color = ''
+        if(field.config && field.config.map){
+            for(let key in field.config.map){
+                if(value == key){
+                    color = field.config.map[key]
+                    break;
+                }
+            }
+        }
+        //判断是否是#号开头，如果是#号开头，是颜色值，如果不是则当class使用
+        let textStyle = {}
+        if(!color || !color.startsWith('#')){
+            textStyle = {class: color}
+        }else{
+            textStyle = {style: 'color:' + color + ';font-weight: bold'}
+        }
+
+        return  h('span', {...textStyle}, {default:() => value})
+    },
+    renderMapping(value: any, field: {}){
+        let mode: any = ''
+        if(field.config && field.config?.mapping){
+            for(let key in field.config?.mapping){
+                if(value == key){
+                    mode = field.config?.mapping[key]
+                    break;
+                }
+            }
+        }
+        let renderValue = value
+        if(field.config?.dict){
+            renderValue = useUserStore().user.userInfo.dict[field.config.dict].options.find((item: {value: any}) => item.value == value)?.label || value
+        }
+
+        let textType = field.config?.mapping_type || 'text'
+        if(textType == 'text'){
+            let textStyle: any = {}
+             if(mode){
+                if(mode instanceof Object){
+                    textStyle = mode
+                }else{
+                    if(mode.startsWith('#')){
+                        textStyle.style = 'color:' + mode + ';font-weight: bold'
+                    }else{
+                        textStyle.class = mode    
+                    }
+                }
+            }
+            return  h('span', {...textStyle}, {default:() => renderValue})
+        }else if(textType == 'gradient-text'){
+            let tagAttr = mode instanceof Object ? mode : {type: mode}
+            return  h(NGradientText, {...field.config?.render_props,...tagAttr}, {default:() => renderValue})
+        }else if(textType == 'tag'){
+            let tagAttr = mode instanceof Object ? mode : {type: mode}
+            return h(NTag,{ style: { marginRight: '6px' }, size:'small', round: true, bordered: false,...field.config?.render_props, ...tagAttr},
+                {
+                    default: () => renderValue
+                }
+            )     
+        }
+    },
     renderSwitch(row: {}, apiUrl: {} | string, field = 'status' , switchValue = {checked:0, unchecked: 1}){
         return h(NSwitch, {
             'size':'small',
@@ -695,6 +760,8 @@ tools.pages = {
     },
     tableColumnDisplay(row, index, res, pageJson){
         switch(res.table_display){
+            case 'mapping':
+                return row[res.field] ? this.renderMapping(row[res.field], res) : ''
             case 'text':
                 return this.renderTextColor([0,1,1,1,1], row[res.field], row[res.key])
             case 'text1':

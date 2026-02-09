@@ -83,6 +83,7 @@
   }
 
   column.permission_route.ellipsis = {tooltip: true}
+  column.status.fixed = 'right'
 
   column.handle = {
     title: '操作',

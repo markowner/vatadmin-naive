@@ -429,7 +429,7 @@
             "search": true,
             "table_display": "switch",
             "table_column": true,
-            "table_order": 180,
+            "table_order": 210,
             "form": false,
             "form_required": false,
             "form_order": 180,
@@ -437,7 +437,7 @@
             "condition": "=",
             "search_view": "select",
             "form_view": "select",
-            "width": 100,
+            "width": 55,
             "default": null,
             "config": {
                 "dict": "status_desc"
@@ -504,7 +504,7 @@
             "permission_key": "vat_admin_menu_unlock"
         },
         "delete": {
-            "show": false,
+            "show": true,
             "permission_key": "vat_admin_menu_delete"
         },
         "import": {

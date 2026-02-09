@@ -93,6 +93,7 @@ import {h, inject} from "vue"
                     onPositiveClick: () => {
                       Request.request(pageJsonData.api_list.delete, {ids: row.id}).then(res => {
                         tools.notice.message.success(res.msg)
+                        vPage.value.refresh()
                       }).catch(err => {
                         console.log(err)
                       })

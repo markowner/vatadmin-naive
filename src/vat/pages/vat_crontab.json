@@ -88,7 +88,7 @@
             "table_order": 20,
             "form": true,
             "form_required": false,
-            "form_order": 20,
+            "form_order": 95,
             "sorter": false,
             "condition": "=",
             "search_view": "input",
@@ -99,6 +99,40 @@
             "config": {}
         },
         {
+            "field": "task_type",
+            "table_alias": "",
+            "alias": "",
+            "comment": "任务类型",
+            "type": "tinyint(1)",
+            "search": true,
+            "table_display": "mapping",
+            "table_column": true,
+            "table_order": 30,
+            "form": true,
+            "form_required": true,
+            "form_order": 20,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "select",
+            "form_view": "select",
+            "rules": "required",
+            "width": 100,
+            "default": null,
+            "config": {
+                "dict": "crontab_type",
+                "mapping": {
+                    "1": "primary",
+                    "2": "success",
+                    "3": "error",
+                    "4": "warning"
+                },
+                "render_props": {
+                    "bordered": false
+                },
+                "mapping_type": "tag"
+            }
+        },
+        {
             "field": "cron_expression",
             "table_alias": "",
             "alias": "",
@@ -107,10 +141,10 @@
             "search": false,
             "table_display": "",
             "table_column": true,
-            "table_order": 30,
+            "table_order": 40,
             "form": true,
             "form_required": true,
-            "form_order": 30,
+            "form_order": 40,
             "sorter": false,
             "condition": "=",
             "search_view": "input",
@@ -130,10 +164,10 @@
             "search": false,
             "table_display": "popover",
             "table_column": true,
-            "table_order": 40,
+            "table_order": 50,
             "form": true,
             "form_required": true,
-            "form_order": 40,
+            "form_order": 50,
             "sorter": false,
             "condition": "=",
             "search_view": "input",
@@ -142,54 +176,6 @@
             "width": 100,
             "default": null,
             "config": {}
-        },
-        {
-            "field": "task_type",
-            "table_alias": "",
-            "alias": "",
-            "comment": "任务类型",
-            "type": "tinyint(1)",
-            "search": true,
-            "table_display": "",
-            "table_column": true,
-            "table_order": 60,
-            "form": true,
-            "form_required": true,
-            "form_order": 60,
-            "sorter": false,
-            "condition": "=",
-            "search_view": "select",
-            "form_view": "select",
-            "rules": "required",
-            "width": 100,
-            "default": null,
-            "config": {
-                "dict": "crontab_type"
-            }
-        },
-        {
-            "field": "execution_mode",
-            "table_alias": "",
-            "alias": "",
-            "comment": "执行模式",
-            "type": "tinyint(1)",
-            "search": true,
-            "table_display": "",
-            "table_column": true,
-            "table_order": 70,
-            "form": true,
-            "form_required": true,
-            "form_order": 70,
-            "sorter": false,
-            "condition": "=",
-            "search_view": "select",
-            "form_view": "select",
-            "rules": "required",
-            "width": 100,
-            "default": null,
-            "config": {
-                "dict": "crontab_exec_mode"
-            }
         },
         {
             "field": "timeout",
@@ -294,7 +280,7 @@
             "search": true,
             "table_display": "switch",
             "table_column": true,
-            "table_order": 100,
+            "table_order": 150,
             "form": false,
             "form_required": false,
             "form_order": 100,
@@ -303,7 +289,7 @@
             "search_view": "select",
             "form_view": "select",
             "rules": "required",
-            "width": 100,
+            "width": 55,
             "default": null,
             "config": {
                 "dict": "status_desc"

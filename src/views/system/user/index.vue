@@ -84,6 +84,7 @@ function handleColumn(row, index) {
 }
 column.id.fixed = 'left'
 column.name.fixed = 'left'
+column.status.fixed = 'right'
 column.handle = {
   title: '操作',
   key: 'handle',
