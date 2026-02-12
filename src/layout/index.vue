@@ -267,6 +267,11 @@ const options = [
     key: 'profile',
     icon: tools.menuFormat.renderIcon('user')
   },
+  // {
+  //   label: tools.menuFormat.toLink('缓存刷新', '/cache/refresh'),
+  //   key: 'cacheRefresh',
+  //   icon: tools.menuFormat.renderIcon('refresh')
+  // },
   {
     label: '退出登录',
     key: 'logout',

@@ -10,7 +10,7 @@
       </n-grid>
       <n-flex v-else>
         <template v-for="(item, index) in state.list" :key="index">
-          <n-form-item :label="item.label" :path="item.field" :class="['vat-form-item', props.type]" :style="{width: ['json_editor','editor','form_table','markdown'].includes(item.type) ? '100%':  item.config?.width ? item.config?.width : ''}">
+          <n-form-item :label="item.label" :path="item.field" :class="['vat-form-item', state.layout]" :style="{width: ['json_editor','editor','form_table','markdown'].includes(item.type) ? '100%':  item.config?.width ? item.config?.width : ''}">
             <VatFormEl :config="item" v-model="state.data[item.field]"></VatFormEl>
           </n-form-item>
         </template>
@@ -97,6 +97,7 @@ let _layout = props.layout
 if(props.formGrid){
   _layout = 'grid'
 }
+
 const state = reactive({
   layout: _layout,
   list: props.list,

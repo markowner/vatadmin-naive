@@ -117,6 +117,9 @@
     <div class="flex flex-center icon-box" @click="toIcons"><i v-if="state.value" class="ifont " :class="['i-' + state.value]" style="font-size: 24px;"></i></div>
     <VatIcons ref="vatIcons" v-model="state.value"></VatIcons>
   </template>
+  <template v-else-if="state.config.type == 'select_page'">
+    <VatSelectPage v-model="state.value" :configs="state.config" v-bind="state.config.config.props"></VatSelectPage>
+  </template>
 </template>
 
 <script setup>
@@ -126,6 +129,7 @@ import VatEditor from "./VatEditor.vue";
 import VatMarkdown from "./VatMarkdown.vue";
 import VatFormTable from "./VatFormTable.vue";
 import VatIcons from "./VatIcons.vue";
+import VatSelectPage from "./VatSelectPage.vue";
 import {inject} from "vue";
 
 const tools = inject('tools')

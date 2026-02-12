@@ -23,7 +23,7 @@
       <template #header-extra>
         <i class="ifont i-setting text-blue text-xl pointer" @click="toList"></i>
       </template>
-      <VatForm ref="vatForm" type="row" labelPlacement="left" :bindProps="{'label-width':'86px', 'label-align':'left'}" :list="state.config.formList" v-model="state.config.formData"></VatForm>
+      <VatForm ref="vatForm" layout="row" labelPlacement="left" :bindProps="{'label-width':'86px', 'label-align':'left'}" :list="state.config.formList" v-model="state.config.formData"></VatForm>
       <template #action>
         <n-button type="primary" size="small" @click="toSubmit">保存设置</n-button>
       </template>

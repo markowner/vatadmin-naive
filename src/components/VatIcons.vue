@@ -1,14 +1,46 @@
 <template>
     <VatModal v-model="state.visible" title="选择图标" :width="props.width">
-      <n-flex style="gap: 0;">
-        <template class="pointer" v-for="item in state.list">
-          <div class="flex flex-center pointer icon-box" @click="toSelect(item)" :title="item" ><i class="ifont" :class="['i-' + item]" style="font-size: 24px"></i></div>
-        </template>
-      </n-flex>
+      <template #footer>
+        <n-flex justify="space-between" >
+          <div>
+            <div class="flex flex-center pointer icon-box" :title="item" ><i class="ifont" :class="['i-' + props.modelValue]" style="font-size: 24px"></i></div>
+          </div>
+          <n-button 
+            color="#999999"
+            @click="clearSelection"
+            v-show="props.modelValue"
+          >
+            取消选择
+          </n-button>
+        </n-flex>
+      </template>
+      
+      <div style="margin-bottom: 16px;">
+        <n-input
+          v-model:value="state.search"
+          placeholder="搜索图标..."
+          clearable
+          @input="handleSearch"
+        >
+          <template #prefix>
+            <i class="ifont i-search"></i>
+          </template>
+        </n-input>
+      </div>
+      <div style="height: 40vh; overflow-y: auto;">
+        <n-flex style="gap: 10px;">
+          <template class="pointer" v-for="item in filteredList">
+            <div class="flex flex-center pointer icon-box" @click="toSelect(item)" :title="item" ><i class="ifont" :class="['i-' + item]" style="font-size: 24px"></i></div>
+          </template>
+          <div v-if="filteredList.length === 0" style="padding: 40px; text-align: center; color: #999;">
+            未找到匹配的图标
+          </div>
+        </n-flex>
+      </div>
     </VatModal>
 </template>
 <script setup>
-
+import { reactive, computed, onMounted } from 'vue'
 import VatModal from "./VatModal.vue";
 
 const props = defineProps({
@@ -24,6 +56,7 @@ const props = defineProps({
 
 const state = reactive({
   visible: false,
+  search: '',
   list: [
     "ziliao",
     "material",
@@ -290,6 +323,33 @@ const state = reactive({
   ]
 })
 
+// 计算过滤后的图标列表
+const filteredList = computed(() => {
+  if (!state.search) {
+    return state.list
+  }
+  return state.list.filter(item => {
+    return item.toLowerCase().includes(state.search.toLowerCase())
+  })
+})
+
+/**
+ * 处理搜索
+ */
+function handleSearch() {
+  // 搜索逻辑由computed属性自动处理
+}
+
+/**
+ * 清除选择
+ */
+function clearSelection() {
+  state.visible = false
+  emits('update:modelValue', '')
+  emits('change', '')
+}
+
+
 
 /**
  * 展示
@@ -323,6 +383,10 @@ defineExpose({
 </script>
 <style scoped lang="scss">
 .icon-box{
-  width:34px;height:34px;border: 1px solid #f9f9f9; box-sizing: border-box;
+  width:34px;height:34px;border: 1px solid #d6d4d4; box-sizing: border-box;
+  &:hover{
+    border-color: #666666;
+    background-color: #f5f5f5;
+  }
 }
 </style>

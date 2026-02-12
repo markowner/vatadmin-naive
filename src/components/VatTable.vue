@@ -9,11 +9,9 @@
         :loading="state.loading"
         striped
         resizable
-        :size="state.size"
-        :single-line="!state.singleLine"
         :max-height="1000"
         :scroll-x="state.tableWidth"
-        v-bind="props.tableProps"
+        v-bind="state.tableProps"
         @update:sorter="handleSorterChange"
         style="margin-top: 15px;"
     />
@@ -21,7 +19,7 @@
       <n-pagination
         v-model:page="state.query.page"
         :item-count="state.total"
-        :page-sizes="[10, 20, 30, 40, 50, 60, 70, 80, 90, 100]"
+        :page-sizes="[10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 200, 300, 400, 500]"
         :display-order="['size-picker','pages','quick-jumper']"
         show-size-picker
         show-quick-jumper
@@ -34,13 +32,13 @@
       </n-pagination>
       <div class="set flex flex-center gap">
         <div v-show="state.settingShow" class="flex flex-center pointer text-blue gap5">
-          <n-radio-group v-model:value="state.size" name="size">
+          <n-radio-group v-model:value="state.tableProps.size" name="size">
             <n-radio key="small" value="small" label="小"/>
             <n-radio key="medium" value="medium" label="中"/>
             <n-radio key="large" value="large" label="大"/>
           </n-radio-group>
-          <n-checkbox v-model:checked="state.singleLine">
-            纵向边框
+          <n-checkbox v-model:checked="state.tableProps.singleLine">
+            无列分割线
           </n-checkbox>
         </div>
         <div @click="state.settingShow = !state.settingShow" class="pointer setting text-blue"><i class="ifont i-set"></i></div>
@@ -96,6 +94,10 @@ const props = defineProps({
       }
     }
   },
+  rowKey: {
+    type: String,
+    default: 'id'
+  }
 })
 
 // props.selection && props.columns.unshift(Object.assign({'type': 'selection', fixed: 'left', key: 'selection', title: '全选'}, props.selectionProps))
@@ -113,12 +115,11 @@ const state = reactive({
   sorts:[],
   columns: props.columns,
   tableWidth: 0,
-  rowKey: (row) => row.id,
+  rowKey: (row) => props.rowKey ? row[props.rowKey] : JSON.stringify(row), // 当rowKey为空时，类型限制不能返回对象，所以使用JSON.stringify(row)作为rowKey
   loading: false,
   params: props.params,
+  tableProps: {size: 'small', singleLine: true, ...props.tableProps},
   settingShow: false,
-  size: 'small',
-  singleLine: false //列分割线 纵向边框
 })
 
 function initTableWidth(){
@@ -189,13 +190,21 @@ function onPageSizeChange(pageSize){
   search()
 }
 
+function setSelectionIds(ids){
+  console.log('setSelectionIds',ids)
+  nextTick(() => {
+    state.ids = ids
+  })
+}
+
 watch(() => props.columns,(newVale) => {
   state.columns = newVale
 }, {immediate: true, deep: true})
 
 defineExpose({
   search,
-  state
+  state,
+  setSelectionIds
 })
 
 </script>

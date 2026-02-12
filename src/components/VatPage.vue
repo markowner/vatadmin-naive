@@ -12,7 +12,7 @@
         <slot name="tools_right_append"></slot>
       </template>
     </VatTools>
-    <VatTable style="flex: 1;" ref="table" :selection="state.selection" :columns="state.columns" :api-list="props.apiList" :params="state.params" :tools="props.tools"></VatTable>
+    <VatTable style="flex: 1;" ref="table" :selection="state.selection" :columns="state.columns" :api-list="props.apiList" :params="state.params" :tools="props.tools" :table-props="props.settings?.table || {}" :row-key="props.rowKey"></VatTable>
   </div>
 </template>
 
@@ -55,6 +55,22 @@ const props = defineProps({
     default: () => {
       return {}
     }
+  },
+  /**
+   * 配置定义
+   */
+  settings: {
+    type: Object,
+    default: () => {
+      return {}
+    }
+  },
+  /**
+   * 行key
+   */
+  rowKey: {
+    type: String,
+    default: 'id'
   }
 })
 
@@ -91,6 +107,18 @@ function toSearch(data){
 
 function refresh(){
   table.value.search()
+}
+
+/**
+ * 获取选中行数据id列表
+ * @returns {*[]}
+ */
+function tableIds(){
+  return table.value.state.ids
+}
+
+function setSelectionIds(ids){
+  table.value.setSelectionIds(ids)
 }
 
 const emits = defineEmits(['toolsChange'])
@@ -175,7 +203,9 @@ watch(() => props.fields, (newVal, oldVal) => {
 
 defineExpose({
   state,
-  refresh
+  refresh,
+  tableIds,
+  setSelectionIds
 })
 
 </script>

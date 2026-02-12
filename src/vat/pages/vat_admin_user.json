@@ -61,7 +61,7 @@
       "table_order": 80,
       "form": true,
       "form_required": false,
-      "form_order": 10,
+      "form_order": 80,
       "sorter": false,
       "condition": "lr",
       "search_view": "treeselect",
@@ -361,6 +361,6 @@
     }
   },
   "setting": {
-    "table": "auto"
+    "table": {}
   }
 }

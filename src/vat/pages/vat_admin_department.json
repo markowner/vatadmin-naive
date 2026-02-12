@@ -104,7 +104,7 @@
             "table_column": false,
             "table_order": 30,
             "form": true,
-            "form_required": true,
+            "form_required": false,
             "form_order": 30,
             "sorter": false,
             "condition": "=",
@@ -198,7 +198,7 @@
             "permission_key": "vat_admin_department_unlock"
         },
         "delete": {
-            "show": false,
+            "show": true,
             "permission_key": "vat_admin_department_delete"
         },
         "import": {
@@ -222,5 +222,5 @@
             "permission_key": "vat_admin_department_search"
         }
     },
-    "setting": []
+    "setting": {}
 }

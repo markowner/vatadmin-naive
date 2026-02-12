@@ -797,6 +797,13 @@ tools.pages = {
 tools.common = {
     split(str: String, delimiter: any) {
         return str.split(delimiter).map(item => item.trim()).filter(item => item !== '');
+    },
+    isNumeric(value: any) {
+        return /^-?\d+(\.\d+)?(?:[eE][-+]?\d+)?$/.test(value);
+    },
+    toNumber(value: any) {
+        const num = Number(value);
+        return Number.isFinite(num) ? num : null
     }
 }
 export default tools

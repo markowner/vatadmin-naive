@@ -15,6 +15,12 @@ const router = createRouter({
                     name: "usercenter",
                     component: () => import("@/views/home/usercenter.vue"),
                     meta:{ title: "个人中心", is_permission: 0}
+                },
+                {
+                    path: "/cache/refresh",
+                    name: "cacheRefresh",
+                    component: () => import("@/views/home/cache.vue"),
+                    meta:{ title: "缓存刷新", is_permission: 0}
                 }
             ]
         },

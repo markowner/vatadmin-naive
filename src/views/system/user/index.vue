@@ -1,5 +1,5 @@
 <template>
-  <VatPage ref="vPage" name="admin_user" :fields="state.pageJson.fields" :api-list="state.pageJson.api" :columns="state.pageJson.columns" :tools="state.pageJson.tools" @toolsChange="toolsChange">
+  <VatPage ref="vPage" name="admin_user" :fields="state.pageJson.fields" :api-list="state.pageJson.api" :columns="state.pageJson.columns" :tools="state.pageJson.tools" :settings="state.pageJson.settings" @toolsChange="toolsChange">
   </VatPage>
   <Edit ref="editForm" @submit="toSubmitComplete"></Edit>
 </template>
@@ -105,7 +105,8 @@ const state = reactive({
     api: pageJsonData.api_list,
     columns: tools.pages.sortColumns(Object.values(column)),
     fields: tools.pages.buildSearch(pageJsonData.fields),
-    tools: pageJsonData.tools
+    tools: pageJsonData.tools,
+    settings: pageJsonData?.setting || {}
   }
 })
 

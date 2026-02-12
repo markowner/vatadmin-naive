@@ -36,8 +36,8 @@
             "type": "int",
             "search": false,
             "table_display": "",
-            "table_column": false,
-            "table_order": 0,
+            "table_column": true,
+            "table_order": 10,
             "form": false,
             "form_required": false,
             "form_order": 0,
@@ -45,7 +45,7 @@
             "condition": "=",
             "search_view": "input",
             "form_view": "input",
-            "width": 120,
+            "width": 80,
             "default": null,
             "config": {}
         },
@@ -129,7 +129,7 @@
             "condition": "=",
             "search_view": "input",
             "form_view": "icons",
-            "width": 100,
+            "width": 120,
             "default": null,
             "config": {}
         },

@@ -5,7 +5,7 @@
       draggable
       preset="card"
       size="medium"
-      :segmented="{content: true}"
+      :segmented="{content: true, footer: true}"
       :on-after-leave="hide"
       v-bind="props.bindProps"
       :style="{width: props.width}"
@@ -65,7 +65,7 @@ const props = defineProps({
       return {}
     }
   },
-  // 内容类型: default(默认插槽), url(外部链接), component(组件), route(路由)
+  // 内容类型: default(默认插槽), url(外部链接), component(组件)
   type:{
     type: String,
     default: 'default',
