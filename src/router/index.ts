@@ -21,6 +21,12 @@ const router = createRouter({
                     name: "cacheRefresh",
                     component: () => import("@/views/home/cache.vue"),
                     meta:{ title: "缓存刷新", is_permission: 0}
+                },
+                {
+                    path: "/plugin",
+                    name: "plugin",
+                    component: () => import("@/views/plugin/index.vue"),
+                    meta:{ title: "插件管理", icon: "ion:extension-puzzle-outline"}
                 }
             ]
         },

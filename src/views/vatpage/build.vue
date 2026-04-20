@@ -12,8 +12,8 @@
 <!--              <n-divider></n-divider>-->
               <div class="flex">
                 <n-card>
-                  <div><div>生成控制器路径：</div>/app/{{state.data.build_app_name}}/controller/{{state.data.build_controller}}Controller.php</div>
-                  <div><div>生成模型路径：</div>/app/{{state.data.build_app_name}}/model/{{state.data.build_model}}.php</div>
+                  <div><div>生成控制器路径：</div>{{getBuildDir()}}/{{state.data.build_app_name}}/controller/{{state.data.build_controller}}Controller.php</div>
+                  <div><div>生成模型路径：</div>{{getBuildDir()}}/{{ state.data.build_module == 0 ? '' : state.data.build_app_name + '/'}}model/{{state.data.build_model}}.php</div>
                   <div><div>生成前端路径：</div>/src/views/{{state.data.build_view}}</div>
                 </n-card>
                 <n-card>
@@ -128,6 +128,19 @@ const state = reactive({
       placeholder: '',
       value: '',
       config: {props:{disabled: true}}
+    },
+    {
+      label: '模块',
+      field: 'build_module',
+      type: 'select',
+      placeholder: '',
+      value: '',
+      config: {
+        options:[
+          {label: '应用', value: 0},
+          {label: '插件', value: 1}
+        ]
+      }
     },
     {
       label: '应用名称',
@@ -533,7 +546,7 @@ initData()
  */
 function getMenus(){
   Request.request(pageJsonData.api_list.menus, {}).then(res => {
-    state.baseInfoForm[5].config.options = res.data.list
+    state.baseInfoForm[6].config.options = res.data.list
   }).catch(err => {
     console.log(err)
   })
@@ -600,6 +613,22 @@ function chooseTableFieldSure(){
   state.joinTablesShow = false
 }
 
+function getBuildDir(){
+  if(state.data.build_module === 0){
+    return 'app'
+  }else{
+    return 'plugin'
+  }
+}
+
+function getBuildApiPrefix(){
+   if(state.data.build_module === 0){
+    return '/'
+  }else{
+    return '/app/'
+  }
+}
+
 /**
  * "list": {"url": "/admin/system/user/list", "method": "get"},
  * "edit": {"url": "/admin/system/user/edit", "method": "post"},
@@ -610,12 +639,12 @@ function chooseTableFieldSure(){
  */
 function formatApiList(){
   state.tplJson.api_list = Object.assign({}, state.tplJson.api_list, {
-    list: {url: '/'+ state.data.build_app_name + '/' + state.data.build_controller + '/list', method: 'get'},
-    edit: {url: '/'+ state.data.build_app_name + '/' + state.data.build_controller + '/edit', method: 'post'},
-    lock: {url: '/'+ state.data.build_app_name + '/' + state.data.build_controller + '/lock', method: 'post'},
-    delete: {url: '/'+ state.data.build_app_name + '/' + state.data.build_controller + '/delete', method: 'post'},
-    import: {url: '/'+ state.data.build_app_name + '/' + state.data.build_controller + '/import', method: 'post'},
-    download: {url: '/'+ state.data.build_app_name + '/' + state.data.build_controller + '/download', method: 'get'},
+    list: {url: getBuildApiPrefix() + state.data.build_app_name + '/' + state.data.build_controller + '/list', method: 'get'},
+    edit: {url: getBuildApiPrefix() + state.data.build_app_name + '/' + state.data.build_controller + '/edit', method: 'post'},
+    lock: {url: getBuildApiPrefix() + state.data.build_app_name + '/' + state.data.build_controller + '/lock', method: 'post'},
+    delete: {url: getBuildApiPrefix() + state.data.build_app_name + '/' + state.data.build_controller + '/delete', method: 'post'},
+    import: {url: getBuildApiPrefix() + state.data.build_app_name + '/' + state.data.build_controller + '/import', method: 'post'},
+    download: {url: getBuildApiPrefix() + state.data.build_app_name + '/' + state.data.build_controller + '/download', method: 'get'},
   })
 }
 
@@ -694,7 +723,7 @@ watch(() => props.modelValue, (val) => {
   }
 })
 
-watch(() => [state.data.build_app_name, state.data.build_controller], (val) => {
+watch(() => [state.data.build_module, state.data.build_app_name, state.data.build_controller], (val) => {
   formatApiList()
 }, {immediate: true, deep: true})
 

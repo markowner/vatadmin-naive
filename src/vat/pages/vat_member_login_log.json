@@ -1,31 +1,27 @@
 {
     "api_list": {
         "list": {
-            "url": "/app/vatadmin/basic/Crontab/list",
+            "url": "/app/vatadmin/member/MemberLoginLog/list",
             "method": "get"
         },
         "edit": {
-            "url": "/app/vatadmin/basic/Crontab/edit",
+            "url": "/app/vatadmin/member/MemberLoginLog/edit",
             "method": "post"
         },
         "lock": {
-            "url": "/app/vatadmin/basic/Crontab/lock",
+            "url": "/app/vatadmin/member/MemberLoginLog/lock",
             "method": "post"
         },
         "delete": {
-            "url": "/app/vatadmin/basic/Crontab/delete",
+            "url": "/app/vatadmin/member/MemberLoginLog/delete",
             "method": "post"
         },
         "import": {
-            "url": "/app/vatadmin/basic/Crontab/import",
+            "url": "/app/vatadmin/member/MemberLoginLog/import",
             "method": "post"
         },
         "download": {
-            "url": "/app/vatadmin/basic/Crontab/download",
-            "method": "get"
-        },
-        "reload": {
-            "url": "/app/vatadmin/basic/Crontab/reload",
+            "url": "/app/vatadmin/member/MemberLoginLog/download",
             "method": "get"
         }
     },
@@ -37,7 +33,7 @@
             "table_alias": "",
             "alias": "",
             "comment": "ID",
-            "type": "int unsigned",
+            "type": "int",
             "search": false,
             "table_display": "",
             "table_column": true,
@@ -45,28 +41,50 @@
             "form": false,
             "form_required": false,
             "form_order": 0,
-            "sorter": false,
+            "sorter": true,
             "condition": "=",
             "search_view": "input",
             "form_view": "input_number",
             "rules": "",
-            "width": 60,
+            "width": 80,
             "default": null,
-            "config": []
+            "config": {}
         },
         {
-            "field": "name",
+            "field": "member_id",
             "table_alias": "",
             "alias": "",
-            "comment": "任务名称",
-            "type": "varchar(100)",
-            "search": true,
-            "table_display": "popover",
-            "table_column": true,
+            "comment": "会员ID",
+            "type": "int",
+            "search": false,
+            "table_display": "",
+            "table_column": false,
             "table_order": 10,
-            "form": true,
-            "form_required": true,
+            "form": false,
+            "form_required": false,
             "form_order": 10,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input_number",
+            "rules": "required",
+            "width": 100,
+            "default": null,
+            "config": {}
+        },
+        {
+            "field": "username",
+            "table_alias": "",
+            "alias": "",
+            "comment": "登录用户名",
+            "type": "varchar(64)",
+            "search": true,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 20,
+            "form": false,
+            "form_required": false,
+            "form_order": 20,
             "sorter": false,
             "condition": "like",
             "search_view": "input",
@@ -77,67 +95,33 @@
             "config": {}
         },
         {
-            "field": "description",
+            "field": "ip",
             "table_alias": "",
             "alias": "",
-            "comment": "任务描述",
-            "type": "text",
+            "comment": "IP地址",
+            "type": "varchar(32)",
             "search": false,
-            "table_display": "popover",
+            "table_display": "",
             "table_column": true,
-            "table_order": 20,
+            "table_order": 30,
             "form": true,
-            "form_required": false,
-            "form_order": 95,
+            "form_required": true,
+            "form_order": 30,
             "sorter": false,
             "condition": "=",
             "search_view": "input",
-            "form_view": "textarea",
+            "form_view": "input",
             "rules": "required",
             "width": 100,
             "default": null,
             "config": {}
         },
         {
-            "field": "task_type",
+            "field": "ip_location",
             "table_alias": "",
             "alias": "",
-            "comment": "任务类型",
-            "type": "tinyint(1)",
-            "search": true,
-            "table_display": "mapping",
-            "table_column": true,
-            "table_order": 30,
-            "form": true,
-            "form_required": true,
-            "form_order": 20,
-            "sorter": false,
-            "condition": "=",
-            "search_view": "select",
-            "form_view": "select",
-            "rules": "required",
-            "width": 100,
-            "default": null,
-            "config": {
-                "dict": "crontab_type",
-                "mapping": {
-                    "1": "primary",
-                    "2": "success",
-                    "3": "error",
-                    "4": "warning"
-                },
-                "render_props": {
-                    "bordered": false
-                },
-                "mapping_type": "tag"
-            }
-        },
-        {
-            "field": "cron_expression",
-            "table_alias": "",
-            "alias": "",
-            "comment": "表达式",
-            "type": "varchar(50)",
+            "comment": "IP地址位置",
+            "type": "varchar(200)",
             "search": false,
             "table_display": "",
             "table_column": true,
@@ -148,21 +132,20 @@
             "sorter": false,
             "condition": "=",
             "search_view": "input",
-            "form_view": "textarea",
-            "placeholder": "0  1  2  3  4  5\n|   |   |   |   |   |\n|   |   |   |   |   +------ day of week (0 - 6)\n|   |   |   |   +------ month (1 - 12)\n|   |   |   +-------- day of month (1 - 31)\n|   |   +---------- hour (0 - 23)\n|   +------------ min (0 - 59)\n+-------------- sec (0-59)[可省略，如果没有0位,则最小时间粒度是分钟]",
+            "form_view": "input",
             "rules": "required",
             "width": 100,
             "default": null,
             "config": {}
         },
         {
-            "field": "command",
+            "field": "browser",
             "table_alias": "",
             "alias": "",
-            "comment": "执行命令",
-            "type": "text",
+            "comment": "浏览器",
+            "type": "varchar(32)",
             "search": false,
-            "table_display": "popover",
+            "table_display": "",
             "table_column": true,
             "table_order": 50,
             "form": true,
@@ -171,132 +154,150 @@
             "sorter": false,
             "condition": "=",
             "search_view": "input",
-            "form_view": "textarea",
+            "form_view": "input",
             "rules": "required",
             "width": 100,
             "default": null,
             "config": {}
         },
         {
-            "field": "timeout",
+            "field": "system",
             "table_alias": "",
             "alias": "",
-            "comment": "超时时间",
-            "type": "int",
+            "comment": "系统",
+            "type": "varchar(64)",
+            "search": false,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 60,
+            "form": true,
+            "form_required": true,
+            "form_order": 60,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input",
+            "rules": "required",
+            "width": 100,
+            "default": null,
+            "config": {}
+        },
+        {
+            "field": "user_agent",
+            "table_alias": "",
+            "alias": "",
+            "comment": "用户代理",
+            "type": "varchar(255)",
+            "search": false,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 70,
+            "form": true,
+            "form_required": true,
+            "form_order": 70,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input",
+            "rules": "required",
+            "width": 100,
+            "default": null,
+            "config": {}
+        },
+        {
+            "field": "login_type",
+            "table_alias": "",
+            "alias": "",
+            "comment": "登录方式",
+            "type": "varchar(20)",
             "search": false,
             "table_display": "",
             "table_column": true,
             "table_order": 80,
             "form": true,
-            "form_required": false,
+            "form_required": true,
             "form_order": 80,
             "sorter": false,
             "condition": "=",
-            "search_view": "input",
-            "form_view": "input_number",
+            "search_view": "select",
+            "form_view": "select",
             "rules": "required",
             "width": 100,
             "default": null,
             "config": {}
         },
         {
-            "field": "lock_time",
+            "field": "login_status",
             "table_alias": "",
             "alias": "",
-            "comment": "锁时间 ",
-            "type": "int",
-            "search": false,
+            "comment": "登录状态",
+            "type": "tinyint(1)",
+            "search": true,
             "table_display": "",
             "table_column": true,
             "table_order": 90,
             "form": true,
-            "form_required": false,
+            "form_required": true,
             "form_order": 90,
             "sorter": false,
             "condition": "=",
-            "search_view": "input",
-            "form_view": "input_number",
+            "search_view": "select",
+            "form_view": "select",
             "rules": "required",
-            "width": "100",
+            "width": 100,
             "default": null,
-            "config": {}
+            "config": {
+                "dict": "success_status"
+            }
         },
         {
-            "field": "last_run_time",
+            "field": "login_result",
             "table_alias": "",
             "alias": "",
-            "comment": "最后执行",
-            "type": "datetime",
-            "search": true,
+            "comment": "登录结果",
+            "type": "varchar(255)",
+            "search": false,
             "table_display": "",
             "table_column": true,
             "table_order": 100,
-            "form": false,
-            "form_required": false,
+            "form": true,
+            "form_required": true,
             "form_order": 100,
             "sorter": false,
-            "condition": "between",
-            "search_view": "datepicker",
-            "form_view": "datepicker",
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input",
             "rules": "required",
             "width": 100,
             "default": null,
-            "config": {
-                "type": "datetimerange",
-                "form_type": "datetime"
-            }
-        },
-        {
-            "field": "next_run_time",
-            "table_alias": "",
-            "alias": "",
-            "comment": "下次执行",
-            "type": "datetime",
-            "search": true,
-            "table_display": "",
-            "table_column": true,
-            "table_order": 110,
-            "form": false,
-            "form_required": false,
-            "form_order": 110,
-            "sorter": false,
-            "condition": "between",
-            "search_view": "datepicker",
-            "form_view": "datepicker",
-            "rules": "required",
-            "width": 100,
-            "default": null,
-            "config": {
-                "type": "datetimerange",
-                "form_type": "datetime"
-            }
+            "config": {}
         },
         {
             "field": "status",
             "table_alias": "",
             "alias": "",
             "comment": "状态",
-            "type": "tinyint",
+            "type": "tinyint(1)",
             "search": true,
             "table_display": "switch",
             "table_column": true,
-            "table_order": 150,
+            "table_order": 110,
             "form": false,
-            "form_required": false,
-            "form_order": 100,
+            "form_required": true,
+            "form_order": 110,
             "sorter": false,
             "condition": "=",
             "search_view": "select",
             "form_view": "select",
             "rules": "required",
-            "width": 55,
+            "width": 100,
             "default": null,
             "config": {
                 "dict": "status_desc"
             }
         },
         {
-            "field": "createime",
+            "field": "createtime",
             "table_alias": "",
             "alias": "",
             "comment": "创建时间",
@@ -304,10 +305,10 @@
             "search": true,
             "table_display": "",
             "table_column": true,
-            "table_order": 130,
+            "table_order": 120,
             "form": false,
             "form_required": false,
-            "form_order": 130,
+            "form_order": 120,
             "sorter": false,
             "condition": "between",
             "search_view": "datepicker",
@@ -329,15 +330,15 @@
             "search": false,
             "table_display": "",
             "table_column": true,
-            "table_order": 140,
+            "table_order": 130,
             "form": false,
             "form_required": false,
-            "form_order": 140,
+            "form_order": 130,
             "sorter": false,
             "condition": "=",
             "search_view": "",
             "form_view": "input",
-            "rules": "required",
+            "rules": "required|datetime",
             "width": 100,
             "default": null,
             "config": {}
@@ -345,45 +346,45 @@
     ],
     "tools": {
         "add": {
-            "show": true,
-            "permission_key": "vat_admin_crontab_add"
+            "show": false,
+            "permission_key": "vat_member_login_log_add"
         },
         "edit": {
-            "show": true,
-            "permission_key": "vat_admin_crontab_edit"
+            "show": false,
+            "permission_key": "vat_member_login_log_edit"
         },
         "lock": {
             "show": false,
-            "permission_key": "vat_admin_crontab_lock"
+            "permission_key": "vat_member_login_log_lock"
         },
         "unlock": {
             "show": false,
-            "permission_key": "vat_admin_crontab_unlock"
+            "permission_key": "vat_member_login_log_unlock"
         },
         "delete": {
             "show": false,
-            "permission_key": "vat_admin_crontab_delete"
+            "permission_key": "vat_member_login_log_delete"
         },
         "import": {
             "show": false,
-            "permission_key": "vat_admin_crontab_import",
+            "permission_key": "vat_member_login_log_import",
             "params": {
                 "event": "pages",
-                "table": "vat_crontab",
-                "title": "定时任务表"
+                "table": "vat_member_login_log",
+                "title": "会员登录日志表"
             }
         },
         "batch": {
             "show": false,
-            "permission_key": "vat_admin_crontab_batch"
+            "permission_key": "vat_member_login_log_batch"
         },
         "refresh": {
             "show": true,
-            "permission_key": "vat_admin_crontab_refresh"
+            "permission_key": "vat_member_login_log_refresh"
         },
         "download": {
-            "show": false,
-            "permission_key": "vat_admin_crontab_download",
+            "show": true,
+            "permission_key": "vat_member_login_log_download",
             "options": [
                 {
                     "label": "导出",
@@ -393,8 +394,8 @@
         },
         "search": {
             "show": true,
-            "permission_key": "vat_admin_crontab_search"
+            "permission_key": "vat_member_login_log_search"
         }
     },
-    "setting": []
+    "setting": {}
 }

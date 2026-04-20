@@ -1,0 +1,352 @@
+{
+    "api_list": {
+        "list": {
+            "url": "/app/vatadmin/basic/plugin/list",
+            "method": "get"
+        },
+        "install": {
+            "url": "/app/vatadmin/basic/plugin/install",
+            "method": "post"
+        },
+        "enable": {
+            "url": "/app/vatadmin/basic/plugin/enable",
+            "method": "post"
+        },
+        "disable": {
+            "url": "/app/vatadmin/basic/plugin/disable",
+            "method": "post"
+        },
+        "uninstall": {
+            "url": "/app/vatadmin/basic/plugin/uninstall",
+            "method": "post"
+        },
+        "getConfig": {
+            "url": "/app/vatadmin/basic/plugin/getConfig",
+            "method": "get"
+        },
+        "updateConfig": {
+            "url": "/app/vatadmin/basic/plugin/updateConfig",
+            "method": "post"
+        }
+    },
+    "joins": [],
+    "select_fields": "*",
+    "fields": [
+        {
+            "field": "id",
+            "table_alias": "",
+            "alias": "",
+            "comment": "ID编号",
+            "type": "int",
+            "search": false,
+            "table_display": "",
+            "table_column": false,
+            "table_order": 0,
+            "form": false,
+            "form_required": false,
+            "form_order": 0,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input",
+            "width": 60,
+            "default": null,
+            "config": []
+        },
+        {
+            "field": "name",
+            "table_alias": "",
+            "alias": "",
+            "comment": "插件名称",
+            "type": "varchar(64)",
+            "search": true,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 10,
+            "form": true,
+            "form_required": true,
+            "form_order": 10,
+            "sorter": false,
+            "condition": "like",
+            "search_view": "input",
+            "form_view": "input",
+            "width": 200,
+            "default": null,
+            "config": []
+        },
+        {
+            "field": "slug",
+            "table_alias": "",
+            "alias": "",
+            "comment": "插件标识",
+            "type": "varchar(64)",
+            "search": true,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 20,
+            "form": true,
+            "form_required": true,
+            "form_order": 20,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input",
+            "width": 150,
+            "default": null,
+            "config": []
+        },
+        {
+            "field": "version",
+            "table_alias": "",
+            "alias": "",
+            "comment": "版本号",
+            "type": "varchar(20)",
+            "search": false,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 30,
+            "form": true,
+            "form_required": true,
+            "form_order": 30,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input",
+            "width": 100,
+            "default": "1.0.0",
+            "config": []
+        },
+        {
+            "field": "description",
+            "table_alias": "",
+            "alias": "",
+            "comment": "插件描述",
+            "type": "longtext",
+            "search": false,
+            "table_display": "",
+            "table_column": false,
+            "table_order": 40,
+            "form": true,
+            "form_required": false,
+            "form_order": 40,
+            "sorter": false,
+            "condition": "like",
+            "search_view": "input",
+            "form_view": "textarea",
+            "width": 300,
+            "default": null,
+            "config": []
+        },
+        {
+            "field": "member_name",
+            "table_alias": "",
+            "alias": "",
+            "comment": "作者",
+            "type": "varchar(64)",
+            "search": true,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 50,
+            "form": true,
+            "form_required": true,
+            "form_order": 50,
+            "sorter": false,
+            "condition": "like",
+            "search_view": "input",
+            "form_view": "input",
+            "width": 150,
+            "default": null,
+            "config": []
+        },
+        {
+            "field": "member_id",
+            "table_alias": "",
+            "alias": "",
+            "comment": "会员ID",
+            "type": "int",
+            "search": true,
+            "table_display": "",
+            "table_column": false,
+            "table_order": 60,
+            "form": false,
+            "form_required": false,
+            "form_order": 60,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input",
+            "width": 100,
+            "default": 0,
+            "config": []
+        },
+        {
+            "field": "status",
+            "table_alias": "",
+            "alias": "",
+            "comment": "状态",
+            "type": "tinyint(1)",
+            "search": true,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 70,
+            "form": false,
+            "form_required": true,
+            "form_order": 70,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "select",
+            "form_view": "select",
+            "width": 100,
+            "default": 0,
+            "config": {}
+        },
+        {
+            "field": "install_time",
+            "table_alias": "",
+            "alias": "",
+            "comment": "安装时间",
+            "type": "datetime",
+            "search": false,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 80,
+            "form": false,
+            "form_required": false,
+            "form_order": 80,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input",
+            "width": 180,
+            "default": null,
+            "config": []
+        },
+        {
+            "field": "update_time",
+            "table_alias": "",
+            "alias": "",
+            "comment": "更新时间",
+            "type": "datetime",
+            "search": false,
+            "table_display": "",
+            "table_column": false,
+            "table_order": 90,
+            "form": false,
+            "form_required": false,
+            "form_order": 90,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input",
+            "width": 180,
+            "default": null,
+            "config": []
+        },
+        {
+            "field": "config",
+            "table_alias": "",
+            "alias": "",
+            "comment": "插件配置",
+            "type": "text",
+            "search": false,
+            "table_display": "",
+            "table_column": false,
+            "table_order": 100,
+            "form": true,
+            "form_required": false,
+            "form_order": 100,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "textarea",
+            "width": 300,
+            "default": null,
+            "config": []
+        },
+        {
+            "field": "createtime",
+            "table_alias": "",
+            "alias": "",
+            "comment": "创建时间",
+            "type": "datetime",
+            "search": false,
+            "table_display": "",
+            "table_column": false,
+            "table_order": 110,
+            "form": false,
+            "form_required": false,
+            "form_order": 110,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input",
+            "width": 180,
+            "default": null,
+            "config": []
+        },
+        {
+            "field": "updatetime",
+            "table_alias": "",
+            "alias": "",
+            "comment": "更新时间",
+            "type": "datetime",
+            "search": false,
+            "table_display": "",
+            "table_column": false,
+            "table_order": 120,
+            "form": false,
+            "form_required": false,
+            "form_order": 120,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input",
+            "width": 180,
+            "default": null,
+            "config": []
+        }
+    ],
+    "tools": {
+        "add": {
+            "show": false,
+            "permission_key": "vat_plugins_add"
+        },
+        "edit": {
+            "show": false,
+            "permission_key": "vat_plugins_edit"
+        },
+        "lock": {
+            "show": false,
+            "permission_key": "vat_plugins_lock"
+        },
+        "unlock": {
+            "show": false,
+            "permission_key": "vat_plugins_unlock"
+        },
+        "delete": {
+            "show": false,
+            "permission_key": "vat_plugins_delete"
+        },
+        "import": {
+            "show": false,
+            "permission_key": "vat_plugins_import"
+        },
+        "batch": {
+            "show": false,
+            "permission_key": "vat_plugins_batch"
+        },
+        "refresh": {
+            "show": true,
+            "permission_key": "vat_plugins_refresh"
+        },
+        "download": {
+            "show": false,
+            "permission_key": "vat_plugins_download"
+        },
+        "search": {
+            "show": true,
+            "permission_key": "vat_plugins_search"
+        }
+    },
+    "setting": []
+}

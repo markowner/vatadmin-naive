@@ -1,0 +1,291 @@
+{
+    "api_list": {
+        "list": {
+            "url": "/app/vatadmin/member/MemberPoints/list",
+            "method": "get"
+        },
+        "edit": {
+            "url": "/app/vatadmin/member/MemberPoints/edit",
+            "method": "post"
+        },
+        "lock": {
+            "url": "/app/vatadmin/member/MemberPoints/lock",
+            "method": "post"
+        },
+        "delete": {
+            "url": "/app/vatadmin/member/MemberPoints/delete",
+            "method": "post"
+        },
+        "import": {
+            "url": "/app/vatadmin/member/MemberPoints/import",
+            "method": "post"
+        },
+        "download": {
+            "url": "/app/vatadmin/member/MemberPoints/download",
+            "method": "get"
+        }
+    },
+    "joins": [],
+    "select_fields": "*",
+    "fields": [
+        {
+            "field": "id",
+            "table_alias": "",
+            "alias": "",
+            "comment": "ID",
+            "type": "int",
+            "search": true,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 0,
+            "form": false,
+            "form_required": false,
+            "form_order": 0,
+            "sorter": true,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input_number",
+            "rules": "",
+            "width": 80,
+            "default": null,
+            "config": {}
+        },
+        {
+            "field": "member_id",
+            "table_alias": "",
+            "alias": "",
+            "comment": "会员ID",
+            "type": "int",
+            "search": true,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 10,
+            "form": true,
+            "form_required": true,
+            "form_order": 10,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input_number",
+            "rules": "required",
+            "width": 100,
+            "default": null,
+            "config": {}
+        },
+        {
+            "field": "points",
+            "table_alias": "",
+            "alias": "",
+            "comment": "积分变动值",
+            "type": "decimal(10,2)",
+            "search": true,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 20,
+            "form": true,
+            "form_required": true,
+            "form_order": 20,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input",
+            "rules": "required",
+            "width": 100,
+            "default": null,
+            "config": {}
+        },
+        {
+            "field": "balance",
+            "table_alias": "",
+            "alias": "",
+            "comment": "积分余额",
+            "type": "decimal(10,2)",
+            "search": true,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 30,
+            "form": true,
+            "form_required": true,
+            "form_order": 30,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input",
+            "rules": "required",
+            "width": 100,
+            "default": null,
+            "config": {}
+        },
+        {
+            "field": "reason",
+            "table_alias": "",
+            "alias": "",
+            "comment": "变动原因",
+            "type": "varchar(255)",
+            "search": true,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 40,
+            "form": true,
+            "form_required": true,
+            "form_order": 40,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input",
+            "rules": "required",
+            "width": 100,
+            "default": null,
+            "config": {}
+        },
+        {
+            "field": "type",
+            "table_alias": "",
+            "alias": "",
+            "comment": "类型",
+            "type": "tinyint(1)",
+            "search": true,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 50,
+            "form": true,
+            "form_required": true,
+            "form_order": 50,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "select",
+            "form_view": "dict",
+            "rules": "required",
+            "width": 100,
+            "default": null,
+            "config": {
+                "dict": "type_desc"
+            }
+        },
+        {
+            "field": "status",
+            "table_alias": "",
+            "alias": "",
+            "comment": "状态",
+            "type": "tinyint(1)",
+            "search": true,
+            "table_display": "switch",
+            "table_column": true,
+            "table_order": 60,
+            "form": false,
+            "form_required": true,
+            "form_order": 60,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "select",
+            "form_view": "select",
+            "rules": "required",
+            "width": 100,
+            "default": null,
+            "config": {
+                "dict": "status_desc"
+            }
+        },
+        {
+            "field": "createtime",
+            "table_alias": "",
+            "alias": "",
+            "comment": "创建时间",
+            "type": "datetime",
+            "search": true,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 70,
+            "form": false,
+            "form_required": false,
+            "form_order": 70,
+            "sorter": false,
+            "condition": "between",
+            "search_view": "datepicker",
+            "form_view": "datepicker",
+            "rules": "",
+            "width": 100,
+            "default": null,
+            "config": {
+                "type": "datetimerange",
+                "form_type": "datetime"
+            }
+        },
+        {
+            "field": "updatetime",
+            "table_alias": "",
+            "alias": "",
+            "comment": "更新时间",
+            "type": "datetime",
+            "search": false,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 80,
+            "form": false,
+            "form_required": false,
+            "form_order": 80,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "",
+            "form_view": "input",
+            "rules": "required|datetime",
+            "width": 100,
+            "default": null,
+            "config": {}
+        }
+    ],
+    "tools": {
+        "add": {
+            "show": false,
+            "permission_key": "vat_member_points_add"
+        },
+        "edit": {
+            "show": false,
+            "permission_key": "vat_member_points_edit"
+        },
+        "lock": {
+            "show": false,
+            "permission_key": "vat_member_points_lock"
+        },
+        "unlock": {
+            "show": false,
+            "permission_key": "vat_member_points_unlock"
+        },
+        "delete": {
+            "show": false,
+            "permission_key": "vat_member_points_delete"
+        },
+        "import": {
+            "show": false,
+            "permission_key": "vat_member_points_import",
+            "params": {
+                "event": "pages",
+                "table": "vat_member_points",
+                "title": "会员积分记录表"
+            }
+        },
+        "batch": {
+            "show": false,
+            "permission_key": "vat_member_points_batch"
+        },
+        "refresh": {
+            "show": true,
+            "permission_key": "vat_member_points_refresh"
+        },
+        "download": {
+            "show": true,
+            "permission_key": "vat_member_points_download",
+            "options": [
+                {
+                    "label": "导出",
+                    "key": ""
+                }
+            ]
+        },
+        "search": {
+            "show": true,
+            "permission_key": "vat_member_points_search"
+        }
+    },
+    "setting": {}
+}

@@ -62,6 +62,9 @@
         <n-date-picker v-model:formatted-value="state.value" :format="state.config.format || null" :value-format="state.config.format || null" :type="state.config.config.type" clearable />
       </div>
     </template>
+    <template v-else-if="state.config.type == 'select-page'">
+      <VatSelectPage v-model="state.value" :configs="state.config" v-bind="state.config.config.props"></VatSelectPage>
+    </template>
   </div>
   </template>
 </template>
@@ -70,6 +73,7 @@
 import { ref, defineProps, watch, reactive } from 'vue'
 import Request from '@/utils/axios'
 import {inject} from "vue";
+import VatSelectPage from './VatSelectPage.vue'
 const tools = inject('tools')
 const props = defineProps({
   /**

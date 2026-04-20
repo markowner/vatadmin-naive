@@ -1,31 +1,27 @@
 {
     "api_list": {
         "list": {
-            "url": "/app/vatadmin/basic/Crontab/list",
+            "url": "/app/vatadmin/member/MemberLevel/list",
             "method": "get"
         },
         "edit": {
-            "url": "/app/vatadmin/basic/Crontab/edit",
+            "url": "/app/vatadmin/member/MemberLevel/edit",
             "method": "post"
         },
         "lock": {
-            "url": "/app/vatadmin/basic/Crontab/lock",
+            "url": "/app/vatadmin/member/MemberLevel/lock",
             "method": "post"
         },
         "delete": {
-            "url": "/app/vatadmin/basic/Crontab/delete",
+            "url": "/app/vatadmin/member/MemberLevel/delete",
             "method": "post"
         },
         "import": {
-            "url": "/app/vatadmin/basic/Crontab/import",
+            "url": "/app/vatadmin/member/MemberLevel/import",
             "method": "post"
         },
         "download": {
-            "url": "/app/vatadmin/basic/Crontab/download",
-            "method": "get"
-        },
-        "reload": {
-            "url": "/app/vatadmin/basic/Crontab/reload",
+            "url": "/app/vatadmin/member/MemberLevel/download",
             "method": "get"
         }
     },
@@ -37,7 +33,7 @@
             "table_alias": "",
             "alias": "",
             "comment": "ID",
-            "type": "int unsigned",
+            "type": "int",
             "search": false,
             "table_display": "",
             "table_column": true,
@@ -45,23 +41,23 @@
             "form": false,
             "form_required": false,
             "form_order": 0,
-            "sorter": false,
+            "sorter": true,
             "condition": "=",
             "search_view": "input",
             "form_view": "input_number",
             "rules": "",
-            "width": 60,
+            "width": 80,
             "default": null,
-            "config": []
+            "config": {}
         },
         {
             "field": "name",
             "table_alias": "",
             "alias": "",
-            "comment": "任务名称",
-            "type": "varchar(100)",
+            "comment": "等级名称",
+            "type": "varchar(64)",
             "search": true,
-            "table_display": "popover",
+            "table_display": "",
             "table_column": true,
             "table_order": 10,
             "form": true,
@@ -77,119 +73,106 @@
             "config": {}
         },
         {
-            "field": "description",
+            "field": "level",
             "table_alias": "",
             "alias": "",
-            "comment": "任务描述",
-            "type": "text",
+            "comment": "等级值",
+            "type": "int",
             "search": false,
-            "table_display": "popover",
+            "table_display": "",
             "table_column": true,
             "table_order": 20,
             "form": true,
             "form_required": false,
-            "form_order": 95,
+            "form_order": 20,
             "sorter": false,
             "condition": "=",
             "search_view": "input",
-            "form_view": "textarea",
+            "form_view": "input_number",
             "rules": "required",
             "width": 100,
             "default": null,
             "config": {}
         },
         {
-            "field": "task_type",
+            "field": "min_points",
             "table_alias": "",
             "alias": "",
-            "comment": "任务类型",
-            "type": "tinyint(1)",
-            "search": true,
-            "table_display": "mapping",
+            "comment": "最小积分",
+            "type": "int",
+            "search": false,
+            "table_display": "",
             "table_column": true,
             "table_order": 30,
             "form": true,
-            "form_required": true,
-            "form_order": 20,
+            "form_required": false,
+            "form_order": 30,
             "sorter": false,
             "condition": "=",
-            "search_view": "select",
-            "form_view": "select",
+            "search_view": "input",
+            "form_view": "input_number",
             "rules": "required",
             "width": 100,
             "default": null,
-            "config": {
-                "dict": "crontab_type",
-                "mapping": {
-                    "1": "primary",
-                    "2": "success",
-                    "3": "error",
-                    "4": "warning"
-                },
-                "render_props": {
-                    "bordered": false
-                },
-                "mapping_type": "tag"
-            }
+            "config": {}
         },
         {
-            "field": "cron_expression",
+            "field": "max_points",
             "table_alias": "",
             "alias": "",
-            "comment": "表达式",
-            "type": "varchar(50)",
+            "comment": "最大积分",
+            "type": "int",
             "search": false,
             "table_display": "",
             "table_column": true,
             "table_order": 40,
             "form": true,
-            "form_required": true,
+            "form_required": false,
             "form_order": 40,
             "sorter": false,
             "condition": "=",
             "search_view": "input",
-            "form_view": "textarea",
-            "placeholder": "0  1  2  3  4  5\n|   |   |   |   |   |\n|   |   |   |   |   +------ day of week (0 - 6)\n|   |   |   |   +------ month (1 - 12)\n|   |   |   +-------- day of month (1 - 31)\n|   |   +---------- hour (0 - 23)\n|   +------------ min (0 - 59)\n+-------------- sec (0-59)[可省略，如果没有0位,则最小时间粒度是分钟]",
+            "form_view": "input_number",
             "rules": "required",
             "width": 100,
             "default": null,
             "config": {}
         },
         {
-            "field": "command",
+            "field": "privileges",
             "table_alias": "",
             "alias": "",
-            "comment": "执行命令",
+            "comment": "特权描述",
             "type": "text",
             "search": false,
-            "table_display": "popover",
+            "table_display": "",
             "table_column": true,
             "table_order": 50,
             "form": true,
-            "form_required": true,
+            "form_required": false,
             "form_order": 50,
             "sorter": false,
             "condition": "=",
             "search_view": "input",
-            "form_view": "textarea",
+            "form_view": "input",
             "rules": "required",
             "width": 100,
             "default": null,
             "config": {}
         },
         {
-            "field": "timeout",
+            "field": "sort",
             "table_alias": "",
             "alias": "",
-            "comment": "超时时间",
+            "comment": "排序",
             "type": "int",
             "search": false,
             "table_display": "",
             "table_column": true,
-            "table_order": 80,
+            "table_order": 60,
             "form": true,
             "form_required": false,
-            "form_order": 80,
+            "form_order": 60,
             "sorter": false,
             "condition": "=",
             "search_view": "input",
@@ -198,116 +181,44 @@
             "width": 100,
             "default": null,
             "config": {}
-        },
-        {
-            "field": "lock_time",
-            "table_alias": "",
-            "alias": "",
-            "comment": "锁时间 ",
-            "type": "int",
-            "search": false,
-            "table_display": "",
-            "table_column": true,
-            "table_order": 90,
-            "form": true,
-            "form_required": false,
-            "form_order": 90,
-            "sorter": false,
-            "condition": "=",
-            "search_view": "input",
-            "form_view": "input_number",
-            "rules": "required",
-            "width": "100",
-            "default": null,
-            "config": {}
-        },
-        {
-            "field": "last_run_time",
-            "table_alias": "",
-            "alias": "",
-            "comment": "最后执行",
-            "type": "datetime",
-            "search": true,
-            "table_display": "",
-            "table_column": true,
-            "table_order": 100,
-            "form": false,
-            "form_required": false,
-            "form_order": 100,
-            "sorter": false,
-            "condition": "between",
-            "search_view": "datepicker",
-            "form_view": "datepicker",
-            "rules": "required",
-            "width": 100,
-            "default": null,
-            "config": {
-                "type": "datetimerange",
-                "form_type": "datetime"
-            }
-        },
-        {
-            "field": "next_run_time",
-            "table_alias": "",
-            "alias": "",
-            "comment": "下次执行",
-            "type": "datetime",
-            "search": true,
-            "table_display": "",
-            "table_column": true,
-            "table_order": 110,
-            "form": false,
-            "form_required": false,
-            "form_order": 110,
-            "sorter": false,
-            "condition": "between",
-            "search_view": "datepicker",
-            "form_view": "datepicker",
-            "rules": "required",
-            "width": 100,
-            "default": null,
-            "config": {
-                "type": "datetimerange",
-                "form_type": "datetime"
-            }
         },
         {
             "field": "status",
             "table_alias": "",
             "alias": "",
             "comment": "状态",
-            "type": "tinyint",
+            "type": "tinyint(1)",
             "search": true,
             "table_display": "switch",
             "table_column": true,
-            "table_order": 150,
-            "form": false,
+            "table_order": 70,
+            "form": true,
             "form_required": false,
-            "form_order": 100,
+            "form_order": 70,
             "sorter": false,
             "condition": "=",
             "search_view": "select",
             "form_view": "select",
             "rules": "required",
-            "width": 55,
+            "width": 100,
             "default": null,
             "config": {
                 "dict": "status_desc"
             }
         },
         {
-            "field": "createime",
+            "field": "createtime",
             "table_alias": "",
             "alias": "",
             "comment": "创建时间",
             "type": "datetime",
-            "search": true,
+            "search": false,
             "table_display": "",
             "table_column": true,
-            "table_order": 130,
+            "table_order": 80,
             "form": false,
             "form_required": false,
-            "form_order": 130,
+            "form_order": 80,
             "sorter": false,
             "condition": "between",
             "search_view": "datepicker",
@@ -329,15 +240,15 @@
             "search": false,
             "table_display": "",
             "table_column": true,
-            "table_order": 140,
+            "table_order": 90,
             "form": false,
             "form_required": false,
-            "form_order": 140,
+            "form_order": 90,
             "sorter": false,
             "condition": "=",
             "search_view": "",
             "form_view": "input",
-            "rules": "required",
+            "rules": "required|datetime",
             "width": 100,
             "default": null,
             "config": {}
@@ -346,44 +257,44 @@
     "tools": {
         "add": {
             "show": true,
-            "permission_key": "vat_admin_crontab_add"
+            "permission_key": "vat_member_level_add"
         },
         "edit": {
             "show": true,
-            "permission_key": "vat_admin_crontab_edit"
+            "permission_key": "vat_member_level_edit"
         },
         "lock": {
             "show": false,
-            "permission_key": "vat_admin_crontab_lock"
+            "permission_key": "vat_member_level_lock"
         },
         "unlock": {
             "show": false,
-            "permission_key": "vat_admin_crontab_unlock"
+            "permission_key": "vat_member_level_unlock"
         },
         "delete": {
             "show": false,
-            "permission_key": "vat_admin_crontab_delete"
+            "permission_key": "vat_member_level_delete"
         },
         "import": {
             "show": false,
-            "permission_key": "vat_admin_crontab_import",
+            "permission_key": "vat_member_level_import",
             "params": {
                 "event": "pages",
-                "table": "vat_crontab",
-                "title": "定时任务表"
+                "table": "vat_member_level",
+                "title": "会员等级表"
             }
         },
         "batch": {
             "show": false,
-            "permission_key": "vat_admin_crontab_batch"
+            "permission_key": "vat_member_level_batch"
         },
         "refresh": {
             "show": true,
-            "permission_key": "vat_admin_crontab_refresh"
+            "permission_key": "vat_member_level_refresh"
         },
         "download": {
-            "show": false,
-            "permission_key": "vat_admin_crontab_download",
+            "show": true,
+            "permission_key": "vat_member_level_download",
             "options": [
                 {
                     "label": "导出",
@@ -393,8 +304,8 @@
         },
         "search": {
             "show": true,
-            "permission_key": "vat_admin_crontab_search"
+            "permission_key": "vat_member_level_search"
         }
     },
-    "setting": []
+    "setting": {}
 }
