@@ -274,7 +274,7 @@
       "condition": "=",
       "search_view": "select",
       "form_view": "select",
-      "width": 55,
+      "width": 65,
       "default": null,
       "config": {
         "dict": "status_desc"
@@ -334,6 +334,18 @@
     "edit": {
       "show": true,
       "permission_key": "vat_admin_user_edit"
+    },
+    "switch_lock": {
+      "show": true,
+      "permission_key": "vat_admin_user_switch_lock"
+    },
+    "lock": {
+      "show": false,
+      "permission_key": "vat_admin_user_lock"
+    },
+    "unlock": {
+      "show": false,
+      "permission_key": "vat_admin_user_unlock"
     },
     "delete": {
       "show": true,

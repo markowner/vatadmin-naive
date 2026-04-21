@@ -64,16 +64,6 @@ const props = defineProps({
     type: Array,
     default: []
   },
-  // selection: {
-  //   type: Boolean,
-  //   default: false
-  // },
-  // selectionProps: {
-  //   type: Object,
-  //   default: () => {
-  //     return {}
-  //   }
-  // },
   tableProps:{
     type: Object,
     default: () => {

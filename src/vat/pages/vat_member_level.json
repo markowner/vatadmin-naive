@@ -263,6 +263,10 @@
             "show": true,
             "permission_key": "vat_member_level_edit"
         },
+        "switch_lock": {
+            "show": true,
+            "permission_key": "vat_member_level_switch_lock"
+        },
         "lock": {
             "show": false,
             "permission_key": "vat_member_level_lock"

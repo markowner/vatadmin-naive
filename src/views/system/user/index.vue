@@ -18,6 +18,7 @@ const editForm = ref(null)
 
 let column = tools.pages.buildColumns(pageJsonData)
 
+
 column.roles.render = (row) => {
     return tools.pages.renderTags(row.roles_name)
 }
@@ -109,7 +110,6 @@ const state = reactive({
     settings: pageJsonData?.setting || {}
   }
 })
-
 
 /**
  * tools组件change事件

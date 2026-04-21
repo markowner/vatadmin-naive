@@ -10,7 +10,8 @@ import {
     NImage,
     NCarousel,
     NImageGroup,
-    NPopover, NTooltip, NGradientText
+    NPopover, NTooltip, NGradientText,
+    esAR
 } from "naive-ui";
 import {RouterLink} from "vue-router";
 import path from 'path-browserify'
@@ -634,21 +635,23 @@ tools.pages = {
             )     
         }
     },
-    renderSwitch(row: {}, apiUrl: {} | string, field = 'status' , switchValue = {checked:0, unchecked: 1}){
+    renderSwitch(row: {}, apiUrl: {} | string, field = 'status' , switchValue = {checked:{value:0,label:'正常'}, unchecked:{value:1,label:'禁用'}}){
         return h(NSwitch, {
             'size':'small',
-            'checked-value': switchValue.checked,
-            'unchecked-value': switchValue.unchecked,
+            'checked-value': switchValue.checked.value,
+            'unchecked-value': switchValue.unchecked.value,
             'value': row[field],
             'on-update:value': (checked) => {
-                row[field] = checked
-                Request.request( apiUrl, {ids: row.id, [field]: checked}).then((res: {}) => {
-                    tools.notice.message.success(res.msg)
-                }).catch((err: any) => {
-                    console.log(err)
-                })
+                if(apiUrl){
+                    row[field] = checked
+                    Request.request( apiUrl, {ids: row.id, [field]: checked}).then((res: {}) => {
+                        tools.notice.message.success(res.msg)
+                    }).catch((err: any) => {
+                        console.log(err)
+                    })
+                }
             }
-        })
+        },  {checked:() => h('span', {'style':'font-size: 10px'}, switchValue.checked.label), unchecked:() => h('span', {'style':'font-size: 10px'}, switchValue.unchecked.label)} )
     },
     renderTags(list:[], tagType='info'){
         return list.map((item) => {
@@ -722,6 +725,24 @@ tools.pages = {
         );
         return h(NCarousel, {style: 'height: 120px;', showArrow: true}, {default: () => imgNodes})
     },
+    renderStatusText(row: {}, status: number|string, statusMap: any){
+        return [
+            h('div', {style:'display: flex; align-items: center;gap: 2px;'}, [
+                h(NButton, {
+                    type: statusMap[status].theme,
+                    size:'small',
+                    round: true,
+                    bordered: false,
+                    style: {
+                        width: '10px',
+                        height: '10px',
+                        padding: '0'
+                    }
+                }),
+                h(NGradientText, {type: statusMap[status].theme, size: 13}, statusMap[status].label)
+            ])
+        ]
+    },
     renderFiles(file_url: string, file_name: string){
         return  h('div', {}, [h('i', {class:"ifont i-file", style:"margin-right:5px;"}), h('a', {href: this.cdnUrl(file_url)}, {default: () =>  file_name})])
     },
@@ -767,7 +788,13 @@ tools.pages = {
             case 'text1':
                 return this.renderTextColor([1,0,0,0,0], row[res.field], row[res.key])
             case 'switch':
-                return this.renderSwitch(row, pageJson.api_list.lock, res.field, res.config.switchValue ? res.config.switchValue : {checked:0, unchecked: 1})
+                if(pageJson.tools?.switch_lock?.show){
+                     return this.renderSwitch(row, pageJson.tools?.switch_lock?.show ? pageJson.api_list.lock : '',  res.field, res.config.switchValue ? res.config.switchValue : {checked:{value: 0, label: '正常'}, unchecked: {value: 1, label: '禁用'}})
+                }else{
+                    return this.renderStatusText(row, row[res.field], res.config.switchValue ? res.config.switchValue : {0:{theme: 'success', label: '正常'}, 1: {theme: 'error', label: '禁用'}})
+                }
+            case 'status_text':
+                return this.renderStatusText(row,row[res.field], res.config.switchValue ? res.config.switchValue : {0:{theme: 'success', label: '正常'}, 1: {theme: 'error', label: '禁用'}})
             case 'tags':
                 return this.renderTags(row[res.key])
             case 'icon':

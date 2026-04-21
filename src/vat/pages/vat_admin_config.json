@@ -314,6 +314,10 @@
             "show": true,
             "permission_key": "vat_admin_config_edit"
         },
+        "switch_lock": {
+            "show": true,
+            "permission_key": "vat_admin_config_switch_lock"
+        },
         "lock": {
             "show": false,
             "permission_key": "vat_admin_config_lock"

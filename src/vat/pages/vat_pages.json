@@ -47,6 +47,10 @@
     "build": {
       "url": "/app/vatadmin/basic/pages/build",
       "method": "post"
+    },
+    "reverseLoad": {
+      "url": "/app/vatadmin/basic/pages/reverseLoad",
+      "method": "post"
     }
   },
   "joins": [],

@@ -191,6 +191,10 @@
             "show": true,
             "permission_key": "vat_admin_dict_edit"
         },
+        "switch_lock": {
+            "show": true,
+            "permission_key": "vat_admin_dict_switch_lock"
+        },
         "lock": {
             "show": false,
             "permission_key": "vat_admin_dict_lock"

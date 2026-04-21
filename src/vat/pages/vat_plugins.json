@@ -315,6 +315,10 @@
             "show": false,
             "permission_key": "vat_plugins_edit"
         },
+        "switch_lock": {
+            "show": true,
+            "permission_key": "vat_plugins_switch_lock"
+        },
         "lock": {
             "show": false,
             "permission_key": "vat_plugins_lock"

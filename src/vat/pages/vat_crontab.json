@@ -352,6 +352,10 @@
             "show": true,
             "permission_key": "vat_admin_crontab_edit"
         },
+        "switch_lock": {
+            "show": true,
+            "permission_key": "vat_admin_crontab_switch_lock"
+        },
         "lock": {
             "show": false,
             "permission_key": "vat_admin_crontab_lock"

@@ -121,7 +121,7 @@ function handleColumn(row, index) {
 column.handle = {
   title: '操作',
   key: 'handle',
-  width: 120,
+  width: 124,
   fixed: 'right',
   render: (row, index) => {
     const defaultColumn = handleColumn(row, index)
@@ -153,6 +153,7 @@ column.handle = {
                     onPositiveClick: () => {
                       Request.request(pageJsonData.api_list.syncField, {id: row.id}).then(res => {
                         tools.notice.message.success(res.msg)
+                        vPage.value.refresh()
                       }).catch(err => {
                         console.log(err)
                       })
@@ -168,7 +169,7 @@ column.handle = {
           h(NButton,
               {
                 size: 'tiny',
-                type: 'primary',
+                type: 'success',
                 secondary: true,
                 onClick: () => {
                   state.buildOptionVisible = true
@@ -176,7 +177,34 @@ column.handle = {
                 }
               },
               {default: () => '构建'}
-          )
+          ),
+          h(NButton,
+              {
+                size: 'tiny',
+                type: 'warning',
+                secondary: true,
+                onClick: () => {
+                  tools.notice.dialog.warning({
+                    title: '警告',
+                    content: '你确定要根据前端JSON回写数据吗？',
+                    positiveText: '确定',
+                    negativeText: '取消',
+                    onPositiveClick: () => {
+                      Request.request(pageJsonData.api_list.reverseLoad, {id: row.id}).then(res => {
+                        tools.notice.message.success(res.msg)
+                        vPage.value.refresh()
+                      }).catch(err => {
+                        console.log(err)
+                      })
+                    },
+                    onNegativeClick: () => {
+
+                    }
+                  })
+                }
+              },
+              {default: () => '回写JSON'}
+          ),
         ]
       }
     })

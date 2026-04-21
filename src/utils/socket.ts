@@ -1,7 +1,7 @@
 import { useUserStore } from '@/store/user'
 import tools from "@/utils/tools"
 // 建立连接
-if(import.meta.env.VITE_APP_WS_URL && window?.Push != undefined){
+if(import.meta.env.VITE_APP_WS_URL && import.meta.env.VITE_APP_WS_APPKEY && window?.Push != undefined){
     let connection = new Push({
         url: import.meta.env.VITE_APP_WS_URL,
         app_key: import.meta.env.VITE_APP_WS_APPKEY,
