@@ -1,0 +1,283 @@
+{
+    "api_list": {
+        "list": {
+            "url": "/app/vatadmin/basic/TaskAsync/list",
+            "method": "get"
+        },
+        "listOwner": {
+            "url": "/app/vatadmin/basic/TaskAsync/listOwner",
+            "method": "get"
+        },
+        "edit": {
+            "url": "/app/vatadmin/basic/TaskAsync/edit",
+            "method": "post"
+        },
+        "lock": {
+            "url": "/app/vatadmin/basic/TaskAsync/lock",
+            "method": "post"
+        },
+        "delete": {
+            "url": "/app/vatadmin/basic/TaskAsync/delete",
+            "method": "post"
+        },
+        "import": {
+            "url": "/app/vatadmin/basic/TaskAsync/import",
+            "method": "post"
+        },
+        "download": {
+            "url": "/app/vatadmin/basic/TaskAsync/download",
+            "method": "get"
+        },
+        "cancel": {
+            "url": "/app/vatadmin/basic/TaskAsync/cancel",
+            "method": "post"
+        },
+        "retryNew": {
+            "url": "/app/vatadmin/basic/TaskAsync/retryNew",
+            "method": "post"
+        }
+    },
+    "joins": [],
+    "select_fields": "*",
+    "fields": [
+        {
+            "field": "id",
+            "table_alias": "",
+            "alias": "",
+            "comment": "ID编号",
+            "type": "int",
+            "search": true,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 0,
+            "form": false,
+            "form_required": false,
+            "form_order": 0,
+            "sorter": true,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input_number",
+            "rules": "",
+            "width": 80,
+            "default": null,
+            "config": {}
+        },
+        {
+            "field": "title",
+            "table_alias": "",
+            "alias": "",
+            "comment": "名称",
+            "type": "varchar(200)",
+            "search": true,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 10,
+            "form": true,
+            "form_required": true,
+            "form_order": 10,
+            "sorter": false,
+            "condition": "like",
+            "search_view": "input",
+            "form_view": "input",
+            "rules": "required",
+            "width": 100,
+            "default": null,
+            "config": {}
+        },
+        {
+            "field": "progress",
+            "table_alias": "",
+            "alias": "",
+            "comment": "进度",
+            "type": "int",
+            "search": true,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 20,
+            "form": true,
+            "form_required": true,
+            "form_order": 20,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input_number",
+            "rules": "required",
+            "width": 100,
+            "default": null,
+            "config": {}
+        },
+        {
+            "field": "content",
+            "table_alias": "",
+            "alias": "",
+            "comment": "内容",
+            "type": "text",
+            "search": true,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 30,
+            "form": true,
+            "form_required": true,
+            "form_order": 30,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input",
+            "rules": "required",
+            "width": 100,
+            "default": null,
+            "config": {}
+        },
+        {
+            "field": "admin_id",
+            "table_alias": "",
+            "alias": "",
+            "comment": "用户ID",
+            "type": "int",
+            "search": true,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 40,
+            "form": true,
+            "form_required": true,
+            "form_order": 40,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "input",
+            "form_view": "input_number",
+            "rules": "required",
+            "width": 100,
+            "default": null,
+            "config": {}
+        },
+        {
+            "field": "status",
+            "table_alias": "",
+            "alias": "",
+            "comment": "状态",
+            "type": "tinyint(1)",
+            "search": true,
+            "table_display": "switch",
+            "table_column": true,
+            "table_order": 50,
+            "form": false,
+            "form_required": true,
+            "form_order": 50,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "select",
+            "form_view": "select",
+            "rules": "required",
+            "width": 100,
+            "default": null,
+            "config": {
+                "dict": "status_desc"
+            }
+        },
+        {
+            "field": "createtime",
+            "table_alias": "",
+            "alias": "",
+            "comment": "创建时间",
+            "type": "datetime",
+            "search": true,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 60,
+            "form": false,
+            "form_required": false,
+            "form_order": 60,
+            "sorter": false,
+            "condition": "between",
+            "search_view": "datepicker",
+            "form_view": "datepicker",
+            "rules": "",
+            "width": 100,
+            "default": null,
+            "config": {
+                "type": "datetimerange",
+                "form_type": "datetime"
+            }
+        },
+        {
+            "field": "updatetime",
+            "table_alias": "",
+            "alias": "",
+            "comment": "更新时间",
+            "type": "datetime",
+            "search": false,
+            "table_display": "",
+            "table_column": true,
+            "table_order": 70,
+            "form": false,
+            "form_required": false,
+            "form_order": 70,
+            "sorter": false,
+            "condition": "=",
+            "search_view": "",
+            "form_view": "input",
+            "rules": "required|datetime",
+            "width": 100,
+            "default": null,
+            "config": {}
+        }
+    ],
+    "tools": {
+        "add": {
+            "show": true,
+            "permission_key": "vat_task_async_add"
+        },
+        "edit": {
+            "show": true,
+            "permission_key": "vat_task_async_edit"
+        },
+        "switch_lock": {
+            "show": true,
+            "permission_key": "vat_task_async_switch_lock"
+        },
+        "lock": {
+            "show": false,
+            "permission_key": "vat_task_async_lock"
+        },
+        "unlock": {
+            "show": false,
+            "permission_key": "vat_task_async_unlock"
+        },
+        "delete": {
+            "show": false,
+            "permission_key": "vat_task_async_delete"
+        },
+        "import": {
+            "show": false,
+            "permission_key": "vat_task_async_import",
+            "params": {
+                "event": "pages",
+                "table": "vat_task_async",
+                "title": "异步任务表"
+            }
+        },
+        "batch": {
+            "show": false,
+            "permission_key": "vat_task_async_batch"
+        },
+        "refresh": {
+            "show": true,
+            "permission_key": "vat_task_async_refresh"
+        },
+        "download": {
+            "show": true,
+            "permission_key": "vat_task_async_download",
+            "options": [
+                {
+                    "label": "导出",
+                    "key": ""
+                }
+            ]
+        },
+        "search": {
+            "show": true,
+            "permission_key": "vat_task_async_search"
+        }
+    },
+    "setting": {}
+}

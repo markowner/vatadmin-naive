@@ -319,7 +319,14 @@ const state = reactive({
     "user",
     "data-stat",
     "home",
-    "home-small"
+    "home-small",
+    "plugin",
+    "plugin1",
+    "plugin2",
+    "plugin-set",
+    "plugin-fill",
+    "plugins",
+    "recommend"
   ]
 })
 

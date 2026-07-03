@@ -7,6 +7,7 @@ if(import.meta.env.VITE_APP_WS_URL && import.meta.env.VITE_APP_WS_APPKEY && wind
         app_key: import.meta.env.VITE_APP_WS_APPKEY,
         auth: import.meta.env.VITE_APP_WS_AUTH
     });
+    
     let uid = tools.cookie.get('Vat-Uid')
     if (uid) {
         // 浏览器监听DATA-U-uid频道的消息

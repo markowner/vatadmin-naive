@@ -831,6 +831,39 @@ tools.common = {
     toNumber(value: any) {
         const num = Number(value);
         return Number.isFinite(num) ? num : null
+    },
+    // 格式化时间
+    formatTime(time: any) {
+        if (!time && time !== 0) return '-'
+        
+        let date
+        if (typeof time === 'number' || (typeof time === 'string' && /^\d+$/.test(time))) {
+            const ts = Number(time)
+            date = ts > 9999999999 ? new Date(ts) : new Date(ts * 1000)
+        } else {
+            date = new Date(time)
+        }
+        
+        if (isNaN(date.getTime())) return String(time)
+        
+        return date.toLocaleString('zh-CN', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        })
+    },
+    // 复制内容到剪贴板
+    copy(content: string) {
+        if (!content) return
+        navigator.clipboard.writeText(content).then(() => {
+            tools.notice.message.success('已复制到剪贴板')
+        }).catch((err) => {
+            console.error('复制失败:', err)
+            tools.notice.message.error('复制失败')
+        })
     }
 }
 export default tools

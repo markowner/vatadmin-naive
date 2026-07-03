@@ -4,13 +4,19 @@ import { getToken, removeToken, setToken } from "@/utils/auth";
 import Request from '@/utils/axios'
 import router from '@/router'
 import VatApi from '@/vat/vat_api.json'
-export const useUserStore = defineStore("user", {
+const PluginTokenKey = import.meta.env.VITE_VAT_PLUGIN_TOKEN_KEY
+export const useUserStore = defineStore(",", {
     state: () => (
         {
             user: {
                 id: tools.cookie.get('Vat-Uid') || '',
                 token: getToken() || '',
                 userInfo: tools.data.get('Vat-User') || {noread: 0}
+            },
+            plugin: {
+                id: tools.cookie.get('Vat-Pid') || '',
+                token: getToken(PluginTokenKey) || '',
+                userInfo: tools.data.get('Vat-Plugin') || {noread: 0}
             }
         }
     ),
@@ -27,6 +33,18 @@ export const useUserStore = defineStore("user", {
             setToken(user.access_token)
             tools.data.set('Vat-User', user.userInfo)
             tools.cookie.set('Vat-Uid', user.userInfo.id)
+        },
+        loginPlugin(user: any) {
+            this.plugin.token = user.access_token
+            this.plugin.id = user.userInfo.id
+            this.plugin.name = user.userInfo.name
+            this.plugin.noread = user.userInfo.noread
+            this.plugin.userInfo = user.userInfo
+            this.plugin.userInfo.dict = user.dict
+            this.plugin.userInfo.config = user.config
+            setToken(user.access_token, PluginTokenKey)
+            tools.data.set('Vat-Plugin', user.userInfo)
+            tools.cookie.set('Vat-Pid', user.userInfo.id)
         },
         //设置消息数量
         setNoticeCount(count: any, type:string = '+') {
@@ -65,6 +83,7 @@ export const useUserStore = defineStore("user", {
         }
     },
     getters: {
-        getUser: (state) => state.user
+        getUser: (state) => state.user,
+        getPlugin: (state) => state.plugin,
     }
 });

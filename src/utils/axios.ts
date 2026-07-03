@@ -3,6 +3,7 @@ import router from '@/router'
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { getToken, removeToken } from '@/utils/auth'
 import { createDiscreteApi, NButton } from 'naive-ui'
+const PluginTokenKey = import.meta.env.VITE_VAT_PLUGIN_TOKEN_KEY
 
 // 数据返回的接口
 // 定义请求响应参数，不含data
@@ -56,10 +57,12 @@ class Request {
         this.service.interceptors.request.use(
             (config: AxiosRequestConfig) => {
                 const token = getToken() || '';
+                const pluginToken = getToken(PluginTokenKey) || '';
                 return {
                     ...config,
                     headers: {
                         'authorization': 'Bearer ' + token,
+                        'plugin-authorization': 'Bearer ' + pluginToken,
                         'Content-Type': 'application/x-www-form-urlencoded'
                     }
                 }

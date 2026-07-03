@@ -47,6 +47,8 @@
                   <div class="vat-tools-line-box" :class="[state.config.mode ? 'dark' : 'light']"><i class="ifont i-full-screen pointer" @click="fullScreen"></i></div>
                   <!-- 消息通知 -->
                   <n-badge :value="userStore.user.userInfo.noread" :max="99" :offset="[-4,0]"><div class="vat-tools-line-box" :class="[state.config.mode ? 'dark' : 'light']"><i class="ifont i-notice pointer" @click="toNotice"></i></div></n-badge>
+                  <!-- 任务中心 -->
+                  <div class="vat-tools-line-box" :class="[state.config.mode ? 'dark' : 'light']"><i class="ifont i-table-column2 pointer" @click="toTask"></i></div>
                   <!-- 设置 -->
                   <div class="vat-tools-line-box" :class="[state.config.mode ? 'dark' : 'light']"><i class="ifont i-setting pointer" @click="toSetting"></i></div>
                 </template>
@@ -188,11 +190,11 @@
         </n-drawer-content>
       </n-drawer>
 
-      <n-drawer v-model:show="state.visible.notice" :width="500" placement="right">
-        <n-drawer-content title="消息通知" closable>
-          <Notice></Notice>
-        </n-drawer-content>
-      </n-drawer>
+      <!-- 消息通知 -->
+      <Notice v-model:show="state.visible.notice"></Notice>
+
+      <!-- 任务中心 -->
+      <Task v-model:show="state.visible.task"></Task>
       <!--- 水印 --->
       <n-watermark v-show="state.config.watermark" :content="state.userInfo.name" cross fullscreen :font-size="16" :line-height="16" 
         :width="384"
@@ -227,6 +229,7 @@ import { useUserStore } from '@/store/user'
 import Navbar from './components/Navbar.vue'
 import Notice from './components/Notice.vue'
 import SideBar from './components/SideBar.vue'
+import Task from './components/Task.vue'
 
 import { useI18n } from 'vue-i18n';
 const { locale } = useI18n();
@@ -256,6 +259,7 @@ const state = reactive({
     visible: {
       setting: false, //设置抽屉弹框
       notice: false, //消息通知
+      task: false //任务中心
     },
     config: useSettingStore().getConfig
 })
@@ -359,6 +363,13 @@ function handleUpdateValue(key, item){
  */
 function toSetting(){
   state.visible.setting = true
+}
+
+/**
+ * 任务中心
+ */
+function toTask(){
+  state.visible.task = true
 }
 
 /**
