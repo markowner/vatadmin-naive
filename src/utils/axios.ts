@@ -1,8 +1,8 @@
 import axios, { AxiosError } from 'axios'
 import router from '@/router'
-import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
+import type { AxiosInstance, AxiosRequestConfig, InternalAxiosRequestConfig, AxiosResponse } from 'axios'
 import { getToken, removeToken } from '@/utils/auth'
-import { createDiscreteApi, NButton } from 'naive-ui'
+import { createDiscreteApi } from 'naive-ui'
 const PluginTokenKey = import.meta.env.VITE_VAT_PLUGIN_TOKEN_KEY
 
 // 数据返回的接口
@@ -16,7 +16,7 @@ interface Result {
 interface ResultData<T = any> extends Result {
     data?: T;
 }
-const URL: string = ''
+const URL = ''
 enum RequestEnums {
     TIMEOUT           = 10000,
     TOKEN_FAILURE     = 401, // 登录失效
@@ -26,21 +26,23 @@ enum RequestEnums {
 }
 const config = {
     // 默认地址
-    baseURL: URL as string,
+    baseURL: URL,
     // 设置超时时间
-    timeout: RequestEnums.TIMEOUT as number,
+    timeout: RequestEnums.TIMEOUT,
     // 跨域时候允许携带凭证
     withCredentials: true
 }
 
-let MessageBox_401_show: Boolean = false
-interface RequestConfig {
-    url: String,
-    method: String
-}
+let MessageBox_401_show: boolean = false
 
-const { message, notification, dialog, loadingBar, modal } = createDiscreteApi(
-    ['message', 'dialog', 'notification', 'loadingBar', 'modal']
+interface RequestConfig {
+    url: string,
+    method: string,
+    [key: string]: any;   // 允许任意其他字段
+}
+// ['message', 'dialog', 'notification', 'loadingBar', 'modal']
+const { message, dialog } = createDiscreteApi(
+    ['message', 'dialog']
 )
 class Request {
     // 定义成员变量并指定类型
@@ -55,17 +57,13 @@ class Request {
          * token校验(JWT) : 接受服务器返回的token,存储到vuex/pinia/本地储存当中
          */
         this.service.interceptors.request.use(
-            (config: AxiosRequestConfig) => {
+            (config: InternalAxiosRequestConfig) => {
                 const token = getToken() || '';
                 const pluginToken = getToken(PluginTokenKey) || '';
-                return {
-                    ...config,
-                    headers: {
-                        'authorization': 'Bearer ' + token,
-                        'plugin-authorization': 'Bearer ' + pluginToken,
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    }
-                }
+                config.headers.set('authorization', 'Bearer ' + token);
+                config.headers.set('plugin-authorization', 'Bearer ' + pluginToken);
+                config.headers.set('Content-Type', 'application/x-www-form-urlencoded');
+                return config
             },
             (error: AxiosError) => {
                 // 请求报错
@@ -122,12 +120,12 @@ class Request {
             }
         )
     }
-    handleCode(response):void {
+    handleCode(response: AxiosResponse):void {
         switch (response.status) {
             case 400:
             case 403:  
             case 500:  
-                message.error(response.data.msg);
+                message.error(response.data?.msg || '请求失败');
                 break;
             case 401:
                 if(!MessageBox_401_show) {
@@ -165,14 +163,14 @@ class Request {
     put<T>(url: string, params?: object, config?: object): Promise<ResultData<T>> {
         return this.service.put(import.meta.env.VITE_APP_PROXY_PREFIX + url, params, config);
     }
-    delete<T>(url: string, params?: object, config?: object): Promise<ResultData<T>> {
+    delete<T>(url: string, params?: object): Promise<ResultData<T>> {
         return this.service.delete(import.meta.env.VITE_APP_PROXY_PREFIX + url, {params})
     }
 
-    request<T>(urlObj?: RequestConfig | String | Object, params?: object, config?: object): Promise<ResultData<T>> {
+    request<T>(urlObj: RequestConfig | string, params?: object, config?: object): Promise<ResultData<T>> {
         if(typeof urlObj !== 'string') {
             let url = import.meta.env.VITE_APP_PROXY_PREFIX + urlObj.url
-            switch(urlObj.method){
+            switch(urlObj.method?.toLowerCase()){
                 case 'get':
                     return this.service.get(url, Object.assign({},{'params': params}, config))
                 case 'post':
@@ -183,7 +181,7 @@ class Request {
                     return this.service.delete(url, {params});
                 default:
                     message.error('错误的请求');
-                    break;
+                    return Promise.reject(false);
             }
         }else{
             return this.service.get(import.meta.env.VITE_APP_PROXY_PREFIX + urlObj, Object.assign({},{'params': params}, config))
@@ -205,7 +203,7 @@ class Request {
         return import.meta.env.VITE_APP_PROXY_PREFIX + '/app/vatadmin/basic/tools/upload'
     }
 
-    downloadFile(response) {
+    downloadFile(response: AxiosResponse) {
         // 检查响应数据
         if (!(response.data instanceof Blob)) {
             throw new Error('文件内容无效')

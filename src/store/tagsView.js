@@ -1,4 +1,3 @@
-import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 
 export const useTagsViewStore = defineStore("tagsview", {
@@ -9,12 +8,12 @@ export const useTagsViewStore = defineStore("tagsview", {
     ),
     actions: {
         //添加路由标签
-        addView(view: Object) {
+        addView(view) {
             if (this.visitedViews.some(v => v.path === view.path)) return
             this.visitedViews.push(view)
         },
         //删除路由标签
-        delView(view: Object) {
+        delView(view) {
             for (const [i, v] of this.visitedViews.entries()) {
                 if (v.path === view.path) {
                     this.visitedViews.splice(i, 1)
@@ -23,7 +22,7 @@ export const useTagsViewStore = defineStore("tagsview", {
             }
         },
         //删除其他路由标签
-        delOtherView(view: Object) {
+        delOtherView(view) {
             this.visitedViews = this.visitedViews.filter(v => {
                 return v.meta.affix || v.path === view.path
             })

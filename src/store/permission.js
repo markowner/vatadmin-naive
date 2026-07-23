@@ -11,10 +11,10 @@ export const usePermissionStore = defineStore("permission", {
     ),
     actions: {
         //设置用户信息
-        setRoutes(routes: []) {
+        setRoutes(routes) {
             this.routes = routes
         },
-        setMenus(menus: []) {
+        setMenus(menus) {
             this.menus = menus
         },
         //路由扁平化
@@ -50,7 +50,7 @@ export const usePermissionStore = defineStore("permission", {
                 return func(node) || (node.children && node.children.length)
             })
         },
-        generateRoutes(menus: []) {
+        generateRoutes(menus) {
             return new Promise(resolve => {
                 this.setMenus(menus)
                 let accessedRoutes = tools.menuFormat.filterAsyncRouter(menus)

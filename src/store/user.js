@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import tools from "../utils/tools.ts";
+import tools from "../utils/tools";
 import { getToken, removeToken, setToken } from "@/utils/auth";
 import Request from '@/utils/axios'
 import router from '@/router'
@@ -22,7 +22,7 @@ export const useUserStore = defineStore(",", {
     ),
     actions: {
         //设置用户信息
-        login(user: any) {
+        login(user) {
             this.user.token = user.access_token
             this.user.id = user.userInfo.id
             this.user.name = user.userInfo.name
@@ -34,7 +34,7 @@ export const useUserStore = defineStore(",", {
             tools.data.set('Vat-User', user.userInfo)
             tools.cookie.set('Vat-Uid', user.userInfo.id)
         },
-        loginPlugin(user: any) {
+        loginPlugin(user) {
             this.plugin.token = user.access_token
             this.plugin.id = user.userInfo.id
             this.plugin.name = user.userInfo.name
@@ -47,7 +47,7 @@ export const useUserStore = defineStore(",", {
             tools.cookie.set('Vat-Pid', user.userInfo.id)
         },
         //设置消息数量
-        setNoticeCount(count: any, type:string = '+') {
+        setNoticeCount(count, type = '+') {
             if (count !== '') {
                 this.user.userInfo.noread = count
             } else {
@@ -61,14 +61,14 @@ export const useUserStore = defineStore(",", {
         //获取用户信息
         userInfo(){
             return new Promise((resolve, reject) => {
-                Request.request(VatApi.api_list.userInfo).then((res: {}) => {
+                Request.request(VatApi.api_list.userInfo).then((res) => {
                     this.user.userInfo.dict = res.data.dict
                     this.user.userInfo.config = res.data.config
                     this.user.userInfo.noread = res.data.userInfo.noread
                     tools.data.set('Vat-Menu', res.data.menus)
                     tools.data.set('Vat-Views', res.data.views)
                     resolve(res.data)
-                }).catch((err: any) => {
+                }).catch((err) => {
                     reject(err)
                 })
             })
@@ -76,10 +76,10 @@ export const useUserStore = defineStore(",", {
         //清空用户信息
         logout() {
             //清除token
-            Request.request(VatApi.api_list.logout).then((res:any) => {
+            Request.request(VatApi.api_list.logout).then((res) => {
                 removeToken()
                 router.push('/login')
-            }).catch((err: any) => {})
+            }).catch((err) => {})
         }
     },
     getters: {

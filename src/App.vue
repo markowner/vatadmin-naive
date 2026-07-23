@@ -1,10 +1,9 @@
-<script setup lang="ts">
-import {inject, reactive, ref} from 'vue'
+<script setup>
+import {reactive, ref} from 'vue'
 import { darkTheme } from 'naive-ui'
 import { dateZhCN, zhCN } from 'naive-ui'
 import { NConfigProvider } from 'naive-ui'
 const modeTheme = ref(darkTheme)
-// const tools = inject('tools')
 const state = reactive({
   locale: zhCN,
   dateLocale: dateZhCN,
@@ -44,9 +43,10 @@ const themeOverrides = {
     },
     Layout: {
       // textColor:'#fff',
-      headerColor: '#E9EFFD',
+      headerColor: '#4098fc1a',
+      // headerColor: '#E9EFFD',
       // headerBorderColor: '#fff',
-      siderColor: '#E9EFFD',
+      siderColor: '#4098fc1a',
       // siderBorderColor:''
     },
     Button: {

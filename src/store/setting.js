@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import tools from "../utils/tools.ts";
+import tools from "../utils/tools";
 export const useSettingStore = defineStore("setting", {
     state: () => (
         {
@@ -14,7 +14,7 @@ export const useSettingStore = defineStore("setting", {
     ),
     actions: {
         //设置主题
-        setData(data: {}){
+        setData(data){
             this.config = data
         }
     },

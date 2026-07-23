@@ -13,7 +13,7 @@ if(import.meta.env.VITE_APP_WS_URL && import.meta.env.VITE_APP_WS_APPKEY && wind
         // 浏览器监听DATA-U-uid频道的消息
         let user_channel = connection.subscribe('Vat-User-' + uid);
         // 当user-1频道有message事件的消息时
-        user_channel.on('message', function(data: Object) {
+        user_channel.on('message', function(data) {
             // data里是消息内容
             const userStore = useUserStore()
             userStore.setNoticeCount('');
@@ -28,10 +28,10 @@ if(import.meta.env.VITE_APP_WS_URL && import.meta.env.VITE_APP_WS_APPKEY && wind
                 keepAliveOnHover: true
             })
         });
-
+        
         let group_channel = connection.subscribe('Vat-Group');
         // 当user-1频道有message事件的消息时
-        group_channel.on('message', function(data: Object) {
+        group_channel.on('message', function(data) {
             // data里是消息内容
             const userStore = useUserStore()
             userStore.setNoticeCount('');
@@ -49,7 +49,7 @@ if(import.meta.env.VITE_APP_WS_URL && import.meta.env.VITE_APP_WS_APPKEY && wind
 
         let affiche_channel = connection.subscribe('Vat-Affiche');
         // 当user-1频道有message事件的消息时
-        affiche_channel.on('message', function(data: Object) {
+        affiche_channel.on('message', function(data) {
             // data里是消息内容
             const userStore = useUserStore()
             userStore.setNoticeCount('');

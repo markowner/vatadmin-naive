@@ -18,7 +18,14 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "allowJs": true,      // 允许编译 .js 文件
+    "checkJs": false      // 不对 .js 文件进行类型检查（但仍然会处理它们）
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"]
+  "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.tsx", "src/**/*.vue", "src/router/permission.js", "src/store/user.js", "src/store/tagsView.js", "src/store/setting.js", "src/store/permission.js", "src/store/index.js", "src/utils/axios.ts", "src/utils/auth.js", "src/utils/socket.js", "src/utils/regIcon.js", "src/utils/tools.js", "src/main.js", "src/language/index.js", "src/language/i18n/zh.js", "src/language/i18n/en.js"]
 }

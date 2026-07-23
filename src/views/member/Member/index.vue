@@ -14,7 +14,7 @@
 </template>
 <script setup>
   import {inject} from "vue"
-  import { NButton } from 'naive-ui'
+  import { NButton, NDropdown } from 'naive-ui'
   import Request from '@/utils/axios'
   import VatPage from "@/components/VatPage.vue"
   import Edit from "./edit.vue"
@@ -35,7 +35,7 @@
    */
   function handleColumn(row, index) {
     let columns = []
-    if (pageJsonData.tools.edit.show) {
+    if (pageJsonData.tools.edit.show && tools.data.get('Vat-Views').includes(pageJsonData.tools.edit.permission_key)) {
       columns.push(
           h(NButton,
               {
@@ -43,6 +43,7 @@
                 type: 'primary',
                 secondary: true,
                 onClick: () => {
+                  row.password = ''
                   editForm.value.type('edit').injectData(row).show()
                 }
               },
@@ -50,7 +51,7 @@
           )
       )
     }
-    if (pageJsonData.tools.delete.show) {
+    if (pageJsonData.tools.delete.show && tools.data.get('Vat-Views').includes(pageJsonData.tools.delete.permission_key)) {
       columns.push(
           h(NButton,
               {
@@ -81,6 +82,26 @@
           )
       )
     }
+    //更多操作
+    if (pageJsonData.setting?.rowHandle) {
+      //过滤权限操作
+      let rowHandle = pageJsonData.setting?.rowHandle.filter(item => tools.data.get('Vat-Views').includes(item?.permission_key))
+      if(rowHandle.length > 0){
+        columns.push(
+          h(NDropdown,
+            {
+              trigger: 'hover',
+              placement: 'bottom-start',
+              options: rowHandle,
+              onSelect: (key, option) => {
+                rowHandleChange(key, option)
+              }
+            },
+            {default: () => h(NButton, {size: 'tiny'}, () => h('i', {class: 'ifont i-more'}))}
+          )
+        )
+      }
+    }
     return columns
   }
 
@@ -91,7 +112,7 @@
     fixed: 'right',
     render: (row, index) => {
       const defaultColumn = handleColumn(row, index)
-      return h('div', {class: 'flex gap'}, {
+      return h('div', {class: 'flex gap flex-wrap'}, {
         default: () => {
           return [...defaultColumn]
         }
@@ -137,6 +158,15 @@
         break;
     }
   }
+
+  /**
+   * 行更多操作选择事件
+   * 后续操作自定义处理
+   */
+  function rowHandleChange(key, option){
+    console.log(key, option)
+  }
+
 
   /**
    * 添加编辑提交完成

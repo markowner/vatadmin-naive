@@ -2,8 +2,8 @@ import { createApp } from 'vue'
 import { createPinia } from "pinia"
 // import NaiveUi from 'naive-ui'
 import Captcha from '@kkokk/captcha'
-import router from './router'
-import i18n from './language'
+import router from './router/index'
+import i18n from './language/index'
 import api from './vat/vat_api.json'
 import tools from "./utils/tools"
 import "./utils/socket"

@@ -7,7 +7,7 @@ import Request from '@/utils/axios'
 import { usePermissionStore } from '@/store/permission'
 import { useUserStore } from '@/store/user'
 import api from '@/vat/vat_api.json'
-var isGetRoute: Boolean = false
+var isGetRoute = false
 
 router.beforeEach(async (to, from, next) => {
     //开始进度条
@@ -24,7 +24,7 @@ router.beforeEach(async (to, from, next) => {
             if(!isGetRoute){
                 const userInfo = await useUserStore().userInfo()
                 //获取菜单
-                const menus: [] = userInfo.menus || []
+                const menus = userInfo.menus || []
                 const accessRoutes = await usePermissionStore().generateRoutes(menus)
                 //加入到路由
                 accessRoutes.forEach( item => {

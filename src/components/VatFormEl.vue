@@ -117,7 +117,7 @@
     <div class="flex flex-center icon-box" @click="toIcons"><i v-if="state.value" class="ifont " :class="['i-' + state.value]" style="font-size: 24px;"></i></div>
     <VatIcons ref="vatIcons" v-model="state.value"></VatIcons>
   </template>
-  <template v-else-if="state.config.type == 'select_page'">
+  <template v-else-if="state.config.type == 'select-page'">
     <VatSelectPage v-model="state.value" :configs="state.config" v-bind="state.config.config.props"></VatSelectPage>
   </template>
 </template>

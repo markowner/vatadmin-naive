@@ -36,7 +36,7 @@ tools.notice = {
 }
 
 tools.data = {
-    set(key: String, data, datetime = 0) {
+    set(key, data, datetime = 0) {
         //加密
         if(import.meta.env.VITE_VAT_AES_KEY){
             data = tools.crypto.AES.encrypt(JSON.stringify(data), import.meta.env.VITE_VAT_AES_KEY)
@@ -47,7 +47,7 @@ tools.data = {
         }
         return localStorage.setItem(key, JSON.stringify(cacheValue))
     },
-    get(key: String) {
+    get(key) {
         try {
             const value = JSON.parse(localStorage.getItem(key))
             if (value) {
@@ -67,7 +67,7 @@ tools.data = {
             return null
         }
     },
-    remove(key: String) {
+    remove(key) {
         return localStorage.removeItem(key)
     },
     clear() {
@@ -76,7 +76,7 @@ tools.data = {
 }
 
 tools.cookie = {
-    set(name: String, value: String, config={}) {
+    set(name, value, config={}) {
         var cfg = {
             expires: null,
             path: null,
@@ -99,7 +99,7 @@ tools.cookie = {
         }
         document.cookie = cookieStr
     },
-    get( name: String ){
+    get( name ){
         var arr = document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"))
         if(arr != null){
             return unescape(arr[2])
@@ -107,7 +107,7 @@ tools.cookie = {
             return null
         }
     },
-    remove(name: String, config = {}){
+    remove(name, config = {}){
         var cfg = {
             path: '/',
             domain: null,
@@ -200,11 +200,11 @@ tools.screen = function (element) {
     }
 }
 
-tools.pageTitle = (title: String) => {
+tools.pageTitle = (title) => {
     return i18n.global.t('app_name') + (title ? '-' + title : '')
 }
 //获取根路由
-tools.basePath = (path: String) => {
+tools.basePath = (path) => {
     if (!path.startsWith('/')) {
         return ''; // 如果不是以斜杠开头，则返回空字符串或抛出错误
     }
@@ -220,16 +220,16 @@ tools.basePath = (path: String) => {
 
 tools.menuFormat = {
     //获取顶级菜单
-    parentMenu(menus: []){
-        const parentMenus: [] = []
+    parentMenu(menus){
+        const parentMenus = []
         menus.forEach(item => {
             delete item.children
             parentMenus.push(item)
         })
         return parentMenus
     },
-    getChild(menus:[], parent_id){
-        let childMenu:[] = []
+    getChild(menus, parent_id){
+        let childMenu = []
         menus.forEach(item => {
             if(parent_id == item.id){
                 childMenu = item.children
@@ -238,8 +238,8 @@ tools.menuFormat = {
         return childMenu
     },
     //重构路由
-    filterAsyncRouter(routerMap: []): [] {
-        const accessedRouters:[] = []
+    filterAsyncRouter(routerMap){
+        const accessedRouters = []
         routerMap.forEach(item => {
             item.meta = item.meta?item.meta:{};
             //处理外部链接特殊路由
@@ -267,8 +267,8 @@ tools.menuFormat = {
         return accessedRouters
     },
     //naiveui 路由重构
-    filterAsyncRouterNaive(routerMap: []): [] {
-        const accessedRouters:[] = []
+    filterAsyncRouterNaive(routerMap){
+        const accessedRouters = []
         routerMap.forEach(item => {
             //MAP转路由对象
             let route = {
@@ -287,8 +287,8 @@ tools.menuFormat = {
         })
         return accessedRouters
     },
-    filterParentAsyncRouterNaive(routerMap: []): [] {
-        const accessedRouters:[] = []
+    filterParentAsyncRouterNaive(routerMap){
+        const accessedRouters = []
         routerMap.forEach(item => {
             //MAP转路由对象
             let route = {
@@ -303,8 +303,8 @@ tools.menuFormat = {
         })
         return accessedRouters
     },
-    filterParentAsyncRouterNaive2(routerMap: []): [] {
-        const accessedRouters:[] = []
+    filterParentAsyncRouterNaive2(routerMap){
+        const accessedRouters = []
         routerMap.forEach(item => {
             //MAP转路由对象
             let route = {
@@ -323,7 +323,7 @@ tools.menuFormat = {
      * @param routes
      * @param basePath
      */
-    filterAffixTags(routes: [], basePath = '/') {
+    filterAffixTags(routes, basePath = '/') {
         let tags = []
         routes.forEach(route => {
             if (route.meta && route.meta.affix) {
@@ -351,14 +351,14 @@ tools.menuFormat = {
             return modules[`../views/${component}.vue`]
         }
     },
-    renderIconLabel(icon: string, label: ''){
+    renderIconLabel(icon, label = ''){
         return () => h('div', {class: "flex flex-direction-c flex-jc-c flex-ai-c"},[
             h(NIcon,{class: 'menu-icon ifont i-' + icon}),
             h('div', { class: 'menu-text' }, label)
         ])
     },
     //加载icon
-    renderIcon(icon: string, styles: String = '') {
+    renderIcon(icon, styles = '') {
         if(icon){
             return () => h(NIcon, {
                 class: 'ifont i-' + icon,
@@ -369,7 +369,7 @@ tools.menuFormat = {
         }
     },
     //跳转链接
-    toLink(label: string, url: string){
+    toLink(label, url){
         return () => h(RouterLink, {
                 to: {
                     path: url
@@ -382,7 +382,7 @@ tools.menuFormat = {
 
 tools.pages = {
     colorList: ['#18a058','#4098FCFF','#f0a020','gray','#d03050'],
-    mergeObjects(target: {}, source: {}) {
+    mergeObjects(target, source) {
         for (let key in source) {
             // 确保属性在目标对象中存在
             if (key in target) {
@@ -392,9 +392,9 @@ tools.pages = {
         return target;
     },
     //构建table展示列
-    buildColumns2(fields: []){
-        let columns: [] = []
-        fields.forEach((v: {}) => {
+    buildColumns2(fields){  
+        let columns = []
+        fields.forEach((v) => {
             if(v.table_column){
                 let ckey = v.alias || v.field
                 columns.push({
@@ -412,10 +412,10 @@ tools.pages = {
         })
         return columns
     },
-    buildColumns(pageJson: {}){
+    buildColumns(pageJson){
         let fields = pageJson.fields
         let columns = {}
-        fields.forEach((v: {}) => {
+        fields.forEach((v) => {
             if(v.table_column){
                 let ckey = v.alias || v.field
                 let res = {
@@ -446,9 +446,9 @@ tools.pages = {
         })
         return columns
     },
-    buildForm(fields: [], filter_fields = []){
-        let formList: [] = []
-        fields.forEach((v: {}) => {
+    buildForm(fields, filter_fields = []){
+        let formList = []
+        fields.forEach((v) => {
             if(v.form && !filter_fields.includes(v.field)){
                 if(v.config.dict){
                     v.config.options = useUserStore().user.userInfo.dict[v.config.dict].options
@@ -471,9 +471,9 @@ tools.pages = {
      * 生成必填验证规则
      * @param fields
      */
-    buildRule(fields: []){
+    buildRule(fields){
         let rules = {}
-        fields.forEach((v: {}) => {
+        fields.forEach((v) => {
             if(v.form && v.form_required){
                 let msg = ''
                 let res = {required: true, trigger: ['input', 'blur']}
@@ -505,23 +505,23 @@ tools.pages = {
         return rules
     },
     //排序
-    sortColumns(fields: [], sortField = 'table_order'){
+    sortColumns(fields, sortField = 'table_order'){
         fields.sort((a, b) => a[sortField] - b[sortField]);
         return fields
     },
     //构建搜索
-    buildSearch(fields: [], filter_fields = {}){
+    buildSearch(fields, filter_fields = {}){
         let query = router.currentRoute.value.query
         if(query.filter){
             filter_fields = JSON.parse(query.filter)
         }
-        let search: [] = []
-        fields.forEach((v: {}) => {
+        let search = []
+        fields.forEach((v) => {
             if(v.search){
                 if(v.config.dict){
                     v.config.options = useUserStore().user.userInfo.dict[v.config.dict].options
                 }
-                let placeholderText: any = ''
+                let placeholderText = ''
                 if('input' == v.search_view){
                     placeholderText = '请输入' + v.comment
                 }else if('input-pair' == v.search_view){
@@ -549,10 +549,10 @@ tools.pages = {
             default: fieldValues[item.field] ?? item.default // 若 fieldValues 中有定义，则覆盖默认值
         }));
     },
-    renderButton(label: string, attr = {}, callback: Function){
+    renderButton(label, attr = {}, callback){
         return h(NButton, {...attr, size: 'tiny', onClick: () => {callback()}}, {default: () => label})
     },
-    renderTextColor(list: any, value: any, label: any){
+    renderTextColor(list, value, label){
         let color = ''
         if(list instanceof Array){
             for(let i=0;i<list.length;i++){
@@ -573,7 +573,7 @@ tools.pages = {
         }
         return h('span', {style: 'color:' + color + ';font-weight: bold'}, {default:() => label})
     },
-    renderTextCustom(value: any, field: {}){
+    renderTextCustom(value, field){
         let color = ''
         if(field.config && field.config.map){
             for(let key in field.config.map){
@@ -593,8 +593,8 @@ tools.pages = {
 
         return  h('span', {...textStyle}, {default:() => value})
     },
-    renderMapping(value: any, field: {}){
-        let mode: any = ''
+    renderMapping(value, field){
+        let mode = ''
         if(field.config && field.config?.mapping){
             for(let key in field.config?.mapping){
                 if(value == key){
@@ -605,12 +605,12 @@ tools.pages = {
         }
         let renderValue = value
         if(field.config?.dict){
-            renderValue = useUserStore().user.userInfo.dict[field.config.dict].options.find((item: {value: any}) => item.value == value)?.label || value
+            renderValue = useUserStore().user.userInfo.dict[field.config.dict].options.find((item) => item.value == value)?.label || value
         }
 
         let textType = field.config?.mapping_type || 'text'
         if(textType == 'text'){
-            let textStyle: any = {}
+            let textStyle = {}
              if(mode){
                 if(mode instanceof Object){
                     textStyle = mode
@@ -635,7 +635,7 @@ tools.pages = {
             )     
         }
     },
-    renderSwitch(row: {}, apiUrl: {} | string, field = 'status' , switchValue = {checked:{value:0,label:'正常'}, unchecked:{value:1,label:'禁用'}}){
+    renderSwitch(row, apiUrl, field = 'status' , switchValue = {checked:{value:0,label:'正常'}, unchecked:{value:1,label:'禁用'}}){
         return h(NSwitch, {
             'size':'small',
             'checked-value': switchValue.checked.value,
@@ -644,16 +644,16 @@ tools.pages = {
             'on-update:value': (checked) => {
                 if(apiUrl){
                     row[field] = checked
-                    Request.request( apiUrl, {ids: row.id, [field]: checked}).then((res: {}) => {
+                    Request.request( apiUrl, {ids: row.id, [field]: checked}).then((res) => {
                         tools.notice.message.success(res.msg)
-                    }).catch((err: any) => {
+                    }).catch((err) => {
                         console.log(err)
                     })
                 }
             }
         },  {checked:() => h('span', {'style':'font-size: 10px'}, switchValue.checked.label), unchecked:() => h('span', {'style':'font-size: 10px'}, switchValue.unchecked.label)} )
     },
-    renderTags(list:[], tagType='info'){
+    renderTags(list, tagType='info'){
         return list.map((item) => {
             return h(
                 NTag, {
@@ -671,37 +671,37 @@ tools.pages = {
             )
         })
     },
-    renderIcon(icon: string){
+    renderIcon(icon){
         return icon ? h('i', {class:'ifont i-' + icon}) : ''
     },
-    renderTooltip(content: string, label: string){
+    renderTooltip(content, label){
         return h(NTooltip, {}, {trigger: () => { return h('div', {class: 'multiline-ellipsis pointer',innerHTML: content}) }, default: () => {
             return [
                 h('div', {style: "max-width:600px; maxHeight: 70vh;",innerHTML: label}, {})
             ]
         }})
     },
-    renderPopover(content: string, label: string){
+    renderPopover(content, label){
         return h(NPopover, {}, {trigger: () => { return h('div', {class: 'multiline-ellipsis pointer',innerHTML: content}) }, default: () => {
             return [
                 h('div', {style: "max-width:600px; maxHeight: 70vh;",innerHTML: label}, {})
             ]
         }})
     },
-    renderLink(link: string, fieldConfig: any){
+    renderLink(link, fieldConfig){
         console.log(fieldConfig)
          return h(VatLink, {href: link, ...fieldConfig.config.props})
     },
-    renderJson(json: string, fieldConfig: any){
+    renderJson(json, fieldConfig){
         return json ? h(VatJson, {data: typeof json === 'string' && json ? JSON.parse(json) : json, ...fieldConfig.config.props}) : ''
     },
-    renderAvatar(avatar: string){
+    renderAvatar(avatar){
         return avatar ? h(NAvatar, {size: 'small', src: this.cdnUrl(avatar)}) : ''
     },
-    renderImage(image: string){
+    renderImage(image){
         return image ? h(NImage, {width: '80px', height:'80px', src: this.cdnUrl(image)}) : ''
     },
-    renderImages(images: any){
+    renderImages(images){
         let imageArr = typeof images === 'string' ? (images ? JSON.parse(images) : []) : (images ? images : [])
         let imageNodes = imageArr.map((item, index) =>
             h(NImage, {
@@ -714,7 +714,7 @@ tools.pages = {
             return h('div', {class:'flex', style: "width:120px;height:120px;overflow-y:hidden;"}, {default:() => imageNodes})
         }})
     },
-    renderCarousel(images: any){
+    renderCarousel(images){
         let imgArr = typeof images === 'string' ? (images ? JSON.parse(images) : []) : (images ? images : [])
         let imgNodes = imgArr.map((item, index) =>
             h('img', {
@@ -725,7 +725,7 @@ tools.pages = {
         );
         return h(NCarousel, {style: 'height: 120px;', showArrow: true}, {default: () => imgNodes})
     },
-    renderStatusText(row: {}, status: number|string, statusMap: any){
+    renderStatusText(row, status, statusMap){       
         return [
             h('div', {style:'display: flex; align-items: center;gap: 2px;'}, [
                 h(NButton, {
@@ -743,10 +743,10 @@ tools.pages = {
             ])
         ]
     },
-    renderFiles(file_url: string, file_name: string){
+    renderFiles(file_url, file_name){
         return  h('div', {}, [h('i', {class:"ifont i-file", style:"margin-right:5px;"}), h('a', {href: this.cdnUrl(file_url)}, {default: () =>  file_name})])
     },
-    renderButtonModal(innerHtml: string){
+    renderButtonModal(innerHtml){
         return h(NButton, {size: 'tiny', type: 'primary', onClick: () => {
             tools.notice.modal.create({
                 title: '详情',
@@ -762,7 +762,7 @@ tools.pages = {
             return '查看'
         }})
     },
-    cdnUrl(url: string){
+    cdnUrl(url){
         // 检查URL是否以"http"或"//"(协议相对URL)开头
         if (/^https?:\/\//i.test(url) || /^\/\//i.test(url)) {
             return url;
@@ -822,18 +822,18 @@ tools.pages = {
 }
 
 tools.common = {
-    split(str: String, delimiter: any) {
+    split(str, delimiter) {        
         return str.split(delimiter).map(item => item.trim()).filter(item => item !== '');
     },
-    isNumeric(value: any) {
+    isNumeric(value) {
         return /^-?\d+(\.\d+)?(?:[eE][-+]?\d+)?$/.test(value);
     },
-    toNumber(value: any) {
+    toNumber(value) {
         const num = Number(value);
         return Number.isFinite(num) ? num : null
     },
     // 格式化时间
-    formatTime(time: any) {
+    formatTime(time) { 
         if (!time && time !== 0) return '-'
         
         let date
@@ -856,7 +856,7 @@ tools.common = {
         })
     },
     // 复制内容到剪贴板
-    copy(content: string) {
+    copy(content) {
         if (!content) return
         navigator.clipboard.writeText(content).then(() => {
             tools.notice.message.success('已复制到剪贴板')

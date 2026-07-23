@@ -19,7 +19,7 @@
     </n-drawer-content>
   </n-drawer>
 </template>
-<script setup lang="ts">
+<script setup>
 import {inject, reactive} from "vue";
 import router from '@/router'
 import { usePermissionStore } from '@/store/permission'
@@ -30,8 +30,8 @@ const state = reactive({
   menus: []
 })
 
-const menu: [] = usePermissionStore().getMenus
-state.menus = tools.menuFormat.filterAsyncRouterNaive(menu)
+const menus = usePermissionStore().getMenus
+state.menus = tools.menuFormat.filterAsyncRouterNaive(menus)
 
 function showMobileNav(){
   state.active = true

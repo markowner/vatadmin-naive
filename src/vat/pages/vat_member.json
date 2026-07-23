@@ -88,7 +88,7 @@
             "sorter": false,
             "condition": "=",
             "search_view": "input",
-            "form_view": "input",
+            "form_view": "password",
             "rules": "required",
             "width": 100,
             "default": null,
@@ -251,7 +251,7 @@
             "table_display": "",
             "table_column": true,
             "table_order": 80,
-            "form": true,
+            "form": false,
             "form_required": true,
             "form_order": 80,
             "sorter": false,
@@ -273,7 +273,7 @@
             "table_display": "",
             "table_column": true,
             "table_order": 90,
-            "form": true,
+            "form": false,
             "form_required": true,
             "form_order": 90,
             "sorter": false,
@@ -362,7 +362,7 @@
     ],
     "tools": {
         "add": {
-            "show": false,
+            "show": true,
             "permission_key": "vat_member_add"
         },
         "edit": {
@@ -429,5 +429,5 @@
             "permission_key": "vat_member_search"
         }
     },
-    "setting": []
+    "setting": {}
 }

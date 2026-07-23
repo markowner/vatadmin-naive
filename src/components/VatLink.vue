@@ -9,7 +9,7 @@
         'vat-link-primary': type === 'primary',
         'vat-link-success': type === 'success',
         'vat-link-warning': type === 'warning',
-        'vat-link-danger': type === 'danger',
+        'vat-link-danger': type === 'error',
         'vat-link-info': type === 'info',
         'vat-link-small': size === 'small',
         'vat-link-disabled': disabled,
@@ -53,7 +53,7 @@
     <n-dropdown 
       v-if="showOperations" 
       trigger="click"
-      placement="top-right"
+      placement="top-start"
     >
       <template #trigger>
         <n-button 
@@ -74,15 +74,14 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { NButton, NIcon, NTooltip, NDropdown, NMenu } from 'naive-ui';
-import { Copy as CopyIcon, MoreVertical } from '@vicons/ionicons5';
+import { NButton, NTooltip, NDropdown, NMenu } from 'naive-ui';
 
 interface Props {
   href: string;
   title?: string;
   target?: '_blank' | '_self' | '_parent' | '_top';
-  type?: 'primary' | 'success' | 'warning' | 'danger' | 'info';
-  size?: 'default' | 'small';
+  type?: 'default' | 'tertiary' | 'primary' | 'success' | 'info' | 'warning' | 'error';
+  size?: string;
   disabled?: boolean;
   icon?: any;
   showUnderline?: boolean;

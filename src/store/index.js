@@ -4,7 +4,7 @@ import { defineStore } from "pinia";
 export const useStore = defineStore("main", () => {
     const data = ref({ isCollapse: false , device: 'pc'});
 
-    function setData(key: any, value: any) {
+    function setData(key, value) {
         data.value[key] = value
     }
 
