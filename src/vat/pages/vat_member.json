@@ -26,6 +26,7 @@
         }
     },
     "joins": [],
+    "with": ["group", "level"],
     "select_fields": "*",
     "fields": [
         {
@@ -91,6 +92,9 @@
             "form_view": "password",
             "rules": "required",
             "width": 100,
+            "show_in": "add",
+            "disabled_in": "",
+            "visible_when": {},
             "default": null,
             "config": []
         },

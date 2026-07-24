@@ -1,12 +1,12 @@
 <template>
   <template v-if="state.config.type == 'input'">
-    <n-input type="text" v-model:value="state.value" :placeholder="state.config.placeholder" clearable v-bind="state.config.config.props" />
+    <n-input type="text" v-model:value="state.value" :placeholder="state.config.placeholder" :disabled="state.disabled" clearable v-bind="state.config.config.props" />
   </template>
   <template v-if="state.config.type == 'input-pair'">
-    <n-input pair v-model:value="state.value" :placeholder="state.config.placeholder || ['从','到']" clearable v-bind="state.config.config.props" />
+    <n-input pair v-model:value="state.value" :placeholder="state.config.placeholder || ['从','到']" :disabled="state.disabled" clearable v-bind="state.config.config.props" />
   </template>
   <template v-if="state.config.type == 'input_number'">
-    <n-input-number v-model:value="state.value" :placeholder="state.config.placeholder" clearable v-bind="state.config.config.props" />
+    <n-input-number v-model:value="state.value" :placeholder="state.config.placeholder" :disabled="state.disabled" clearable v-bind="state.config.config.props" />
   </template>
   <template v-if="state.config.type == 'input_dynamic'">
     <n-dynamic-input
@@ -14,51 +14,53 @@
         preset="pair"
         key-placeholder="键"
         value-placeholder="值"
+        :disabled="state.disabled"
         v-bind="state.config.config.props"
     />
   </template>
   <template v-else-if="state.config.type == 'hidden'">
-    <input type="hidden" class="filter-item" v-model="state.value" />
+    <input type="hidden" class="filter-item" v-model="state.value" :disabled="state.disabled" />
   </template>
   <template v-if="state.config.type == 'password'">
-    <n-input type="password" :input-props="{autocomplete:''}" show-password-on="mousedown" v-model:value="state.value" clearable :placeholder="state.config.placeholder" />
+    <n-input type="password" :input-props="{autocomplete:''}" :disabled="state.disabled" show-password-on="mousedown" v-model:value="state.value" clearable :placeholder="state.config.placeholder" />
   </template>
   <template v-else-if="state.config.type == 'textarea'">
-    <n-input type="textarea" v-model:value="state.value" :placeholder="state.config.placeholder" clearable :autosize="{minRows: 3, maxRows: 5}"/>
+    <n-input type="textarea" v-model:value="state.value" :placeholder="state.config.placeholder" :disabled="state.disabled" clearable :autosize="{minRows: 3, maxRows: 5}"/>
   </template>
   <template v-else-if="state.config.type == 'switch'">
-    <n-switch v-model:value="state.value" :checked-value="state.config.config.map.checked" :unchecked-value="state.config.config.map.unchecked" />
+    <n-switch v-model:value="state.value" :checked-value="state.config.config.map.checked" :unchecked-value="state.config.config.map.unchecked" :disabled="state.disabled" />
   </template>
   <template v-else-if="state.config.type == 'select' || state.config.type == 'dict'">
     <n-select
         v-model:value="state.value"
         :placeholder="state.config.placeholder"
         :options="state.config.config.options"
+        :disabled="state.disabled"
         clearable
         v-bind="state.config.config.props"
     />
   </template>
   <template v-else-if="state.config.type == 'radio'">
-    <n-radio-group v-model:value="state.value" :name="state.config.field">
+    <n-radio-group v-model:value="state.value" :name="state.config.field" :disabled="state.disabled">
       <n-space>
         <n-radio v-for="(item, index) in state.config.config.options"  :key="index" :label="item.label" :value="item.value" />
       </n-space>
     </n-radio-group>
   </template>
   <template v-else-if="state.config.type == 'radio_button'">
-    <n-radio-group v-model:value="state.value" :name="state.config.field">
+    <n-radio-group v-model:value="state.value" :name="state.config.field" :disabled="state.disabled">
       <n-radio-button v-for="(item, index) in state.config.config.options"  :key="index" :label="item.label" :value="item.value" />
     </n-radio-group>
   </template>
   <template v-else-if="state.config.type == 'checkbox'">
-    <n-checkbox-group v-model:value="state.value" :name="state.config.field">
+    <n-checkbox-group v-model:value="state.value" :name="state.config.field" :disabled="state.disabled">
       <n-space>
         <n-checkbox v-for="(item, index) in state.config.config.options" :key="index" :label="item.label" :value="item.value" />
       </n-space>
     </n-checkbox-group>
   </template>
   <template v-else-if="state.config.type == 'checkbox_button'">
-    <n-checkbox-group v-model:value="state.value" :name="state.config.field">
+    <n-checkbox-group v-model:value="state.value" :name="state.config.field" :disabled="state.disabled">
       <n-space>
         <n-checkbox v-for="(item, index) in state.config.config.options" :key="index" :label="item.label" :value="item.value" />
       </n-space>
@@ -68,13 +70,14 @@
     <JsonEditorVue ref="jsonEditor" v-model="state.value" v-bind="state.options" style="width: 100%; max-height: 500px; overflow-y: auto;" />
   </template>
   <template v-else-if="state.config.type == 'datepicker'">
-    <n-date-picker v-model:formatted-value="state.value" :format="state.config.config.format || null" :value-format="state.config.config.format || null" :type="state.config.config.form_type" clearable style="width: 100%;"/>
+    <n-date-picker v-model:formatted-value="state.value" :format="state.config.config.format || null" :value-format="state.config.config.format || null" :type="state.config.config.form_type" :disabled="state.disabled" clearable style="width: 100%;"/>
   </template>
   <template v-else-if="state.config.type == 'treeselect'">
     <n-tree-select
         v-model:value="state.value"
         :placeholder="state.config.placeholder || ''"
         :options="state.config.config.options"
+        :disabled="state.disabled"
         clearable
         v-bind="state.config.config.props"
     />
@@ -88,12 +91,13 @@
         :check-strategy="state.config.config.strategy || 'all'"
         :show-path="state.config.config.showPath || false"
         :filterable="state.config.config.filterable || true"
+        :disabled="state.disabled"
         clearable
         v-bind="state.config.config.props"
     />
   </template>
   <template v-else-if="state.config.type == 'editor'">
-    <VatEditor v-model="state.value" v-bind="state.config.config.props"></VatEditor>
+    <VatEditor v-model="state.value" v-bind="state.config.config.props" :readonly="state.disabled"></VatEditor>
   </template>
   <template v-else-if="state.config.type == 'markdown'">
     <VatMarkdown v-model="state.value" :config="state.config.config.props"></VatMarkdown>
@@ -102,7 +106,7 @@
     <VatFormTable v-model="state.value" v-bind="state.config.config.props"></VatFormTable>
   </template>
   <template v-else-if="state.config.type == 'upload'">
-    <n-upload :action="Request.uploadAction()" :headers="Request.uploadHeaders()" :default-file-list="fileList(state.value)" v-bind="state.config.config.props" @finish="uploadFinish"  @remove="uploadRemove" @error="uploadError">
+    <n-upload :action="Request.uploadAction()" :headers="Request.uploadHeaders()" :default-file-list="fileList(state.value)" :disabled="state.disabled" v-bind="state.config.config.props" @finish="uploadFinish"  @remove="uploadRemove" @error="uploadError">
       <n-upload-dragger v-if="state.config.config.props && state.config.config.props.hasOwnProperty('directory-dnd')">
         <div style="margin-bottom: 12px">
           <i class="ifont i-upload-cloud"></i>
@@ -143,6 +147,10 @@ const props = defineProps({
       return {}
     }
   },
+  disabled: {
+    type: Boolean,
+    default: false
+  },
   modelValue: {
     type: [String, Number, Object, Array, Boolean, null]
   }
@@ -153,6 +161,7 @@ const vatIcons = ref(null)
 const state = reactive({
   config: props.config,
   value: props.modelValue,
+  disabled: props.disabled,
   editor: null,
   options: {
     mode: 'text',  // 默认模式：代码模式

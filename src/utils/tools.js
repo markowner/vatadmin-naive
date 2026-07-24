@@ -461,7 +461,10 @@ tools.pages = {
                     placeholder: v?.placeholder ? v.placeholder : ['input', 'input-pair', 'input_number','password', 'textarea'].includes(v.form_view) ? '请输入' + v.comment : '请选择' + v.comment,
                     value: v.default,
                     config: v.config,
-                    form_order: v.form_order
+                    form_order: v.form_order,
+                    show_in: v.show_in ?? '',
+                    disabled_in: v.disabled_in ?? '',
+                    visible_when: v.visible_when ?? {},
                 })
             }
         })
@@ -503,6 +506,119 @@ tools.pages = {
             }
         })
         return rules
+    },
+    /**
+     * 递归解析 visible_when 条件
+     * 支持 value / neq / and / or 嵌套
+     */
+    parseVisibleCondition(cond, formData) {
+        if (!cond || Object.keys(cond).length === 0) return true
+
+        if (cond.or && Array.isArray(cond.or)) {
+            return cond.or.some(item => this.parseVisibleCondition(item, formData))
+        }
+        if (cond.and && Array.isArray(cond.and)) {
+            return cond.and.every(item => this.parseVisibleCondition(item, formData))
+        }
+
+        const { field, value, neq } = cond
+        const fieldVal = formData[field]
+        if (neq !== undefined) {
+            return fieldVal !== neq
+        }
+        return fieldVal === value
+    },
+
+    /**
+     * 统一判断字段是否展示
+     * @param {object} item 字段配置
+     * @param {string} mode add / edit / detail
+     * @param {object} formData 表单数据
+     * @returns {boolean}
+     */
+    isFieldVisible(item, mode, formData) {
+        // show_in：空/all 全部显示，支持逗号分隔多模式
+        const showInRaw = (item.show_in ?? '').trim()
+        if (showInRaw && showInRaw !== 'all') {
+            const showArr = showInRaw.split(',').map(s => s.trim())
+            if (!showArr.includes(mode)) {
+                return false
+            }
+        }
+        // 联动条件
+        if (!this.parseVisibleCondition(item.visible_when, formData)) {
+            return false
+        }
+        return true
+    },
+    /**
+     * 清空当前所有隐藏字段的值，避免脏数据提交
+     * @param {Array} originFields buildForm原始字段数组
+     * @param {string} mode 当前模式
+     * @param {object} formData 表单data
+     */
+    cleanHiddenFieldValue(originFields, mode, formData) {
+        originFields.forEach(item => {
+            if (!this.isFieldVisible(item, mode, formData)) {
+                formData[item.field] = undefined
+            }
+        })
+    },
+    
+    /**
+     * 生成带显隐/禁用标记的表单列表 + 动态裁剪校验规则
+     * @param {Array} originFields buildForm结果
+     * @param {Object} originRules buildRule结果
+     * @param {Ref} modeRef toRef(state, 'type')
+     * @param {Ref} dataRef toRef(state, 'data')
+     * @returns {{formList:ComputedRef, rules:ComputedRef}}
+     */
+    buildDynamicForm(originFields, originRules, modeRef, dataRef) {
+        // ✅ 关键：外层一次性缓存 pages 引用，computed 内不要再使用 this / tools.pages 链式调用
+        const page = this
+
+        const formList = computed(() => {
+            const mode = modeRef.value
+            const formData = dataRef.value
+
+            return originFields.map(item => {
+                const _visible = page.isFieldVisible(item, mode, formData)
+                let _disabled = false
+
+                const disabledInRaw = (item.disabled_in ?? '').trim()
+                if (disabledInRaw) {
+                    const disabledArr = disabledInRaw.split(',').map(s => s.trim())
+                    if (disabledArr.includes(mode)) {
+                        _disabled = true
+                    }
+                }
+
+                return {
+                    ...item,
+                    _visible,
+                    _disabled
+                }
+            })
+        })
+
+        const rules = computed(() => {
+            const mode = modeRef.value
+            const formData = dataRef.value
+            const realRules = {}
+
+            originFields.forEach(item => {
+                const visible = page.isFieldVisible(item, mode, formData)
+                if (visible && originRules[item.field]) {
+                    realRules[item.field] = originRules[item.field]
+                }
+            })
+            return realRules
+        })
+
+        return {
+            formList,
+            rules
+        }
     },
     //排序
     sortColumns(fields, sortField = 'table_order'){
