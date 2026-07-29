@@ -120,7 +120,6 @@ function formatToOptions(list, showField){
             value: item[props.rowKey] + ''
         })
     })
-    console.log(options)
     return options
 }
 

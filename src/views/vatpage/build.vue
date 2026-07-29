@@ -512,9 +512,11 @@ SET @id := LAST_INSERT_ID();
 INSERT INTO \`vat_admin_menu\`(\`parent_id\`, \`name\`, \`path\`, \`component\`, \`icon\`, \`hidden\`, \`type\`, \`is_permission\`, \`permission_route\`)
 VALUES (@id, '列表', '${table}_list', '', '', 1, 'button', 1, '/${build_app_name}/${build_controller}/list');
 INSERT INTO \`vat_admin_menu\`(\`parent_id\`, \`name\`, \`path\`, \`component\`, \`icon\`, \`hidden\`, \`type\`, \`is_permission\`, \`permission_route\`)
-VALUES (@id, '添加', '${table}_add', '', '', 1, 'button', 1, '/${build_app_name}/${build_controller}/edit');
+VALUES (@id, '添加', '${table}_add', '', '', 1, 'button', 1, '/${build_app_name}/${build_controller}/add');
 INSERT INTO \`vat_admin_menu\`(\`parent_id\`, \`name\`, \`path\`, \`component\`, \`icon\`, \`hidden\`, \`type\`, \`is_permission\`, \`permission_route\`)
 VALUES (@id, '编辑', '${table}_edit', '', '', 1, 'button', 1, '/${build_app_name}/${build_controller}/edit');
+INSERT INTO \`vat_admin_menu\`(\`parent_id\`, \`name\`, \`path\`, \`component\`, \`icon\`, \`hidden\`, \`type\`, \`is_permission\`, \`permission_route\`)
+VALUES (@id, '详情', '${table}_detail', '', '', 1, 'button', 1, '/${build_app_name}/${build_controller}/detail');
 INSERT INTO \`vat_admin_menu\`(\`parent_id\`, \`name\`, \`path\`, \`component\`, \`icon\`, \`hidden\`, \`type\`, \`is_permission\`, \`permission_route\`)
 VALUES (@id, '锁定', '${table}_lock', '', '', 1, 'button', 1, '/${build_app_name}/${build_controller}/lock');
 INSERT INTO \`vat_admin_menu\`(\`parent_id\`, \`name\`, \`path\`, \`component\`, \`icon\`, \`hidden\`, \`type\`, \`is_permission\`, \`permission_route\`)
@@ -640,7 +642,9 @@ function getBuildApiPrefix(){
 function formatApiList(){
   state.tplJson.api_list = Object.assign({}, state.tplJson.api_list, {
     list: {url: getBuildApiPrefix() + state.data.build_app_name + '/' + state.data.build_controller + '/list', method: 'get'},
+    add: {url: getBuildApiPrefix() + state.data.build_app_name + '/' + state.data.build_controller + '/add', method: 'post'},
     edit: {url: getBuildApiPrefix() + state.data.build_app_name + '/' + state.data.build_controller + '/edit', method: 'post'},
+    detail: {url: getBuildApiPrefix() + state.data.build_app_name + '/' + state.data.build_controller + '/detail', method: 'get'},
     lock: {url: getBuildApiPrefix() + state.data.build_app_name + '/' + state.data.build_controller + '/lock', method: 'post'},
     delete: {url: getBuildApiPrefix() + state.data.build_app_name + '/' + state.data.build_controller + '/delete', method: 'post'},
     import: {url: getBuildApiPrefix() + state.data.build_app_name + '/' + state.data.build_controller + '/import', method: 'post'},

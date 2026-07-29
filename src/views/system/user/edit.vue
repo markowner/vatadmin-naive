@@ -4,7 +4,7 @@
       <template #header-extra>
         <i class="ifont i-close-circle modal-card-close" @click="hide()"></i>
       </template>
-      <VatForm ref="vatForm" :list="state.formList" :rules="state.rules" v-model="state.data"></VatForm>
+      <VatForm ref="vatForm" :list="formList" :rules="rules" v-model="state.data"></VatForm>
       <template #action>
         <n-flex justify="end">
           <n-space>
@@ -36,8 +36,6 @@ const props = defineProps({
   }
 })
 const vatForm = ref(null)
-let formJson = tools.pages.buildForm(pageJsonData.fields)
-let formRules = tools.pages.buildRule(pageJsonData.fields)
 
 const state = reactive({
   //类型 add | edit
@@ -46,15 +44,27 @@ const state = reactive({
   loading: false,
   //表单绑定值
   data: {},
-  //表单构建JSON
-  formList: formJson,
-  //验证规则
-  rules: JSON.parse(JSON.stringify(formRules)),
+  // //表单构建JSON
+  // formList: formJson,
+  // //验证规则
+  // rules: JSON.parse(JSON.stringify(formRules)),
   //弹框显示
   editDialogVisible: props.modelValue,
   //原始数据，用于重置
   cloneSource: {}
 })
+
+// let formJson = tools.pages.buildForm(pageJsonData.fields)
+// let formRules = tools.pages.buildRule(pageJsonData.fields)
+/**
+ * 获取表单构建JSON
+ * @type {[]}
+ */
+const formJson = tools.pages.buildForm(pageJsonData.fields)
+const originRules = tools.pages.buildRule(pageJsonData.fields)
+
+const {formList, rules} = tools.pages.buildDynamicForm(formJson, originRules, toRef(state, 'type'), toRef(state, 'data'))
+
 
 function initData(){
   let data = {id: 0}
@@ -128,6 +138,13 @@ function injectData(row){
  */
 function toSubmit(e){
   e.preventDefault()
+    // 提交前清理隐藏字段脏数据【推荐固定写上】
+  tools.pages.cleanHiddenFieldValue(formJson, state.type, state.data)
+  
+  if(state.loading){
+    return
+  }
+  state.loading = true
   vatForm.value.validate((errors) => {
     if (!errors) {
       Request.request(pageJsonData.api_list.edit, state.data).then(res => {
@@ -146,9 +163,7 @@ watch(() => props.modelValue, (val) => {
 })
 
 watch(() => state.editDialogVisible, (val) => {
-  if(val){
-    filterField()
-  }else{
+  if(!val){
     initData()
   }
 })

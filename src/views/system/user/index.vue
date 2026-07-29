@@ -12,7 +12,7 @@ import {inject} from "vue";
 const tools = inject('tools')
 const vPage = ref(null)
 import Request from '@/utils/axios'
-import { NButton } from 'naive-ui'
+import { NButton, NInput } from 'naive-ui'
 
 const editForm = ref(null)
 
@@ -128,6 +128,7 @@ function toolsChange(type, event, ids){
       if(ids.length < 1){
         return tools.notice.message.error('请先选择')
       }
+      tools.pages.resetPassword(ids, pageJsonData.api_list.reset_password.url)
       break;
     case 'download':
       pageJsonData.api_list.download.url += event

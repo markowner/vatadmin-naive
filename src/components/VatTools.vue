@@ -35,8 +35,8 @@
           </n-button>
         </n-upload>
         <slot name="left_append"></slot>
-        <n-dropdown :options="props.tools?.batch?.options" v-if="props.tools?.batch.show && checkPermission(props.tools?.batch.permission_key)" @select="toChange('batch', $event)">
-          <n-button type="info" size="small" color="#2c3e50">
+        <n-dropdown :render-icon="renderDropdownIcon" :options="props.tools?.batch?.options" v-if="props.tools?.batch.show && checkPermission(props.tools?.batch.permission_key)" @select="toChange('batch', $event)">
+          <n-button type="info" size="small" color="#607d8b">
             <template #icon>
               <i class="ifont i-batch"></i>
             </template>
@@ -88,6 +88,8 @@
 import {ref, defineProps, watch, reactive, inject} from 'vue'
 import Request from '@/utils/axios'
 const tools = inject('tools')
+import { CashOutline as CashIcon } from '@vicons/ionicons5'
+
 const props = defineProps({
   /**
    * api路由List
@@ -175,6 +177,10 @@ const uploadFinish = (options) => {
 const uploadError = (options) => {
   console.log('上传失败', options)
   tools.notice.message.error('上传失败：'+ options.file.name)
+}
+
+function renderDropdownIcon() {
+  return h('i', {class: 'ifont i-link1'})
 }
 
 function checkPermission(permissionKey){

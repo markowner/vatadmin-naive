@@ -1,8 +1,8 @@
 <template>
-  <VatModal v-model="state.editDialogVisible" :title="state.type === 'add' ? '添加' : '编辑'" :width="props.width">
-    <VatForm ref="vatForm" :list="formList" :rules="rules" v-model="state.data"></VatForm>
+  <VatModal v-model="state.editDialogVisible" :title="state.typeTextMap[state.type]" :width="props.width">
+    <VatForm ref="vatForm" :list="formList" :rules="rules" :disabled="state.type === 'detail'" v-model="state.data"></VatForm>
     <template #action>
-      <n-flex justify="end">
+      <n-flex justify="end" v-if="state.type != 'detail'">
         <n-space>
           <n-button type="tertiary" @click="reset()">重置</n-button>
           <n-button type="tertiary" @click="hide()">取消</n-button>
@@ -43,6 +43,8 @@ const vatForm = ref(null)
 const state = reactive({
   //类型 add | edit
   type: 'add',
+  //类型文本映射
+  typeTextMap: {'add': '添加', 'edit': '编辑', 'detail': '详情'},
   //加载
   loading: false,
   //表单绑定值

@@ -23,6 +23,10 @@
     "download": {
       "url": "/app/vatadmin/system/User/download",
       "method": "post"
+    },
+    "reset_password": {
+      "url": "/app/vatadmin/system/User/resetPassword",
+      "method": "post"
     }
   },
   "joins": [],
@@ -152,6 +156,7 @@
       "condition": "=",
       "search_view": "",
       "form_view": "password",
+      "show_in": "add",
       "width": 100,
       "default": null,
       "config": []
@@ -356,8 +361,15 @@
       "permission_key": "vat_admin_user_import"
     },
     "batch": {
-      "show": false,
-      "permission_key": "vat_admin_user_batch"
+      "show": true,
+      "permission_key": "vat_admin_user_batch",
+      "options":[
+        {
+          "key": "reset_password",
+          "label": "重置密码",
+          "permission_key": "vat_admin_user_reset_password"
+        }
+      ]
     },
     "refresh": {
       "show": true,

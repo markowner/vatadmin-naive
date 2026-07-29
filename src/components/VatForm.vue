@@ -1,18 +1,30 @@
 <template>
   <div>
-    <n-form ref="formRef" :label-placement="props.labelPlacement" label-width="auto" :model="state.data" :rules="props.rules" v-bind="props.bindProps">
+    <n-form ref="formRef" :label-placement="props.labelPlacement" label-width="auto" :model="state.data" :disabled="props.disabled" :rules="props.rules" v-bind="props.bindProps">
       <n-grid :cols="props.colsValue" :x-gap="24"  v-if="state.layout === 'grid'">
         <template v-for="(item, index) in state.list" :key="index">
-          <n-form-item-gi v-if="item?._visible" :span="['json_editor','editor','form_table','markdown'].includes(item.type) ? 24 : (props.gridValue || (item.config?.width ? 24 : 12) || 12)" :label="item.label" :path="item.field">
-            <VatFormEl :config="item" v-model="state.data[item.field]"></VatFormEl>
+          <template v-if="props.injectEl?.before" v-for="(ele, index) in props.injectEl.before" :key="index" >
+            <component v-if="ele.field == item.field" :is="ele.el"></component>
+          </template>
+          <n-form-item-gi v-if="item?._visible ?? true" :span="['json_editor','editor','form_table','markdown'].includes(item.type) ? 24 : (props.gridValue || (item.config?.width ? 24 : 12) || 12)" :label="item.label" :path="item.field">
+            <VatFormEl :config="item" :disabled="state.disabled" v-model="state.data[item.field]"></VatFormEl>
           </n-form-item-gi>
+          <template v-if="props.injectEl?.after" v-for="(ele, index) in props.injectEl.after" :key="index">
+            <component v-if="ele.field == item.field" :is="ele.el"></component>
+          </template>
         </template>
       </n-grid>
       <n-flex v-else>
         <template v-for="(item, index) in state.list" :key="index">
-          <n-form-item v-if="item?._visible" :label="item.label" :path="item.field" :class="['vat-form-item', state.layout]" :style="{width: ['json_editor','editor','form_table','markdown'].includes(item.type) ? '100%':  item.config?.width ? item.config?.width : ''}">
-            <VatFormEl :config="item" v-model="state.data[item.field]"></VatFormEl>
+          <template v-if="props.injectEl?.before" v-for="(ele, index) in props.injectEl.before" :key="index">
+            <component v-if="ele.field == item.field" :is="ele.el"></component>
+          </template>
+          <n-form-item v-if="item?._visible ?? true" :label="item.label" :path="item.field" :class="['vat-form-item', state.layout]" :style="{width: ['json_editor','editor','form_table','markdown'].includes(item.type) ? '100%':  item.config?.width ? item.config?.width : ''}">
+            <VatFormEl :config="item" :disabled="props.disabled" v-model="state.data[item.field]"></VatFormEl>
           </n-form-item>
+           <template v-if="props.injectEl?.after" v-for="(ele, index) in props.injectEl.after" :key="index">
+              <component v-if="ele.field == item.field" :is="ele.el"></component>
+            </template>
         </template>
       </n-flex>
     </n-form>
@@ -77,6 +89,10 @@ const props = defineProps({
     type: String,
     default: 'auto' 
   },
+  disabled: {
+    type: Boolean,
+    default: false
+  },
   /**
    * 绑定值
    */
@@ -86,7 +102,34 @@ const props = defineProps({
       return {}
     }
   },
+  /**
+   * 绑定属性
+   */
   bindProps: {
+    type: Object,
+    default: () => {
+      return {}
+    }
+  },
+  /**
+   * 注入元素
+   * 格式：
+   * {
+   *   before: [
+   *     {
+   *       field: 'password', // 注入在password字段之前
+   *       el: (h) => h(NTooltip, {content: '密码必须包含字母、数字和特殊字符'})
+   *     }
+   *   ],
+   *   after: [
+   *     {
+   *       field: 'password', // 注入在password字段之后
+   *       el: (h) => h(NTooltip, {content: '密码必须包含字母、数字和特殊字符'})
+   *     }
+   *   ]
+   * }
+   */
+  injectEl: {
     type: Object,
     default: () => {
       return {}

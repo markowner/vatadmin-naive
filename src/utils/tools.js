@@ -11,7 +11,8 @@ import {
     NCarousel,
     NImageGroup,
     NPopover, NTooltip, NGradientText,
-    esAR
+    esAR,
+    NAlert
 } from "naive-ui";
 import {RouterLink} from "vue-router";
 import path from 'path-browserify'
@@ -21,6 +22,7 @@ import { useUserStore } from '@/store/user'
 import i18n from "@/language";
 import VatLink from '@/components/VatLink.vue'
 import VatJson from '@/components/VatJson.vue'
+import VatForm from "@/components/VatForm.vue"
 
 const { message, notification, dialog, loadingBar, modal } = createDiscreteApi(
     ['message', 'dialog', 'notification', 'loadingBar', 'modal']
@@ -390,6 +392,181 @@ tools.pages = {
             }
         }
         return target;
+    },
+    /**
+     * 重置密码
+     * @param ids
+     */
+    resetPassword(ids, apiUrl){
+        // 定义一个响应式变量来存储输入框的值
+        const passwordValue = ref({ password: '', password_confirm: ''})
+        const dataJson = [
+            {"label": "密码","field": "password","type": "password", "placeholder": "请输入新密码","value": null,"config": []},
+            {"label": "确认密码","field": "password_confirm","type": "password", "placeholder": "请输入确认新密码","value": null,"config": []},
+        ]
+        // 创建一个对话框实例
+        const resetPasswordForm = ref(null);
+        tools.notice.dialog.create({
+            title: '重置密码',
+            content: () => h('div', { style: 'padding: 8px 0;'}, [
+            h(VatForm, { 
+                ref: (el) => resetPasswordForm.value = el, 
+                list: dataJson, 
+                rules: {
+                    'password': [{required: true, message: '请输入新密码'}], 
+                    'password_confirm': [
+                        {required: true, message: '请输入确认新密码'},
+                        {validator: (rule, value) => {
+                            return !!passwordValue.value.password && passwordValue.value.password.startsWith(value) && passwordValue.value.password.length >= value.length;
+                        }, message: '两次输入密码不一致',trigger: ['input']},
+                        {validator: (rule, value) => {
+                            return value === passwordValue.value.password
+                        }, message: '两次输入密码不一致',trigger: ['blur', 'password-input']}
+                    ]
+                }, 
+                modelValue: passwordValue.value,
+                injectEl: { 
+                    "before": [
+                        {
+                            "field" : "password",
+                            "el": () => h(NAlert, {showIcon: false, type: 'warning', style: 'width: 100%;'} , {default: () => '密码必须同时包含大小写字母、数字和特殊字符'}),
+                        }
+                    ]
+                }
+             }),
+            ]),
+            positiveText: '确认',
+            negativeText: '取消',
+            onPositiveClick: () => {
+            return new Promise((resolve, reject) => {
+                resetPasswordForm.value?.validate((errors) => {
+                    if (!errors) {
+                        Request.post(apiUrl, {
+                            ids: Array.isArray(ids) ? ids.join(',') : ids, 
+                            password: passwordValue.value.password, 
+                            password_confirm: passwordValue.value.password_confirm
+                        }).then(res => {
+                            tools.notice.message.success(res.msg)
+                            resolve(res)
+                        }).catch(err => {
+                            console.log(err)
+                        })
+                    } else {
+                        // 验证失败，返回false阻止关闭
+                        reject(errors)
+                    }
+                    })
+                })
+            },
+            onNegativeClick: () => {
+            // 取消操作，对话框会自动关闭
+            }
+        })
+    },
+    /**
+     * 操作列
+     * @param row
+     * @param index
+     * @returns {*[]}
+     */
+    handleColumn(pageJsonData, row, index, editForm, vPage, callback = {}) {
+        let columns = []
+        if (pageJsonData.tools.edit.show && tools.data.get('Vat-Views').includes(pageJsonData.tools.edit.permission_key)) {
+            columns.push(
+                h(NButton,
+                    {
+                        size: 'tiny',
+                        type: 'primary',
+                        secondary: true,
+                        onClick: () => {
+                            if (typeof callback?.editCallback === "function") {
+                                callback.editCallback('edit', {row, index})
+                            }else{
+                                editForm.value.type('edit').injectData(row).show()
+                            }
+                        }
+                    },
+                    {default: () => '编辑'}
+                )
+            )
+        }
+        if (pageJsonData.tools?.edit?.show && tools.data.get('Vat-Views').includes(pageJsonData.tools?.edit?.permission_key)) {
+            columns.push(
+                h(NButton,
+                    {
+                        size: 'tiny',
+                        type: 'warning',
+                        secondary: true,
+                        onClick: () => {
+                            if (typeof callback?.detailCallback === "function") {
+                                callback.detailCallback('detail', {row, index})
+                            }else{
+                                editForm.value.type('detail').injectData(row).show()
+                            }
+                        }
+                    },
+                    {default: () => '详情'}
+                )
+            )
+        }
+        if (pageJsonData.tools.delete.show && tools.data.get('Vat-Views').includes(pageJsonData.tools.delete.permission_key)) {
+            columns.push(
+                h(NButton,
+                    {
+                        size: 'tiny',
+                        type: 'error',
+                        secondary: true,
+                        onClick: () => {
+                            if(typeof callback?.deleteCallback === "function"){
+                                callback.deleteCallback('delete', {row, index})
+                            }else{
+                                tools.notice.dialog.warning({
+                                    title: '警告',
+                                    content: '你确定要删除此数据吗？',
+                                    positiveText: '确定',
+                                    negativeText: '取消',
+                                    onPositiveClick: () => {
+                                        Request.request(pageJsonData.api_list.delete, {ids: row.id}).then(res => {
+                                            tools.notice.message.success(res.msg)
+                                            vPage.value.refresh()
+                                        }).catch(err => {
+                                            console.log(err)
+                                        })
+                                    },
+                                    onNegativeClick: () => {
+
+                                    }
+                                })
+                            }
+                        }
+                    },
+                    {default: () => '删除'}
+                )
+            )
+        }
+        //更多操作
+        if (pageJsonData.setting?.rowHandle) {
+            //过滤权限操作
+            let rowHandle = pageJsonData.setting?.rowHandle.filter(item => tools.data.get('Vat-Views').includes(item?.permission_key))
+            if(rowHandle.length > 0){
+                columns.push(
+                    h(NDropdown,
+                        {
+                            trigger: 'hover',
+                            placement: 'bottom-start',
+                            options: rowHandle,
+                            onSelect: (key, option) => {
+                                if (typeof callback?.rowHandleCallback === "function") {
+                                    callback.rowHandleCallback('rowHandle', {key, option, row, index})
+                                }
+                            }
+                        },
+                        {default: () => h(NButton, {size: 'tiny'}, () => h('i', {class: 'ifont i-more'}))}
+                    )
+                )
+            }
+        }
+        return columns
     },
     //构建table展示列
     buildColumns2(fields){  

@@ -373,6 +373,10 @@
             "show": true,
             "permission_key": "vat_member_edit"
         },
+        "detail": {
+            "show": true,
+            "permission_key": "vat_member_detail"
+        },
         "switch_lock": {
             "show": true,
             "permission_key": "vat_member_switch_lock"

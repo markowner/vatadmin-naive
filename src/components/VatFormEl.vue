@@ -134,9 +134,10 @@ import VatMarkdown from "./VatMarkdown.vue";
 import VatFormTable from "./VatFormTable.vue";
 import VatIcons from "./VatIcons.vue";
 import VatSelectPage from "./VatSelectPage.vue";
-import {inject} from "vue";
+// import {inject} from "vue";
 
-const tools = inject('tools')
+// const tools = inject('tools')
+import tools from '@/utils/tools.js';
 const props = defineProps({
   /**
    * 表单单个元素JSON
