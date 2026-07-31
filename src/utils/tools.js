@@ -490,7 +490,7 @@ tools.pages = {
                 )
             )
         }
-        if (pageJsonData.tools?.edit?.show && tools.data.get('Vat-Views').includes(pageJsonData.tools?.edit?.permission_key)) {
+        if (pageJsonData.tools?.detail?.show && tools.data.get('Vat-Views').includes(pageJsonData.tools?.detail?.permission_key)) {
             columns.push(
                 h(NButton,
                     {
@@ -678,6 +678,16 @@ tools.pages = {
                     if(v.config.props && v.config.props.multiple){
                         res.type = 'array'
                     }
+                }
+                if(res.type == 'number'){
+                    res.transform = (value) => {
+                        if (typeof value === 'string') {
+                            // 去除空格并转为数字，如果是无效数字则转为 NaN
+                            return Number(value.trim())
+                        }
+                        return value
+                    }
+                    res.min = 1
                 }
                 rules[v.field] = res
             }

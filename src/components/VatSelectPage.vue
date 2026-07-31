@@ -3,7 +3,6 @@
     <div style="width: 100%;">
       <n-select v-model:value="state.value" :options="state.list" :multiple="props.multiple" clearable menu-size="small" v-bind="props.configs.config?.childProps" :placeholder="props.configs?.placeholder" @update:value="toEmit" :loading="state.loading">
         <template #header>
-          <!-- <VatSearch :list="state.pageJson.fields" @search="toSearch"></VatSearch> -->
           <div style="display: flex;gap:5px;">
             <n-input v-model:value="state.search" placeholder="请输入搜索内容" clearable @keydown.space.stop></n-input>
             <n-button type="primary" @click="toSearch" style="flex-shrink: 0;">搜索</n-button>
@@ -11,15 +10,15 @@
         </template>
         <template #action>
           <n-pagination
-          v-model:page="state.query.page"
-          v-model:page-size="state.query.size"
-          :item-count="state.total"
-          :page-sizes="[10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 200, 300, 400, 500]"
-          :page-slot="5" 
-          :display-order="['size-picker','pages']"
-          @update:page="onPageChange"
-          :simple="true"
-          @update:page-size="onPageSizeChange"
+            v-model:page="state.query.page"
+            v-model:page-size="state.query.size"
+            :item-count="state.total"
+            :page-sizes="[10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 200, 300, 400, 500]"
+            :page-slot="5" 
+            :display-order="['size-picker','pages']"
+            @update:page="onPageChange"
+            :simple="true"
+            @update:page-size="onPageSizeChange"
           >
           </n-pagination>
         </template>
@@ -188,7 +187,7 @@ onMounted(async () => {
   pageJsonData.value = await loadPageJsonData(props.pageName);
   getList()
   // 此时 this.pageJsonData 就是 vat_admin_dict.json 的内容
-  console.log('动态加载的 JSON 数据：', pageJsonData.value);
+  // console.log('动态加载的 JSON 数据：', pageJsonData.value);
 })
 
 

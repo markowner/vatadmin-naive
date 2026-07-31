@@ -1,6 +1,6 @@
 <template>
   <div>
-    <n-form ref="formRef" :label-placement="props.labelPlacement" label-width="auto" :model="state.data" :disabled="props.disabled" :rules="props.rules" v-bind="props.bindProps">
+    <n-form ref="formRef" @validate="(field) => console.log('validate:', field)" :label-placement="props.labelPlacement" label-width="auto" :model="state.data" :disabled="props.disabled" :rules="props.rules" v-bind="props.bindProps">
       <n-grid :cols="props.colsValue" :x-gap="24"  v-if="state.layout === 'grid'">
         <template v-for="(item, index) in state.list" :key="index">
           <template v-if="props.injectEl?.before" v-for="(ele, index) in props.injectEl.before" :key="index" >
@@ -22,9 +22,9 @@
           <n-form-item v-if="item?._visible ?? true" :label="item.label" :path="item.field" :class="['vat-form-item', state.layout]" :style="{width: ['json_editor','editor','form_table','markdown'].includes(item.type) ? '100%':  item.config?.width ? item.config?.width : ''}">
             <VatFormEl :config="item" :disabled="props.disabled" v-model="state.data[item.field]"></VatFormEl>
           </n-form-item>
-           <template v-if="props.injectEl?.after" v-for="(ele, index) in props.injectEl.after" :key="index">
-              <component v-if="ele.field == item.field" :is="ele.el"></component>
-            </template>
+          <template v-if="props.injectEl?.after" v-for="(ele, index) in props.injectEl.after" :key="index">
+            <component v-if="ele.field == item.field" :is="ele.el"></component>
+          </template>
         </template>
       </n-flex>
     </n-form>

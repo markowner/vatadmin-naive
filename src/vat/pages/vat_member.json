@@ -131,7 +131,7 @@
             "table_column": true,
             "table_order": 40,
             "form": true,
-            "form_required": true,
+            "form_required": false,
             "form_order": 40,
             "sorter": false,
             "condition": "=",
@@ -180,7 +180,7 @@
             "table_column": true,
             "table_order": 60,
             "form": true,
-            "form_required": true,
+            "form_required": false,
             "form_order": 60,
             "sorter": false,
             "condition": "=",
@@ -229,7 +229,7 @@
             "table_column": true,
             "table_order": 70,
             "form": true,
-            "form_required": true,
+            "form_required": false,
             "form_order": 70,
             "sorter": false,
             "condition": "=",
@@ -374,7 +374,7 @@
             "permission_key": "vat_member_edit"
         },
         "detail": {
-            "show": true,
+            "show": false,
             "permission_key": "vat_member_detail"
         },
         "switch_lock": {

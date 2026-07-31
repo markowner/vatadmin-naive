@@ -61,9 +61,7 @@ const state = reactive({
  */
 const formJson = tools.pages.buildForm(pageJsonData.fields)
 const originRules = tools.pages.buildRule(pageJsonData.fields)
-
 const {formList, rules} = tools.pages.buildDynamicForm(formJson, originRules, toRef(state, 'type'), toRef(state, 'data'))
-
 
 /**
  * 初始化表单数据
@@ -86,6 +84,27 @@ const emits = defineEmits(['update:modelValue', 'change', 'submit'])
 function type(type){
   state.type = type
   return this
+}
+
+/**
+ * 请求数据
+ * @param type
+ */
+function loadData(id){
+  if(state.loading){
+    return
+  }
+  state.loading = true
+  if(pageJsonData.api_list?.detail){
+    Request.request(pageJsonData.api_list.detail, {id}).then(res => {
+      state.data = tools.pages.mergeObjects(state.data, res.data)
+      state.cloneSource = JSON.parse(JSON.stringify(state.data))
+    }).catch(err => {
+      console.log(err)
+    }).finally(() => {
+      state.loading = false
+    })
+  }
 }
 
 /**
@@ -130,20 +149,27 @@ function injectData(row){
   return this
 }
 
+function getSubmitUrl(){
+  let url = pageJsonData.api_list.edit
+  if(state.type === 'add' && pageJsonData.api_list?.add){
+    url = pageJsonData.api_list.add
+  }
+  return url
+}
+
 /**
  * 提交
  */
 function toSubmit(e){
   //请求提交接口
   e.preventDefault()
-   // 提交前清理隐藏字段脏数据【推荐固定写上】
+   // 提交前清理隐藏字段脏数据
   tools.pages.cleanHiddenFieldValue(formJson, state.type, state.data)
   
   if(state.loading){
     return
   }
   state.loading = true
-
   vatForm.value.validate((errors) => {
     if (!errors) {
       Request.request(pageJsonData.api_list.edit, state.data).then(res => {
