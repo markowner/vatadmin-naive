@@ -169,12 +169,17 @@ function toEmit(){
   }
 }
 
+// 懒加载：import.meta.glob 默认返回 loader 函数集合，不预加载内容
+// 使用 ** 匹配子目录，支持 member/member_log.json 这类带目录的页面
+const pageModules = import.meta.glob('/src/vat/pages/**/*.json')
+
 async function loadPageJsonData(pageName){
   try {
-    const module = await import(`/src/vat/pages/${pageName}.json`);
+    const loader = pageModules[`/src/vat/pages/${pageName}.json`]
+    if (!loader) throw new Error(`未找到 ${pageName}.json`)
+    const module = await loader()
     // JSON 文件默认导出，所以取 module.default
-    const pageJsonData = module.default;
-    return pageJsonData;
+    return module.default
   } catch (error) {
     console.error(`加载 ${pageName}.json 文件失败：`, error);
     // 加载失败时返回空对象，避免组件报错

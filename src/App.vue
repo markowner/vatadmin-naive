@@ -43,10 +43,10 @@ const themeOverrides = {
     },
     Layout: {
       // textColor:'#fff',
-      headerColor: '#4098fc1a',
+      headerColor: '#E9EFFD',
       // headerColor: '#E9EFFD',
       // headerBorderColor: '#fff',
-      siderColor: '#4098fc1a',
+      siderColor: '#E9EFFD', //#4098fc1a
       // siderBorderColor:''
     },
     Button: {
