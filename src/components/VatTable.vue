@@ -101,6 +101,7 @@ const state = reactive({
   },
   total: 0,
   list: [],
+  extra: [],
   ids: [],
   sorts:[],
   columns: props.columns,
@@ -111,6 +112,8 @@ const state = reactive({
   tableProps: {size: 'small', singleLine: true, ...props.tableProps},
   settingShow: false,
 })
+
+const emits = defineEmits(['extra'])
 
 function initTableWidth(){
   let width = 0;
@@ -146,6 +149,8 @@ function search(params = ''){
     state.loading = false
     state.list = res.data.list
     state.total = res.data.total
+    state.extra = res.data?.extra || []
+    emits('extra', state.extra)
   }).catch(err => {
     state.loading = false
     console.log(err)

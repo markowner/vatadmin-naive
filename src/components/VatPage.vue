@@ -12,7 +12,7 @@
         <slot name="tools_right_append"></slot>
       </template>
     </VatTools>
-    <VatTable style="flex: 1;" ref="table" :columns="state.columns" :api-list="props.apiList" :params="state.params" :tools="props.tools" :table-props="props.settings?.table || {}" :row-key="props.rowKey"></VatTable>
+    <VatTable style="flex: 1;" ref="table" :columns="state.columns" :api-list="props.apiList" :params="state.params" :tools="props.tools" :table-props="props.settings?.table || {}" :row-key="props.rowKey" @extra="emits('extra', $event)"></VatTable>
   </div>
 </template>
 
@@ -78,7 +78,7 @@ const state = reactive({
   fields: props.fields,
   params: {},
   searchShow: false,
-  selection: !!(props.tools?.delete?.show || props.tools?.batch?.show || props.tools?.switch_lock?.show),
+  selection: !!(props.tools?.delete?.show || props.tools?.batch?.show || props.tools?.lock?.show),
   columns: props.columns,
 })
 

@@ -12,13 +12,15 @@ import {
     NImageGroup,
     NPopover, NTooltip, NGradientText,
     esAR,
-    NAlert
+    NAlert,
+    NInputGroup, NInputGroupLabel, NInput
 } from "naive-ui";
 import {RouterLink} from "vue-router";
 import path from 'path-browserify'
 import Request from '@/utils/axios'
 import router from '@/router'
 import { useUserStore } from '@/store/user'
+import { useStore } from '@/store'
 import i18n from "@/language";
 import VatLink from '@/components/VatLink.vue'
 import VatJson from '@/components/VatJson.vue'
@@ -907,8 +909,12 @@ tools.pages = {
             }
         }
         let renderValue = value
+        console.log('useStore().extra', useStore().extra)
         if(field.config?.dict){
             renderValue = useUserStore().user.userInfo.dict[field.config.dict].options.find((item) => item.value == value)?.label || value
+        }else if(useStore().extra[field.field]){
+            // 从 store extra 中查找选项标签 (格式: {key: value})
+            renderValue = useStore().extra[field.field][value] || value
         }
 
         let textType = field.config?.mapping_type || 'text'
@@ -1065,6 +1071,68 @@ tools.pages = {
             return '查看'
         }})
     },
+    /**
+     * 渲染 InputGroup 组件（使用 Naive UI NInputGroup）
+     * @param {string|number} value - 中间显示的值
+     * @param {object} config - 配置对象
+     * @param {string} config.prefix - 前缀标签文字
+     * @param {string} config.suffix - 后缀标签文字
+     * @param {string} config.theme - 主题色: red/green/blue/orange/gray
+     * @param {string} config.width - 中间值固定宽度，如 '100px'
+     * @param {string} config.color - 自定义颜色，优先级高于 theme
+     * @param {string} config.class - 中间值的自定义 class
+     */
+    renderInputGroup(value, config){
+        const props = config || {}
+        const themeColors = {red:'#e02020',green:'#18a058',blue:'#2080f0',orange:'#f0a020',gray:'#999'}
+        const c = props.color || themeColors[props.theme] || themeColors.red
+        const prefix = props.prefix || ''
+        const suffix = props.suffix || ''
+        const cls = props.class || ''
+        const inputStyle = props.width ? 'width:' + props.width + ';' : ''
+        const children = []
+        if(prefix) children.push(h(NInputGroupLabel, {}, {default: () => prefix}))
+        children.push(h(NInput, {value: String(value), readonly: true, class: cls, style: inputStyle + 'cursor:default;color:' + c + ';'}))
+        if(suffix) children.push(h(NInputGroupLabel, {}, {default: () => suffix}))
+        return h(NInputGroup, {}, {default: () => children})
+    },
+    renderMoney(value, config){
+        const props = config?.props || {}
+        const themes = {
+            red:    {class: 'text-red font-w', color: '#e02020'},
+            green:  {class: 'text-green font-w', color: '#18a058'},
+            blue:   {class: 'text-blue font-w', color: '#2080f0'},
+            orange: {class: 'text-orange font-w', color: '#f0a020'},
+            gray:   {class: 'text-gray font-w', color: '#999'},
+        }
+        const theme = themes[props?.theme] || themes.red
+        const cls = props?.styleClass || theme.class
+        const prefix = props?.prefix || ''
+        const suffix = props?.suffix || ''
+
+        // group 模式：前缀标签 + 数值 + 后缀标签（仿 NInputGroup 样式）
+        if(props?.mode === 'group'){
+            const c = theme.color
+            const base = 'display:inline-block;font-size:12px;line-height:22px;padding:0 2px;border:1px solid ' + c + ';vertical-align:middle;'
+            const valueBorder = (prefix ? 'border-left:none;' : '') + (suffix ? 'border-right:none;' : '')
+            const valueRadius = (prefix ? '' : 'border-radius:3px 0 0 3px;') + (suffix ? '' : 'border-radius:0 3px 3px 0;') + (!prefix && !suffix ? 'border-radius:3px;' : '')
+            const valueWidth = props?.width ? 'width:' + props.width + ';text-align:right;' : ''
+            const children = []
+            if(prefix) children.push(h('span', {style: base + 'border-radius:3px 0 0 3px;background:' + c + '15;color:' + c + ';'}, prefix))
+            children.push(h('span', {class: cls, style: base + valueBorder + valueRadius + valueWidth + 'background:#fff;'}, value))
+            if(suffix) children.push(h('span', {style: base + 'border-radius:0 3px 3px 0;background:' + c + '15;color:' + c + ';'}, suffix))
+            return h('span', {style: 'display:inline-flex;white-space:nowrap;'}, children)
+        }
+
+        // 默认模式
+        const showIcon = props?.showIcon
+        const icon = props?.icon || 'i-money3'
+        const children = []
+        if(showIcon) children.push(h('i', {class:'ifont ' + icon, style: 'margin-right: 2px;font-size: 12px'}))
+        if(prefix) children.push(h('span', {}, prefix))
+        children.push(h('span', {}, value))
+        return h('div', {class: cls}, children)
+    },
     cdnUrl(url){
         // 检查URL是否以"http"或"//"(协议相对URL)开头
         if (/^https?:\/\//i.test(url) || /^\/\//i.test(url)) {
@@ -1120,6 +1188,8 @@ tools.pages = {
                 return row[res.field] ? this.renderLink(row[res.field], res) : ''
             case 'json':
                 return row[res.field] ? this.renderJson(row[res.field],res) : ''
+            case 'money':
+                return this.renderMoney(row[res.field], res.config)
         }
     }
 }

@@ -74,6 +74,8 @@ import { ref, defineProps, watch, reactive } from 'vue'
 import Request from '@/utils/axios'
 import {inject} from "vue";
 import VatSelectPage from './VatSelectPage.vue'
+import { useStore } from '@/store'
+const store = useStore()
 const tools = inject('tools')
 const props = defineProps({
   /**
@@ -121,6 +123,18 @@ init()
 function tabChange() {
   emits('search', fieldJson.value)
 }
+
+/**
+ * 监听 store.extra 变化，自动更新搜索选项
+ */
+watch(() => store.extra, (extra) => {
+  if(!extra) return
+  // 搜索字段可能带表别名(如 table.field)，取最后一部分匹配
+  const fieldName = props.config.field.split('.').pop()
+  if(extra[fieldName]){
+    state.config.config.options = Object.entries(extra[fieldName]).map(([value, label]) => ({label, value}))
+  }
+}, {immediate: true})
 
 watch(() => props.modelValue, (newValue) => {
   state.value = newValue
