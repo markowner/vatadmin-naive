@@ -13,7 +13,7 @@ import {
     NPopover, NTooltip, NGradientText,
     esAR,
     NAlert,
-    NInputGroup, NInputGroupLabel, NInput
+    NInputGroup, NInputGroupLabel, NInput, NDropdown
 } from "naive-ui";
 import {RouterLink} from "vue-router";
 import path from 'path-browserify'
@@ -898,29 +898,54 @@ tools.pages = {
 
         return  h('span', {...textStyle}, {default:() => value})
     },
+    // 自动调色板：mapping='auto' 时根据值自动分配颜色
+    _autoTagTypes: ['success', 'warning', 'error', 'info'],
+    _autoColors: ['#18a058', '#f0a020', '#d03050', '#2080f0', '#8a2be2', '#00bcd4'],
+    _valueColorIndex(value) {
+        const str = String(value)
+        let hash = 0
+        for (let i = 0; i < str.length; i++) {
+            hash = ((hash << 5) - hash) + str.charCodeAt(i)
+            hash |= 0
+        }
+        return Math.abs(hash)
+    },
     renderMapping(value, field){
         let mode = ''
-        if(field.config && field.config?.mapping){
-            for(let key in field.config?.mapping){
+        let isAuto = false
+        const mapping = field.config?.mapping
+        if(mapping === 'auto'){
+            // mapping='auto' 时自动分配颜色
+            isAuto = true
+        }else if(mapping && typeof mapping === 'object'){
+            // mapping 为对象时，使用配置的颜色
+            for(let key in mapping){
                 if(value == key){
-                    mode = field.config?.mapping[key]
-                    break;
+                    mode = mapping[key]
+                    break
                 }
             }
         }
+        // 无 mapping 配置时，不设颜色
+
+        const autoIndex = isAuto ? this._valueColorIndex(value) : 0
+        const autoTagType = this._autoTagTypes[autoIndex % this._autoTagTypes.length]
+        const autoColor = this._autoColors[autoIndex % this._autoColors.length]
+    
         let renderValue = value
-        console.log('useStore().extra', useStore().extra)
         if(field.config?.dict){
             renderValue = useUserStore().user.userInfo.dict[field.config.dict].options.find((item) => item.value == value)?.label || value
         }else if(useStore().extra[field.field]){
             // 从 store extra 中查找选项标签 (格式: {key: value})
             renderValue = useStore().extra[field.field][value] || value
         }
-
+    
         let textType = field.config?.mapping_type || 'text'
         if(textType == 'text'){
             let textStyle = {}
-             if(mode){
+            if(isAuto){
+                textStyle.style = 'color:' + autoColor + ';font-weight: bold'
+            }else if(mode){
                 if(mode instanceof Object){
                     textStyle = mode
                 }else{
@@ -933,10 +958,10 @@ tools.pages = {
             }
             return  h('span', {...textStyle}, {default:() => renderValue})
         }else if(textType == 'gradient-text'){
-            let tagAttr = mode instanceof Object ? mode : {type: mode}
+            let tagAttr = isAuto ? {type: autoTagType} : (mode instanceof Object ? mode : {type: mode})
             return  h(NGradientText, {...field.config?.render_props,...tagAttr}, {default:() => renderValue})
         }else if(textType == 'tag'){
-            let tagAttr = mode instanceof Object ? mode : {type: mode}
+            let tagAttr = isAuto ? {type: autoTagType} : (mode instanceof Object ? mode : {type: mode})
             return h(NTag,{ style: { marginRight: '6px' }, size:'small', round: true, bordered: false,...field.config?.render_props, ...tagAttr},
                 {
                     default: () => renderValue
@@ -983,23 +1008,22 @@ tools.pages = {
     renderIcon(icon){
         return icon ? h('i', {class:'ifont i-' + icon}) : ''
     },
-    renderTooltip(content, label){
-        return h(NTooltip, {}, {trigger: () => { return h('div', {class: 'multiline-ellipsis pointer',innerHTML: content}) }, default: () => {
+    renderTooltip(content, config){
+        return h(NTooltip, {}, {trigger: () => { return h('div', {class: 'multiline-ellipsis pointer',style: config?.config?.render_props?.style || "",innerHTML: content}) }, default: () => {
             return [
-                h('div', {style: "max-width:600px; maxHeight: 70vh;",innerHTML: label}, {})
+                h('div', {style: "max-width:600px; maxHeight: 70vh;",innerHTML: content}, {})
             ]
         }})
     },
-    renderPopover(content, label){
-        return h(NPopover, {}, {trigger: () => { return h('div', {class: 'multiline-ellipsis pointer',innerHTML: content}) }, default: () => {
+    renderPopover(content, config){
+        return h(NPopover, {}, {trigger: () => { return h('div', {class: 'multiline-ellipsis pointer',style: config?.config?.render_props?.style || "",innerHTML: content}) }, default: () => {
             return [
-                h('div', {style: "max-width:600px; maxHeight: 70vh;",innerHTML: label}, {})
+                h('div', {style: "max-width:600px; maxHeight: 70vh;",innerHTML: content}, {})
             ]
         }})
     },
     renderLink(link, fieldConfig){
-        console.log(fieldConfig)
-         return h(VatLink, {href: link, ...fieldConfig.config.props})
+        return h(VatLink, {href: link, ...fieldConfig.config.props})
     },
     renderJson(json, fieldConfig){
         return json ? h(VatJson, {data: typeof json === 'string' && json ? JSON.parse(json) : json, ...fieldConfig.config.props}) : ''
@@ -1083,7 +1107,7 @@ tools.pages = {
      * @param {string} config.class - 中间值的自定义 class
      */
     renderInputGroup(value, config){
-        const props = config || {}
+        const props = config.render_props || {}
         const themeColors = {red:'#e02020',green:'#18a058',blue:'#2080f0',orange:'#f0a020',gray:'#999'}
         const c = props.color || themeColors[props.theme] || themeColors.red
         const prefix = props.prefix || ''
@@ -1097,7 +1121,7 @@ tools.pages = {
         return h(NInputGroup, {}, {default: () => children})
     },
     renderMoney(value, config){
-        const props = config?.props || {}
+        const props = config?.render_props || {}
         const themes = {
             red:    {class: 'text-red font-w', color: '#e02020'},
             green:  {class: 'text-green font-w', color: '#18a058'},
@@ -1150,6 +1174,92 @@ tools.pages = {
             }
         }
     },
+    /**
+     * 复制文案渲染：支持多种展示模式
+     * @param {string} value - 显示的文本
+     * @param {object} fieldConfig - 字段配置
+     * @param {object} fieldConfig.config.render_props - 渲染配置
+     * @param {string} fieldConfig.config.render_props.mode - 模式：'text'(默认) | 'tag' | 'input'
+     * @param {string} fieldConfig.config.render_props.theme - 主题色：'info'(默认) | 'success' | 'warning' | 'error' | 'default'
+     * @param {string} fieldConfig.config.render_props.copy_value - 自定义复制内容（默认用 value）
+     */
+    renderCopy(value, fieldConfig){
+        if(!value) return ''
+        const props = fieldConfig?.config?.render_props || {}
+        const copyText = props.copy_value || value
+        const mode = props.mode || 'text'
+
+        // 通用主题色
+        const themes = {
+            success: {b:'#18a058', bg:'#f0faf4'},
+            info:    {b:'#2080f0', bg:'#f0f5ff'},
+            warning: {b:'#f0a020', bg:'#fffbf0'},
+            error:   {b:'#d03050', bg:'#fff0f3'},
+            default: {b:'#999',    bg:'#f5f5f5'}
+        }
+        const cm = themes[props.theme || 'info'] || themes.info
+        const doCopy = () => tools.common.copy(copyText)
+
+        // 通用复制按钮
+        const copyBtn = h('span', {
+            onClick: doCopy,
+            style: `flex-shrink:0;cursor:pointer;padding:0 8px;color:${cm.b};opacity:0.5;transition:all 0.2s;border-left:1px solid ${cm.b}20;line-height:26px;font-size:13px`,
+            onMouseenter: (e) => e.currentTarget.style.opacity = '1',
+            onMouseleave: (e) => e.currentTarget.style.opacity = '0.5'
+        }, [h('i', {class: 'ifont i-copy'})])
+
+        if(mode === 'tag'){
+            return h('div', {
+                style: `display:flex;align-items:stretch;width:100%;border:1px solid ${cm.b}30;border-radius:2px;box-sizing:border-box;overflow:hidden;background:${cm.bg}`
+            }, [
+                h('div', {
+                    style: 'flex:1;min-width:0;overflow:hidden;display:flex;align-items:center'
+                }, [
+                    h(NTooltip, null, {
+                        trigger: () => h('div', {
+                            style: `overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 8px;line-height:26px;font-size:12px;width:100%;color:${cm.b}`
+                        }, value),
+                        default: () => h('span', {style: 'white-space:pre-wrap;word-break:break-all;max-width:300px'}, value)
+                    })
+                ]),
+                copyBtn
+            ])
+        }
+
+        if(mode === 'input'){
+            return h(NTooltip, null, {
+                trigger: () => h(NInputGroup, {style: 'width:100%'}, {
+                    default: () => [
+                        h(NInput, {
+                            value, readonly: true, size: 'tiny',
+                            style: `border-color:${cm.b}30`
+                        }, {}),
+                        h(NInputGroupLabel, {
+                            size: 'tiny',
+                            style: `cursor:pointer;transition:all 0.2s;color:${cm.b};border-color:${cm.b}30;padding:0 4px`,
+                            onClick: doCopy
+                        }, {default: () => h('i', {class: 'ifont i-copy', style: 'font-size:14px'})})
+                    ]
+                }),
+                default: () => h('span', {style: 'white-space:pre-wrap;word-break:break-all;max-width:300px'}, value)
+            })
+        }
+
+        // 默认 text 模式 - 纯文本，hover 显示复制按钮
+        return h('div', {
+            style: 'display:flex;align-items:center;width:100%;gap:2px',
+            onMouseenter: (e) => { const btn = e.currentTarget.querySelector('[data-copy]'); if(btn) btn.style.opacity = '1' },
+            onMouseleave: (e) => { const btn = e.currentTarget.querySelector('[data-copy]'); if(btn) btn.style.opacity = '0' }
+        }, [
+            h(NTooltip, null, {
+                trigger: () => h('span', {
+                    style: 'overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0;font-size:13px;line-height:26px;color:#333'
+                }, value),
+                default: () => h('span', {style: 'white-space:pre-wrap;word-break:break-all;max-width:300px'}, value)
+            }),
+            h('span', {'data-copy': true, onClick: doCopy, style: `flex-shrink:0;cursor:pointer;padding:0 4px;color:${cm.b};opacity:0;transition:opacity 0.2s;font-size:13px`}, [h('i', {class: 'ifont i-copy'})])
+        ])
+    },
     tableColumnDisplay(row, index, res, pageJson){
         switch(res.table_display){
             case 'mapping':
@@ -1161,8 +1271,6 @@ tools.pages = {
             case 'switch':
                 if(pageJson.tools?.switch_lock?.show){
                      return this.renderSwitch(row, pageJson.tools?.switch_lock?.show ? pageJson.api_list.lock : '',  res.field, res.config.switchValue ? res.config.switchValue : {checked:{value: 0, label: '正常'}, unchecked: {value: 1, label: '禁用'}})
-                }else{
-                    return this.renderStatusText(row, row[res.field], res.config.switchValue ? res.config.switchValue : {0:{theme: 'success', label: '正常'}, 1: {theme: 'error', label: '禁用'}})
                 }
             case 'status_text':
                 return this.renderStatusText(row,row[res.field], res.config.switchValue ? res.config.switchValue : {0:{theme: 'success', label: '正常'}, 1: {theme: 'error', label: '禁用'}})
@@ -1171,9 +1279,9 @@ tools.pages = {
             case 'icon':
                 return this.renderIcon(row[res.key])
             case 'tooltip':
-                return this.renderTooltip(row[res.key], row[res.key])
+                return this.renderTooltip(row[res.key], res)
             case 'popover':
-                return this.renderPopover(row[res.key], row[res.key])
+                return this.renderPopover(row[res.key], res)
             case 'button_modal':
                 return this.renderButtonModal(row[res.field])
             case 'avatar':
@@ -1190,6 +1298,10 @@ tools.pages = {
                 return row[res.field] ? this.renderJson(row[res.field],res) : ''
             case 'money':
                 return this.renderMoney(row[res.field], res.config)
+            case 'input_group':
+                return this.renderInputGroup(row[res.field], res.config)
+            case 'copy':
+                return this.renderCopy(row[res.field], res)
         }
     }
 }
