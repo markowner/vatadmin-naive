@@ -20,6 +20,9 @@
       <div v-if="currentStep === 1">
         <n-form >
           <n-grid :cols="24" :x-gap="24">
+            <n-form-item-gi :span="12" label="数据库类型">
+              <n-select v-model:value="dbConfig.type" :options="dbTypeOptions" @update:value="onDbTypeChange"/>
+            </n-form-item-gi>
             <n-form-item-gi :span="12" label="数据库主机">
               <n-input v-model:value="dbConfig.host" placeholder="数据库主机"/>
             </n-form-item-gi>
@@ -41,12 +44,12 @@
             <n-form-item-gi :span="12" label="数据库字符集">
               <n-input v-model:value="dbConfig.charset" placeholder="数据库字符集"/>
             </n-form-item-gi>
-             <n-form-item-gi :span="12" label="数据库排序规则">
+            <n-form-item-gi v-if="dbConfig.type === 'mysql'" :span="12" label="数据库排序规则">
               <n-input v-model:value="dbConfig.collation" placeholder="数据库排序规则"/>
             </n-form-item-gi>
           </n-grid>
         </n-form>
-        <n-button @click="doInstall">下一步</n-button>
+        <n-button type="primary" @click="doInstall">下一步</n-button>
       </div>
   
       <div v-if="currentStep === 3">
@@ -62,7 +65,7 @@
   </template>
   
   <script setup>
-  import { ref } from 'vue'
+  import { ref, inject } from 'vue'
   import { useRouter } from 'vue-router'
   import Request from '@/utils/axios'
   const api = inject('api')
@@ -70,7 +73,18 @@
   const router = useRouter()
   const currentStep = ref(1)
 
+  const dbTypeOptions = [
+    { label: 'MySQL', value: 'mysql' },
+    { label: 'PostgreSQL', value: 'pgsql' },
+  ]
+
+  const dbDefaults = {
+    mysql: { port: '3306', charset: 'utf8mb4', collation: 'utf8mb4_general_ci' },
+    pgsql: { port: '5432', charset: 'utf8', collation: '' },
+  }
+
   const dbConfig = ref({
+    type: 'mysql',
     host: 'localhost',
     port: '3306',
     database: 'vat',
@@ -80,6 +94,15 @@
     collation: 'utf8mb4_general_ci',
     prefix: '',
   })
+
+  function onDbTypeChange(val) {
+    const defaults = dbDefaults[val]
+    if (defaults) {
+      dbConfig.value.port = defaults.port
+      dbConfig.value.charset = defaults.charset
+      dbConfig.value.collation = defaults.collation
+    }
+  }
 
   function doInstall(){
     Request.request(api.api_list.installSubmit, {data: dbConfig.value}).then(res => {
